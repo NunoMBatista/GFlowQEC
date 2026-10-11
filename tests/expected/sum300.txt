@@ -1,0 +1,15 @@
+Table IV (n = 300): good proposals per run, mean of seeds 0-5, 40,000 paid calls per run
+method | good proposals per run | with near-duplicates counted once
+One stream per code
+GFlowQEC-online | 23,230* | 3,483
+Local search alone | 21,456 | 3,293
+Tuned PT | 21,171 | 6,164
+MAP-Elites | 16,733 | 7,932
+PPO, entropy weight 0.1 | 11,119 | 11,060
+Uniform sampling | 9,425 | 9,404
+Supervised screen, trained on the run's own paid calls | 21,177 | 21,050*
+Common random numbers
+GFlowQEC-online | 24,465* | 3,974
+Tuned PT | 22,054 | 7,220
+Bayesian optimisation, one-hot encoding | 18,499 | 13,258*
+* best per column within a group (bold in the paper)

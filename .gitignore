@@ -1,0 +1,17 @@
+# Large data, hosted in the Hugging Face dataset with the same paths.
+# Fetch it with: python -m scripts.fetch_data
+data/n180/
+data/n300/
+data/models/
+data/keys/landscape_l6m3_w3.csv
+
+# Generated outputs (scripts and readouts.fig_main300 write here)
+results/
+
+# Download metadata that huggingface_hub writes next to the fetched files
+.cache/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/

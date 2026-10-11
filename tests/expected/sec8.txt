@@ -1,0 +1,2 @@
+Sec. 8.3: y* about 0.00424, the median re-estimated rate of 5 reference runs
+Sec. 8.2: the screen's training length: 0.8 of the policy's updates

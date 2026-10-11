@@ -1,0 +1,24 @@
+Fig. 7, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once
+one stream per code
+GFlowQEC-online, L = 127 | 23,230 | 3,483
+Local search alone, L = 127 | 21,456 | 3,293
+Supervised screen | 21,177 | 21,050
+Tuned PT | 21,171 | 6,164
+GFlowQEC-online, L = 31 | 19,489 | 5,900
+MAP-Elites | 16,733 | 7,932
+PPO, entropy weight 0.1 | 11,119 | 11,060
+Uniform sampling | 9,425 | 9,404
+common random numbers
+GFlowQEC-online, L = 127 | 24,465 | 3,974
+Tuned PT | 22,054 | 7,220
+Bayesian optimisation | 18,499 | 13,258
+(c) first minus second at L = 127, per cent of the second's mean, 95 per cent paired t interval
+one stream per code
+GFlowQEC-online - tuned PT | 9.7 [4.8, 14.7]
+GFlowQEC-online - supervised screen | 9.7 [2.2, 17.2]
+GFlowQEC-online - local search alone | 8.3 [3.2, 13.3]
+Local search alone - tuned PT | 1.3 [-4.7, 7.4]
+common random numbers
+GFlowQEC-online - tuned PT | 10.9 [6.2, 15.7]
+Sec. 9: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in 6 of 6 seeds
+wrote results/fig-main300.pdf

@@ -1,0 +1,2 @@
+App. C: BO runs at n = 300 with a budget of 200 calls: 6
+App. C: y* per seed between 0.004233 and 0.004245

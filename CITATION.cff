@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+title: "GFlowQEC"
+type: software
+authors:
+  - family-names: "Batista"
+    given-names: "Nuno"
+    affiliation: "Department of Informatics Engineering, University of Coimbra, Coimbra, Portugal"
+  - family-names: "Falcão"
+    given-names: "Gabriel"
+    affiliation: "Instituto de Telecomunicações, Department of Electrical and Computer Engineering, University of Coimbra, Coimbra, Portugal; New York University Abu Dhabi, Abu Dhabi, United Arab Emirates"
+  - family-names: "Machado"
+    given-names: "Penousal"
+    affiliation: "Department of Informatics Engineering, University of Coimbra, Coimbra, Portugal; Centre for Informatics and Systems of the University of Coimbra (CISUC), Coimbra, Portugal"
+license: MIT
+abstract: "Generative flow networks for designing quantum low-density parity-check (LDPC) codes, with an exact minimum-distance certifier (an exhaustive low-weight sweep and a SAT decision ladder)."
+keywords:
+  - generative flow networks
+  - GFlowNet
+  - quantum error correction
+  - quantum LDPC codes
+  - bivariate bicycle codes
+  - lifted-product codes
+  - exact distance certification

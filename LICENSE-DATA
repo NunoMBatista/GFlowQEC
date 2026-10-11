@@ -1,0 +1,16 @@
+Data license
+
+Everything under data/ (the answer keys, run files, trained models, timing files and
+data/MANIFEST.md5) is licensed under the Creative Commons Attribution 4.0 International
+License (CC BY 4.0):
+
+    https://creativecommons.org/licenses/by/4.0/
+
+Attribution: "GFlowQEC data, (c) 2026 Nuno Batista, licensed under CC BY 4.0."
+
+You may share and adapt the data for any purpose, including commercially, provided you
+give appropriate credit with the attribution above, link to the license, and indicate if
+changes were made.
+
+The code (gflowqec/, scripts/, readouts/ and tests/) is licensed separately under the MIT
+License; see LICENSE.

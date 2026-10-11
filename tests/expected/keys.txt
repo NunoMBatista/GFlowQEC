@@ -1,0 +1,14 @@
+Table II and Sec. 4 text
+n = 36, two-block, Z_6 x Z_3 | complete key: 2,304 forms, 48 inequivalent codes | 704 / 20 | [[36,4,6]], merit 4.0: 48 forms, one code
+n = 72, two-block, Z_6 x Z_6 | complete key: 40,401 forms | 9,280 / 55 | [[72,12,6]], merit 6.0: 48 forms, one code; [[72,4,8]], largest d: 1,440 forms, 6 codes
+n = 180, lifted product, Z_6 x S_3 | reference sample: 666 uniform draws, exact distances | 666 / 666 | certified, d_X = d_Z = 10, from search runs
+Sec. 4.3: [[72,12,6]] is equivalent to the code of Bravyi et al.
+Sec. 4.3: the 666 of 1,000 uniform draws that satisfy the second restriction, with exact distances
+Sec. 4.3: highest score at the run's bias: 10.0 at gamma = +-1
+Sec. 4.3: at gamma = 0 the top value is reached by 116 of the 666 codes
+Sec. 4.3: at gamma = +1, 6 of 666 reach the threshold
+Sec. 4.3: at gamma = -1, 6 of 666 reach the threshold
+Sec. 4.3: an exact ladder stops early for 0.7 per cent of certified codes
+basis: 0.7 per cent = 45 of 6,893 certified rows (repeats across runs counted) of the 42 stored n = 180 runs
+basis: largest certified min(d_X, d_Z) in the 42 stored runs 10, all 255 such rows at (10, 10); reference sample largest 8
+timed: wall <s> s

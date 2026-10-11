@@ -1,0 +1,20 @@
+{
+ "top_ratio": 0.38484871221458,
+ "top_mass": 0.006143850165812749,
+ "target_top_mass": 0.015964325644896856,
+ "level_tv": 0.1740512462775467,
+ "exact_log_z": 16.96739705034873,
+ "arena": "l6m6",
+ "arm": "plain",
+ "seed": 2,
+ "steps": 36000,
+ "replay": 0,
+ "prioritized": false,
+ "log_z": 20.453243255615234,
+ "train_seconds": 2812.38888835907,
+ "loss_first100": 186.19744140625,
+ "loss_last100": 0.36014035224914553,
+ "cache": 40398,
+ "torch": "2.14.0+cu126",
+ "numpy": "1.26.4"
+}

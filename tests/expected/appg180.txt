@@ -1,0 +1,4 @@
+App. D.1 text
+App. D.1: pay-back R* against tuned PT, in deployments of 1,000 paid calls, point [paired-seed interval]: gamma = +1 inf [inf, inf]; gamma = -1 inf [453, inf]
+App. D.1: gamma = +1, CPU-s per novel certified top, deployment against tuned PT: 181.5 / 181.1 / 164.9 against 146.0 / 142.1 / 153.2; higher in 3 of 3 seeds
+App. D.1: sorting the stored evaluations by k raises their top-scoring share at most 1.4 times

@@ -1,0 +1,2 @@
+Sec. 3 text (Sec. 3.2; same number in Sec. 1)
+Z10 x S3: at most about 3 x 10^8 codes up to equivalence (exact orbit count, ops (a)-(d) and the two entry swaps: 131,504,342 = 1.32e8)

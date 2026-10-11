@@ -1,0 +1,2 @@
+Table VIII seed count under a fair coin: at least 5 of 6 0.109; 6 of 6 0.016; at least 4 of 6 0.344; at least 2 of 3 at each of two biases 0.25
+App. C.2: tau_1% 0.003567, the first percentile of 26,281 generating uniform draws

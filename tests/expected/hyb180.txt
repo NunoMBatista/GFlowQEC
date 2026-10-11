@@ -1,0 +1,19 @@
+Sec. 9.1: novel certified top-scoring codes in the first 1,000 paid calls, hundredfold grant, seeds 1-2
+basis: H Z s1: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s1.json (md5 24f7a4c48f466ef78ad41d04196fda73), stored forms skipped 20, paid rows also paid by P 80
+basis: P Z s1: 1 stored form(s) replaced by the top-up; novel tops 338 without it (Table IX), 338 with it
+basis: H Z s2: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s2.json (md5 f1c093bff580ca9268d5753c24b4f035), stored forms skipped 21, paid rows also paid by P 80
+basis: P Z s2: 0 stored form(s) replaced by the top-up; novel tops 400 without it (Table IX), 400 with it
+basis: H X s1: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s1.json (md5 303c52ca5d7a998d49d0776a9623cab3), stored forms skipped 21, paid rows also paid by P 118
+basis: P X s1: 2 stored form(s) replaced by the top-up; novel tops 463 without it (Table IX), 464 with it
+basis: H X s2: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s2.json (md5 be474464cc93a64a88da0067a3dd8343), stored forms skipped 16, paid rows also paid by P 94
+basis: P X s2: 0 stored form(s) replaced by the top-up; novel tops 488 without it (Table IX), 488 with it
+H (screen ranking the policy's draws) | gamma = +1: 799, 793 | gamma = -1: 782, 784
+U (screen ranking uniform draws) | gamma = +1: 642, 636 | gamma = -1: 644, 590
+P (policy ranked by its log-probability, with its top-up) | gamma = +1: 338, 400 | gamma = -1: 464, 488
+basis: H / U at Z: novel certified tops [s1 799/642, s2 793/636], pooled per 1,000 796.0 / 639.0, ratio 1.246 Katz [1.197, 1.296]
+basis: H / U at X: novel certified tops [s1 782/644, s2 784/590], pooled per 1,000 783.0 / 617.0, ratio 1.269 Katz [1.217, 1.323]
+H / U | gamma = +1: 1.25 [1.20, 1.30], H ahead in 2 of 2 seeds | gamma = -1: 1.27 [1.22, 1.32], H ahead in 2 of 2 seeds
+basis: H / P at Z: novel certified tops [s1 799/338, s2 793/400], pooled per 1,000 796.0 / 369.0, ratio 2.157 Katz [2.029, 2.294]
+basis: H / P at X: novel certified tops [s1 782/464, s2 784/488], pooled per 1,000 783.0 / 476.0, ratio 1.645 Katz [1.562, 1.732]
+H / P | gamma = +1: 2.16 [2.03, 2.29], H ahead in 2 of 2 seeds | gamma = -1: 1.64 [1.56, 1.73], H ahead in 2 of 2 seeds
+timed: 18 s

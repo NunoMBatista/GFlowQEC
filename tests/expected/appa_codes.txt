@@ -1,0 +1,5 @@
+App. A.2 and App. A.4 text
+Z6 x S3: 1 + g4 + g5 invertible for 123 of the 595 pairs (lambda), 123 (rho)
+reference sample: A and B of full row rank for 383 of the 666 codes
+reference sample: d_Z <= d_A and d_X <= d_B held on 666 of the 666 codes
+timed: wall <s> s

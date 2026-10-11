@@ -1,0 +1,25 @@
+basis: Z s0 variant: paid 1000, proxy-top 38, certified tops 33, novel 33, neighbourhoods 4, stored forms paid 0
+basis: Z s0 policy: paid 1000, proxy-top 424, certified tops 308, novel 308, neighbourhoods 183, stored forms paid 0
+basis: Z s0 variant drawn by r177_transformer_w18_b256_x20_rel_s0, 10,000 candidates in 17,707 attempts
+basis: Z s1 variant: paid 1000, proxy-top 0, certified tops 0, novel 0, neighbourhoods 0, stored forms paid 0
+basis: Z s1 policy: paid 1000, proxy-top 427, certified tops 297, novel 297, neighbourhoods 189, stored forms paid 0
+basis: Z s1 variant drawn by r177_transformer_w18_b256_x20_rel_s1, 10,000 candidates in 17,976 attempts
+basis: Z s2 variant: paid 1000, proxy-top 0, certified tops 0, novel 0, neighbourhoods 0, stored forms paid 0
+basis: Z s2 policy: paid 1000, proxy-top 477, certified tops 333, novel 333, neighbourhoods 198, stored forms paid 1
+basis: Z s2 variant drawn by r177_transformer_w18_b256_x20_rel_s2, 10,000 candidates in 16,780 attempts
+basis: X s0 variant: paid 1000, proxy-top 6, certified tops 3, novel 3, neighbourhoods 2, stored forms paid 0
+basis: X s0 policy: paid 1000, proxy-top 430, certified tops 294, novel 294, neighbourhoods 193, stored forms paid 0
+basis: X s0 variant drawn by r177_transformer_w18_b256_x20_rel_s0, 10,000 candidates in 36,544 attempts
+basis: X s1 variant: paid 1000, proxy-top 0, certified tops 0, novel 0, neighbourhoods 0, stored forms paid 0
+basis: X s1 policy: paid 1000, proxy-top 463, certified tops 321, novel 321, neighbourhoods 189, stored forms paid 0
+basis: X s1 variant drawn by r177_transformer_w18_b256_x20_rel_s1, 10,000 candidates in 23,786 attempts
+basis: X s2 variant: paid 1000, proxy-top 0, certified tops 0, novel 0, neighbourhoods 0, stored forms paid 0
+basis: X s2 policy: paid 1000, proxy-top 446, certified tops 311, novel 311, neighbourhoods 182, stored forms paid 0
+basis: X s2 variant drawn by r177_transformer_w18_b256_x20_rel_s2, 10,000 candidates in 24,384 attempts
+basis: Z pooled variant / policy 0.035 [0.025, 0.050], variant below in 3 of 3 seeds
+basis: X pooled variant / policy 0.003 [0.001, 0.010], variant below in 3 of 3 seeds
+App. B.1: relational variant, ranked deployment at mu = 10, novel certified top-scoring codes among 1,000 paid calls, seeds 0-2
+row | gamma = +1 | gamma = -1
+Relational variant | 33, 0, 0 | 3, 0, 0
+Policy of record | 308, 297, 333 | 294, 321, 311
+timed: 17 s

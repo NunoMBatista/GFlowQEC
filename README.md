@@ -4,6 +4,16 @@ Code and data for the pre-print *GFlowQEC: Generative Flow Networks that Learn t
 
 GFlowQEC trains generative flow networks to propose quantum LDPC codes (two-block and lifted-product codes over finite groups) and certifies their minimum distances exactly.
 
+**GFlowQEC-offline** learns from stored codes without calling the oracle, then is deployed frozen:
+
+![GFlowQEC-offline](figures/pipeline-offline.png)
+
+**GFlowQEC-online** pays the oracle as it trains, with local search and a replay buffer:
+
+![GFlowQEC-online](figures/pipeline-online.png)
+
+This repository will grow as the work continues. Release v1.0 is the exact code and data behind the pre-print, and that tag is what the paper cites.
+
 ## Install
 
 ```
@@ -68,6 +78,7 @@ readouts/   one script per paper table, figure or section
 scripts/    rerun the experiments
 data/       answer keys, stored runs and trained networks
 tests/      check every readout and the data manifest
+figures/    the two pipeline diagrams above
 ```
 
 ## License and citation

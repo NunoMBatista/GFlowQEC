@@ -419,7 +419,11 @@ def lifted_bases(code, n):
 def exact_sectors(code):
     """(d_X, exactX, d_Z, exactZ, seconds, cpu): the two exact per-sector ladders, each from weight 1
     at 200,000 conflicts with one retry (1M at rungs <= 7, 5M above). This made the d_X, d_Z of every
-    certified row in the n = 180 search cells (data/n180/)."""
+    certified row in the n = 180 search cells (data/n180/).
+
+    Each sector is named by its check matrix: d_X here is the lightest Z-type logical (H_X v = 0) and
+    d_Z the lightest X-type one, so this d_X is the paper's d_Z and this d_Z the paper's d_X. The
+    dX, dZ fields of the stored runs use the same names. d = min(d_X, d_Z) is the same either way."""
     Hx = np.asarray(code.matrix_x) % 2
     Hz = np.asarray(code.matrix_z) % 2
     retry = lambda w: RETRY_LOW if w <= 7 else RETRY_HIGH

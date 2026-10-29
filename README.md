@@ -67,6 +67,7 @@ for t in picks:
 # [[180, 36]]  g = [24, 13, 3, 34, 10]  h = [24, 5, 10, 11, 8]   (then four more codes)
 
 # Certify the first code's distance exactly: one SAT ladder per sector, d = min(d_X, d_Z)
+# (exact_sectors names each sector by its check matrix, so its d_X is the paper's d_Z)
 dX, exact_X, dZ, exact_Z = exact_sectors(build(G, picks[0]))[:4]
 print(f"d_X = {dX}, d_Z = {dZ}, exact: {exact_X and exact_Z}")   # d_X = 6, d_Z = 6, exact: True
 ```

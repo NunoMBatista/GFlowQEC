@@ -14,7 +14,9 @@ family that wrote them; the prefix is a name only, read by the loaders below:
 n = 180 (the n = 180 summary table, its per-seed table and the results text)
     A run dump holds one row per paid call: the code (its orbit representative "rep"), the classical
     bound-ladder distances dA, dB with their processor seconds, and, for a row that reached the certifier,
-    the exact distances dX, dZ with the certification seconds. Sign "Z" is gamma = +1 and sign "X" is
+    the exact distances dX, dZ with the certification seconds. dX and dZ name each sector by its check
+    matrix (certify.exact_sectors), so file dX is the paper's d_Z (it pairs with dA) and file dZ the
+    paper's d_X (it pairs with dB). Sign "Z" is gamma = +1 and sign "X" is
     gamma = -1; lam = oracle.lam_of(10, sign). A code is top-scoring when oracle.bias_score reaches the
     bar top = oracle.key_top(lam)[0] (10.0 at both signs).
 

@@ -1,0 +1,2 @@
+App. E.3: y* about 0.00424, the median re-estimated rate of 5 reference runs
+Table B.1: the screen's training length: 0.8 of the policy's updates

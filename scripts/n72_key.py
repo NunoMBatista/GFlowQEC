@@ -1,7 +1,7 @@
 """The n = 72 answer key: an exact distance for every code with k > 0 of the Z_6 x Z_6 two-block space.
 
 Regenerates data/keys/certified_l6m6_w3.csv, escalated_l6m6_w3.csv and closed_l6m6_w3.csv, which
-together are the n = 72 row of Table II (Sec. 4.3): 9,280 forms with k > 0, every distance exact,
+together are the n = 72 row of the answer-key table: 9,280 forms with k > 0, every distance exact,
 the [[72,12,6]] summit (48 forms) and the 1,440 [[72,4,8]] forms of largest d.
 
 The key is built in three passes, each aimed at the codes the pass before it could not close:
@@ -20,7 +20,7 @@ The key is built in three passes, each aimed at the codes the pass before it cou
 Each pass reads the ARCHIVED output of the pass before it from data/keys (escalate reads the
 certified file, close the escalated file), not a fresh one from results/. The decoder bound draws
 fresh OS randomness, so a re-run base pass may leave a slightly different set of open forms;
-reading the archive lets each pass be checked against its own file of record.
+reading the archive lets each pass be checked against its own stored file.
 
 Run from the repo root:
   python -m scripts.n72_key base                              # all 9,280 forms (cluster-sized)
@@ -133,7 +133,7 @@ def escalate(chunk, chunks):
     its own part file.
     """
     open_codes = []
-    with open(KEYS / "certified_l6m6_w3.csv") as f:       # the base key of record
+    with open(KEYS / "certified_l6m6_w3.csv") as f:       # the base key as shipped
         for row in csv.DictReader(f):
             if row["exact"] == "0":
                 open_codes.append((ast.literal_eval(row["key"]), int(row["k"])))
@@ -210,7 +210,7 @@ def close_one(row):
 
 def close(workers):
     """SAT-certify every escalated form (the 362 already exact are re-proved at no real cost)."""
-    rows = list(csv.DictReader(open(KEYS / "escalated_l6m6_w3.csv")))   # the escalation of record
+    rows = list(csv.DictReader(open(KEYS / "escalated_l6m6_w3.csv")))   # the escalation pass as shipped
 
     # Cheapest first, so a stalled tail never blocks the bulk of the progress. A rung's cost grows
     # about 10x per distance step, and the per-rung budget keeps one hard form from stalling a

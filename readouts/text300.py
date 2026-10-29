@@ -1,8 +1,8 @@
-"""Sec. 9.2 of the paper (GFlowQEC-online at n = 300): the numbers that only its text prints.
+"""The n = 300 results text of the paper (GFlowQEC-online at n = 300): the numbers that only the text prints.
 
 Every number comes from the stored n = 300 runs, seeds 0 to 5, 40,000 paid calls per run:
 
-    W    good proposals of a run, Eq. 20: its visits times the share of its 800 re-estimated
+    W    good proposals of a run: its visits times the share of its 800 re-estimated
          visits at or below the seed's reference rate y* (the pooled median of the five reference cells);
     D    the share of a run's visits kept by the greedy near-duplicate pass (Hamming distance 2, call order);
     W'   W x D, good proposals with near-duplicates counted once.
@@ -66,53 +66,53 @@ def seeds_ahead_dedup(a, b):
     return int(sum(x > 0 for x in Wp[a] - Wp[b]))
 
 
-print("Sec. 9.2 text, n = 300, seeds 0-5")
+print("App. E.4 text, n = 300, seeds 0-5")
 
 # GFlowQEC-online led tuned PT and local search alone on W in every seed
 _, wins_pt, _ = interval("d127", "pt")
 _, wins_u, _ = interval("d127", "u127")
-print(f"Sec. 9.2: GFlowQEC-online (L = 127) led tuned PT in {wins_pt} of 6 seeds and local search alone in {wins_u} of 6 seeds")
+print(f"App. E.4: GFlowQEC-online (L = 127) led tuned PT in {wins_pt} of 6 seeds and local search alone in {wins_u} of 6 seeds")
 
 # the lead over tuned PT, in each seeding mode
 txt, _, p = interval("d127", "pt")
-print(f"Sec. 9.2: GFlowQEC-online minus tuned PT: {txt}, p = {p:.4f}, paired t")
+print(f"App. E.4: GFlowQEC-online minus tuned PT: {txt}, p = {p:.4f}, paired t")
 txt, _, _ = interval("c127", "ptc")
-print(f"Sec. 9.2: common random numbers, GFlowQEC-online minus tuned PT: {txt}")
+print(f"App. E.4: common random numbers, GFlowQEC-online minus tuned PT: {txt}")
 
 # the factors per paid call. PPO at 0.01 stopped early, so its rate is W over its own paid calls;
 # for the 40,000-call rivals the factor equals the ratio of the mean W.
 for c, name, fmt in (("me", "MAP-Elites", ".2f"), ("ppo1", "PPO, entropy weight 0.1", ".2f"),
                      ("ppo", "PPO, entropy weight 0.01", ".1f")):
     factor = rate("d127") / rate(c)
-    print(f"Sec. 9.2: per paid call, GFlowQEC-online over {name}: {factor:{fmt}}, in {seeds_ahead_per_call(c)} of 6 seeds")
+    print(f"App. E.4: per paid call, GFlowQEC-online over {name}: {factor:{fmt}}, in {seeds_ahead_per_call(c)} of 6 seeds")
 
 # the supervised screen
 txt, wins, p = interval("d127", "ss300")
-print(f"Sec. 9.2: GFlowQEC-online minus the supervised screen: {txt}, in {wins} of 6 seeds, p = {p:.2f}, paired t")
+print(f"App. E.4: GFlowQEC-online minus the supervised screen: {txt}, in {wins} of 6 seeds, p = {p:.2f}, paired t")
 
 # local search alone: not separated from tuned PT, and behind GFlowQEC-online
 txt, _, _ = interval("u127", "pt")
-print(f"Sec. 9.2: local search alone minus tuned PT: {txt}")
+print(f"App. E.4: local search alone minus tuned PT: {txt}")
 txt, wins, p = interval("d127", "u127")
-print(f"Sec. 9.2: GFlowQEC-online minus local search alone: {txt}, in {wins} of 6 seeds, p = {p:.3f}, paired t")
+print(f"App. E.4: GFlowQEC-online minus local search alone: {txt}, in {wins} of 6 seeds, p = {p:.3f}, paired t")
 
 # with near-duplicates counted once, the rivals lead GFlowQEC-online
 leads = [("pt", "tuned PT"), ("me", "MAP-Elites"), ("rnd", "uniform sampling"),
          ("ppo1", "PPO entropy weight 0.1"), ("ss300", "supervised screen")]
-print("Sec. 9.2: near-duplicates counted once, seeds in which each led GFlowQEC-online: "
+print("App. E.4: near-duplicates counted once, seeds in which each led GFlowQEC-online: "
       + ", ".join(f"{name} {seeds_ahead_dedup(c, 'd127')}" for c, name in leads) + " (of 6)")
 
 # the share kept by the near-duplicate pass. "A method that draws every tuple afresh" is every n = 300
-# run in Tables IV and X without a local move: uniform sampling, PPO at both entropy
+# run in the two n = 300 tables without a local move: uniform sampling, PPO at both entropy
 # weights, the supervised screen, the plain sampler, soft Q-learning and one-hot BO.
 fresh = [("rnd", "uniform"), ("ppo1", "PPO 0.1"), ("ss300", "screen"), ("gfn", "plain sampler"),
          ("sdqn", "soft Q"), ("ppo", "PPO 0.01"), ("bo40k", "one-hot BO")]
 fresh_D = [D[c].mean() for c, _ in fresh]
-print(f"Sec. 9.2: share kept by the near-duplicate pass: GFlowQEC-online {D['d127'].mean():.2f}; "
+print(f"App. E.4: share kept by the near-duplicate pass: GFlowQEC-online {D['d127'].mean():.2f}; "
       f"methods that draw every tuple afresh {min(fresh_D):.2f} to {max(fresh_D):.1f}")
 
 # local search alone runs the same chains, so it keeps the same share
-print(f"Sec. 9.2: local search alone keeps {D['u127'].mean():.2f}; GFlowQEC-online led it with near-duplicates "
+print(f"App. E.4: local search alone keeps {D['u127'].mean():.2f}; GFlowQEC-online led it with near-duplicates "
       f"counted once in {seeds_ahead_dedup('d127', 'u127')} of 6 seeds")
 
 # Supporting lines for worded claims (not diffed against the paper)
@@ -122,6 +122,6 @@ print(f"basis: PPO at entropy weight 0.01 stopped before {budget['ppo'][0]:,} pa
 txt, wins, _ = interval("ss300", "pt")
 print(f"basis: supervised screen minus tuned PT: {txt}, in {wins} of 6 seeds")
 best = max((c for c, _ in leads), key=lambda c: Wp[c].mean())
-print(f"basis: near-duplicates counted once, the largest lead over GFlowQEC-online is {dict(leads)[best]}'s: "
+print(f"basis: near-duplicates counted once, the largest lead over GFlowQEC-online is the {dict(leads)[best]}'s: "
       f"{Wp[best].mean():,.0f} against {Wp['d127'].mean():,.0f}")
 print("basis: share kept, fresh-draw runs: " + ", ".join(f"{name} {D[c].mean():.3f}" for c, name in fresh))

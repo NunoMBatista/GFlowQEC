@@ -1,4 +1,4 @@
-Table V, cost per paid call on one CPU core
+Table A.1, cost per paid call on one CPU core
 n 36, Z6 x Z3: below 0.1 s
 n 72, Z6 x Z6: 0.15 s median, 12 s mean
 n 180, Z6 x S3: 0.8 s median, 1.5 s mean; exact 10 s (uniform draw), about 2 min (certified)

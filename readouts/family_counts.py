@@ -1,15 +1,15 @@
-"""App. A: the measured counts of its text, in App. A.2 (lifted-product family) and App. A.4 (search
-spaces, oracle and distances).
+"""The codes-and-benchmark appendix: the measured counts of its text, on the lifted-product family and on
+the search spaces, oracle and distances.
 
-A.2  Over Z_6 x S_3, lambda(1 + g4 + g5) is invertible for only 123 of the 595 pairs of distinct
+LP   Over Z_6 x S_3, lambda(1 + g4 + g5) is invertible for only 123 of the 595 pairs of distinct
      elements other than the identity (and likewise rho, the count for b_2).
-A.4  A and B have full row rank for 383 of the 666 codes of the reference sample, and
+Ref  A and B have full row rank for 383 of the 666 codes of the reference sample, and
      d_Z <= d_A and d_X <= d_B held on all 666 of them.
 
 Reads data/keys (the reference sample) and data/n180/ref666_bounds.csv (the classical bounds d_A, d_B
 of the 666 codes, made by scripts/ref666_bounds.py); no oracle call; about 7 s on a laptop. Run from the
 repo root:
-    python -m readouts.appa_codes
+    python -m readouts.family_counts
 """
 
 import csv
@@ -26,7 +26,7 @@ T0 = time.time()
 print("App. A.2 and App. A.4 text")
 
 # =============================================================================================
-# A.2. Z_6 x S_3 built by hand, independently of qldpc: an element is (i, p) with i in Z_6 and p a
+# Lifted-product family. Z_6 x S_3 built by hand, independently of qldpc: an element is (i, p) with i in Z_6 and p a
 # permutation of {0, 1, 2}. lam(g) is the 36 x 36 matrix of left multiplication v -> g v, rho(g) that
 # of right multiplication v -> v g. An element a of the group algebra F2[G] is invertible exactly
 # when its multiplication matrix has full rank over GF(2).
@@ -99,7 +99,7 @@ for g4, g5 in itertools.combinations(nonid, 2):
 print(f"Z6 x S3: 1 + g4 + g5 invertible for {cnt} of the {tot} pairs (lambda), {cntr} (rho)")
 
 # =============================================================================================
-# A.4. For each code of the reference sample, the two classical matrices A = [L(a0) | L(a1)] and
+# Reference sample. For each code of the reference sample, the two classical matrices A = [L(a0) | L(a1)] and
 # B = [L(b0) | L(b1)] (36 x 72 each), cut from the code's check matrices. Full row rank = rank 36.
 # =============================================================================================
 ref = oracle.reference_sample()
@@ -116,7 +116,7 @@ print(f"reference sample: A and B of full row rank for {full} of the {len(ref)} 
 print(f"basis: A of full row rank {fa}, B of full row rank {fb}, both {full}")
 
 # =============================================================================================
-# A.4, the second claim. d_A and d_B are the minimum weights of ker A and ker B (the SAT bound
+# Reference sample, the second claim. d_A and d_B are the minimum weights of ker A and ker B (the SAT bound
 # ladder, scripts/ref666_bounds.py). The sample stores the per-sector distances under the keys dX
 # and dZ; key dX is the paper's d_Z and key dZ the paper's d_X, so d_Z pairs with d_A and d_X with
 # d_B. The distances are taken from the sample itself, the bounds from the file, joined by index.

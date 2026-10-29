@@ -13,6 +13,7 @@ which runs every readout and prints PASS / FAIL and the wall time per readout.
 
 import difflib
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -77,6 +78,9 @@ try:
 
     @pytest.mark.parametrize("name", NAMES)
     def test_readout(name):
+        # fig_main300 draws its labels with LaTeX; without it the figure cannot be written
+        if name == "fig_main300" and shutil.which("latex") is None:
+            pytest.skip("fig_main300 needs LaTeX (latex not found)")
         ok, message, _ = check_readout(name)
         assert ok, message
 except ImportError:

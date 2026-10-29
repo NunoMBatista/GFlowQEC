@@ -1,6 +1,6 @@
 """GFlowQEC-offline at n = 180: train the policy on the stored forms, deploy it, and pay what it picks.
 
-The offline policy of the paper (Sec. 6; App. B.1) is a small decoder-only transformer that writes a
+The offline policy of the paper (GFlowQEC-offline) is a small decoder-only transformer that writes a
 two-block lifted-product code over C6 x S3 one group element at a time (the ten slots of codes.ENTRIES). It never
 calls the oracle while it trains: its training data are the 116,972 distinct canonical forms that the 42 stored
 search runs already paid for (counts.stored_forms), each rewarded with what the certifying oracle returned for it.
@@ -19,9 +19,9 @@ Four legs, each writing one file under results/ (the shipped copies sit in data/
 
 "r177", "w18" and "e10" are fixed tokens of the shipped file names (e10 = bias strength eta 10; sign Z is gamma = +1,
 sign X is gamma = -1). The readouts count these files into the n = 180 rows of GFlowQEC-offline, offline soft Q, the
-policy as a ranker of uniform candidates and the matched screen (Table III; App. D.1, Table IX).
+policy as a ranker of uniform candidates and the matched screen (the n = 180 summary table and its per-seed table).
 
-Commands of record (seeds s = 0, 1, 2; signs S = Z, X):
+Commands (seeds s = 0, 1, 2; signs S = Z, X):
 
     python -m scripts.n180_offline train --scale x20 --seed s                                    GFlowQEC-offline
     python -m scripts.n180_offline train --scale x20 --objective softq --device cuda --seed s    offline soft Q
@@ -41,7 +41,7 @@ Commands of record (seeds s = 0, 1, 2; signs S = Z, X):
 
     To deploy a shipped checkpoint instead of retraining, add --model-path data/models/<model file>.pt to sample,
     screen and certify; the output names are then exactly the shipped ones. --steps N trains a step-capped cell
-    (the shipped st1699 checkpoints of App. B.1's transformer-vs-perceptron comparison; that comparison is printed
+    (the shipped st1699 checkpoints of the transformer-vs-perceptron comparison; that comparison is printed
     from the shipped files only).
 
 Compute (from the stamps of the paper's runs):
@@ -255,7 +255,7 @@ def sample_leg(args):
         # a --scale cell samples its FINISHED checkpoint only: train_leg rewrites the final file every 2,000 steps
         # while it runs, so a chain that starts on the file's existence would otherwise rank a partly trained model
         assert d["steps"] == args.steps and d["batch"] == BATCH, \
-            f"{model_path(args).name}.pt stamps {d['steps']} steps at batch {d['batch']}, not the registered " \
+            f"{model_path(args).name}.pt stamps {d['steps']} steps at batch {d['batch']}, not the requested " \
             f"{args.steps} at {BATCH}: still training, or not this cell's model"
     train_keys = set(stored_forms().keys())
     n, ident = len(group_for(GROUP_180)[1]), identity_index(GROUP_180)
@@ -393,7 +393,7 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--steps", type=int, default=None, help="train: gradient steps (names the cell _st<steps>)")
     ap.add_argument("--scale", choices=sorted(SCALE_STEPS), default=None,
-                    help="the training budget as a step count (x20 = 315,280, the policy of record); names the cell, "
+                    help="the training budget as a step count (x20 = 315,280, the policy the paper reports); names the cell, "
                          "so sample / screen / certify need it too")
     ap.add_argument("--source", default="policy", choices=["policy", "uniform"],
                     help="sample: where the candidates come from. policy = the model's own draws; uniform = uniform "

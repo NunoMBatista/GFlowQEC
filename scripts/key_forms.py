@@ -1,7 +1,7 @@
 """Every canonical form of a two-block space over Z_L x Z_M, with k, and no distance.
 
 Regenerates data/keys/candidates_l6m3_w3.csv (2,304 forms) and data/keys/candidates_l6m6_w3.csv
-(40,401 forms): the "complete key" columns of Table II (Sec. 4.3), and at (6, 6) the list of
+(40,401 forms): the "complete key" columns of the answer-key table, and at (6, 6) the list of
 forms the n = 72 key certifies (scripts/n72_key.py).
 
 A form is a code up to independent translation of A and B (codes.canonical_key, the

@@ -1,10 +1,10 @@
-"""Table II and the measured numbers of the text of Sec. 4.3 (oracle, scores and references).
+"""The answer-key table and the measured numbers of the text on the oracle, scores and references.
 
 Prints, for each size, the measured cells of the table: what a proposal is graded against, how many
 codes with k > 0 there are (as canonical forms and as inequivalent codes) and the best or published
-codes. Then the numbers the Sec. 4.3 text quotes about the n = 72 key and the n = 180 reference sample.
+codes. Then the numbers that text quotes about the n = 72 key and the n = 180 reference sample.
 
-Two codes are equivalent (Sec. 4.2) when relabelling the qubits and the checks turns one into the
+Two codes are equivalent when relabelling the qubits and the checks turns one into the
 other, X checks staying X checks. That holds exactly when their coloured Tanner graphs are isomorphic,
 which is when their nauty certificates (codes.certificate) are equal. So the number of inequivalent
 codes in a set is the number of distinct certificates in it.
@@ -51,7 +51,7 @@ def n_codes(c):
     return "one code" if c == 1 else f"{c} codes"
 
 
-print("Table II and Sec. 4 text")
+print("Table 2 and Sec. 4.3 text")
 
 # =============================================================================================
 # n = 36: the complete key over Z_6 x Z_3.
@@ -148,10 +148,10 @@ print(f"n = 180, lifted product, Z_6 x S_3 | reference sample: {len(ref)} unifor
       f" | {forms180} / {classes180} | certified, d_X = d_Z = {best}, from search runs")
 
 # =============================================================================================
-# Sec. 4 text
+# The text on the oracle and references
 # =============================================================================================
 
-# Sec. 4.3, merit. Bravyi et al.'s [[72,12,6]] (their Table 3): A = x^3 + y + y^2, B = y^3 + x + x^2, written as
+# Oracle text, merit. Bravyi et al.'s [[72,12,6]] (their Table 3): A = x^3 + y + y^2, B = y^3 + x + x^2, written as
 # exponent pairs (i, j) = x^i y^j. Its canonical form must be one of the top-merit forms, which are one code.
 bravyi = codes.canonical_key(6, 6, [(3, 0), (0, 1), (0, 2)], [(0, 3), (1, 0), (2, 0)])
 assert bravyi in tops72 and len({cert72[t] for t in tops72}) == 1
@@ -159,7 +159,7 @@ print(f"Sec. 4.3: [[72,{kd72[bravyi][0]},{kd72[bravyi][1]}]] is equivalent to th
 
 print(f"Sec. 4.3: the {len(generating)} of {len(draws):,} uniform draws that satisfy the second restriction, with exact distances")
 
-# Sec. 4.3, failure exponent. The threshold at each bias is the reference sample's top score (oracle.key_top), pooled
+# Oracle text, failure exponent. The threshold at each bias is the reference sample's top score (oracle.key_top), pooled
 # with the mirror images, so it is the same at +1 and -1 by construction. lam passed to bias_score and
 # key_top is the paper's gamma. The counts of codes reaching it are per sign, not mirror-pooled.
 top_plus, top_minus, top_zero = oracle.key_top(1.0)[0], oracle.key_top(-1.0)[0], oracle.key_top(0.0)[0]
@@ -176,7 +176,7 @@ print(f"Sec. 4.3: at gamma = 0 the top value is reached by {reaching(0.0)} of th
 print(f"Sec. 4.3: at gamma = +1, {reaching(1.0)} of {len(ref)} reach the threshold")
 print(f"Sec. 4.3: at gamma = -1, {reaching(-1.0)} of {len(ref)} reach the threshold")
 
-# Sec. 4.3, failure exponent. Among certified rows of the 42 runs (cert stamped), the share whose exact ladder stopped at
+# Oracle text, failure exponent. Among certified rows of the 42 runs (cert stamped), the share whose exact ladder stopped at
 # a lower bound in either sector. A code paid in several runs counts once per run.
 n_cert = n_cens = 0
 for d in runs:

@@ -4,9 +4,9 @@ An oracle wraps a scoring rule with a hard budget and a cache keyed by the code'
 so a revisit or a gauge copy of an already-paid code is free and a run's cost is its number of
 distinct paid codes. Three scoring rules, one per scale of the paper:
 
-  n = 36   `Oracle`: exact n, k, d and merit kd^2/n of a two-block code (Sec. 9.3).
+  n = 36   `Oracle`: exact n, k, d and merit kd^2/n of a two-block code (the n = 36 sampler check).
   n = 180  `BiasOracle` / `CertifiedOracle`: the leading-order failure exponent of a CSS code under
-           biased noise (Sec. 4.3),
+           biased noise (the oracle section of the paper),
                score(lam) = min(c_X d_X, c_Z d_Z),   c = log10(1/p) / 2,
            with p_quiet = 1e-3 on the quiet sector and p_noisy = 1e-3 * 10^|lam| on the noisy one;
            lam = log10(p_Z / p_X) is the one condition scalar (lam > 0 Z-biased, lam < 0 X-biased,

@@ -1,11 +1,11 @@
-"""App. C (its Budgets and Measures paragraphs): the two measured numbers of its text.
+"""The protocol appendix (its Budgets and Measures paragraphs): the two measured numbers of its text.
 
 Budgets   Six runs of Bayesian optimisation at n = 300 have a budget of 200 calls.
 Measures  The reference rate y* is set per seed as the median of the re-estimated rates pooled over the
           five reference runs of that seed; the six values lie between 0.004233 and 0.004245.
 
 Reads data/n300 only; no oracle call; about 3 s on a laptop. Run from the repo root:
-    python -m readouts.appe_protocol
+    python -m readouts.protocol
 """
 
 import json

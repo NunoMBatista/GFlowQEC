@@ -1,8 +1,8 @@
 """The n = 300 searches: one method, one seed, 40,000 paid oracle calls, every paid code kept in call order.
 
-Regenerates the run files data/n300/mitten_lersearch_*.json behind every n = 300 number of the paper: Table
-IV (Sec. 8), Fig. 7 and the text of Sec. 9.2, Table X and the text of App. D.2 (the readouts
-sum300.py, fig_main300.py, text300.py, res300.py, appg300.py). Those readouts never use a run's in-run scores
+Regenerates the run files data/n300/mitten_lersearch_*.json behind every n = 300 number of the paper: the
+n = 300 summary table and figure, the table of further n = 300 runs and their text (the readouts
+sum300.py, fig_main300.py, text300.py, res300.py, more300.py). Those readouts never use a run's in-run scores
 as the result: scripts/n300_rescore.py re-estimates 800 of each run's visits on fresh noise first.
 
 The arena. A code is ten group elements g1..g5, h1..h5 of G = Z_10 x S_3 (order 60); A = [g1+g2+g3, e+g4+g5]
@@ -34,13 +34,13 @@ The methods (--arm):
     bo          Bayesian optimisation, a one-hot Matern-5/2 GP with expected improvement.
     selfscreen  a supervised screen trained on the run's own paid calls (gflowqec.screens.arm_selfscreen).
 
-Commands of record, each for seeds s = 0..5. --budget 40000, --p 0.07 and --shots 1000 are the defaults, and
+Commands, each for seeds s = 0..5. --budget 40000, --p 0.07 and --shots 1000 are the defaults, and
 every command starts with `python -m scripts.n300_search`:
     GFlowQEC-online at L = 127, one stream per code, under --crn, and the local search alone:
         --arm gflowqec --ls-iters 127 --tag _d127 --seed s
         --arm gflowqec --ls-iters 127 --crn --tag _c127 --seed s
         --arm gflowqec --ls-iters 127 --ls-uniform --tag _u127 --seed s
-    the five reference cells whose pooled median fixes the bar y* (Sec. 8): four at L = 31, and tuned PT:
+    the five reference cells whose pooled median fixes the bar y*: four at L = 31, and tuned PT:
         --arm gflowqec --ls-iters 31 --tag _d31 --seed s
         --arm gflowqec --ls-iters 31 --ls-uniform --tag _u31 --seed s
         --arm gflowqec --ls-iters 31 --ls-uniform-local --tag _g31 --seed s

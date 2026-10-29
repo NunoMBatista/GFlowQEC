@@ -1,4 +1,4 @@
-"""Sec. 3.2 (the families we use; the same number is in the introduction): the size of the n = 300 space.
+"""The size of the n = 300 space (in the introduction and in the appendix on the n = 300 oracle and settings).
 
 "the tuple makes ten choices among the sixty elements of the group, giving at most about 3 x 10^8
 codes up to equivalence". The receipt is an exact count, by Burnside's lemma, of the orbits of the
@@ -17,7 +17,7 @@ relabelled, X and Z colours kept):
 Every tuple in one orbit builds the same code, so the number of orbits is an upper bound on the
 number of inequivalent codes. The paper's list (a) to (d) alone gives 517,872,884 orbits; adding the
 two entry swaps gives 131,504,342 = 1.3 x 10^8, inside the printed "at most about 3 x 10^8". No lower
-bound is computed here. A code and its mirror image count as two codes, as in Sec. 4.
+bound is computed here. A code and its mirror image count as two codes, as in the benchmark section.
 
 Method: per entry, the orbit of a 3-element set under (a) and (b) is its translation class (right
 classes for A, left classes for B: 571 each). A pair of renamings acts on the four entries' classes,
@@ -33,7 +33,7 @@ from fractions import Fraction
 from gflowqec.codes import group_for, mul_table
 
 T0 = time.time()
-print("Sec. 3 text (Sec. 3.2; same number in Sec. 1)")
+print("Sec. 1 and App. E.2 text")
 
 name = "C10xS3"
 mul = mul_table(name)

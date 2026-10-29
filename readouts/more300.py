@@ -1,4 +1,4 @@
-"""The numbers in the text of App. D.2 (n = 300), after Table X, one block per claim.
+"""The numbers in the text of the further n = 300 results, after the table of further runs, one block per claim.
 
 The objective swap: GFlowQEC-online minus the objective swap, in per cent of GFlowQEC-online's mean W,
     with a 95 % paired t interval over seeds 0-5; at L = 127 under common random numbers, at L = 31 one
@@ -16,7 +16,7 @@ W, y* and the visited files are as in readouts/res300.py: W = the run's visits V
 sampled visits re-estimated at or below y*, the per-seed median of five reference runs pooled.
 
 Reads data/n300 only; no oracle call; about 5 s on a laptop. Run from the repo root:
-    python -m readouts.appg300
+    python -m readouts.more300
 """
 import json
 import math
@@ -36,7 +36,7 @@ runs = load_visited(list(REFERENCE_CELLS) + ["c127", "p127", "p31", "d127", "rnd
 q = {s: y_star(runs, s) for s in SEEDS}
 W = {c: {s: good_count(runs[c][s], q[s]) for s in SEEDS} for c in runs}
 
-print("App. D.2 text (n = 300)")
+print("App. E.5 text (n = 300)")
 
 # ---- The objective swap: GFlowQEC-online minus the swap, in per cent of GFlowQEC-online's mean W ----
 # (ref, twin): c127 / p127 are depth 127 under common random numbers, d31 / p31 depth 31, one stream.
@@ -51,7 +51,7 @@ for depth, ref, twin in (("127", "c127", "p127"), ("31", "d31", "p31")):
     parts.append(f"L = {depth} {'%#.2g' % pct} [{'%#+.2g' % lo}, {'%#+.2g' % hi}]")
     print(f"basis: {ref} - {twin} mean {dl.mean():+,.0f} of {ref}'s {base:,.0f}: "
           f"{pct:+.4f} % [{lo:+.3f}, {hi:+.3f}]")
-print("App. D.2: GFlowQEC-online minus the objective swap, per cent of its mean: " + "; ".join(parts))
+print("App. E.5: GFlowQEC-online minus the objective swap, per cent of its mean: " + "; ".join(parts))
 
 # ---- The k = 60 class, one stream per code ----
 # Over the 6 x 800 sampled visits of each run: n all visits, n60 those with k = 60, h60 those of them
@@ -71,8 +71,8 @@ for c in ("d127", "pt", "rnd"):
     hit[c] = 100 * h60 / n60
     print(f"basis: {c} k = {K} in {n60}/{n} visits = {share[c]:.1f} %; at or below y* {h60}/{n60}")
 lo, hi = min(share.values()), max(share.values())
-print(f"App. D.2: k = {K} share of proposals (GFlowQEC-online, tuned PT, uniform): {lo:.0f} to {hi:.0f} per cent")
-print(f"App. D.2: inside k = {K}, re-estimates at or below y*: GFlowQEC-online {hit['d127']:.1f}, "
+print(f"App. E.5: k = {K} share of proposals (GFlowQEC-online, tuned PT, uniform): {lo:.0f} to {hi:.0f} per cent")
+print(f"App. E.5: inside k = {K}, re-estimates at or below y*: GFlowQEC-online {hit['d127']:.1f}, "
       f"tuned PT {hit['pt']:.1f}, uniform {hit['rnd']:.1f} per cent")
 
 # ---- The best codes: the best of each configuration's 200 highest-scoring codes ----
@@ -106,8 +106,8 @@ lo = min(b[0] for b in rows.values())
 hi = max(b[0] for b in rows.values())
 # the six intervals share a point when the highest lower end is at most the lowest upper end
 overlap = max(b[1] for b in rows.values()) <= min(b[2] for b in rows.values())
-print(f"App. D.2: configurations compared: {len(rows)}, top {TOP} codes each")
-print(f"App. D.2: lowest re-estimated rates: {lo:.5f} to {hi:.5f} per logical qubit; "
+print(f"App. E.5: configurations compared: {len(rows)}, top {TOP} codes each")
+print(f"App. E.5: lowest re-estimated rates: {lo:.5f} to {hi:.5f} per logical qubit; "
       f"intervals overlap: {'yes' if overlap else 'no'}")
 
 # ---- The best codes at 200 calls against GFlowQEC-online at 40,000 calls ----
@@ -151,5 +151,5 @@ for s in SEEDS:
                                           for name, b in bands.items()))
 failed = [s for s in SEEDS if s not in passed]
 note = "all seeds" if not failed else "all but seed " + ", ".join(str(s) for s in failed)
-print(f"App. D.2: seeds where the four best codes' Wilson intervals overlap: "
+print(f"App. E.5: seeds where the four best codes' Wilson intervals overlap: "
       f"{', '.join(str(s) for s in passed)} ({note})")

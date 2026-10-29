@@ -1,0 +1,7 @@
+App. E.5 text (n = 300)
+App. E.5: GFlowQEC-online minus the objective swap, per cent of its mean: L = 127 -0.40 [-4.4, +3.6]; L = 31 -1.7 [-6.0, +2.5]
+App. E.5: k = 60 share of proposals (GFlowQEC-online, tuned PT, uniform): 69 to 73 per cent
+App. E.5: inside k = 60, re-estimates at or below y*: GFlowQEC-online 61.8, tuned PT 55.2, uniform 26.7 per cent
+App. E.5: configurations compared: 6, top 200 codes each
+App. E.5: lowest re-estimated rates: 0.00335 to 0.00352 per logical qubit; intervals overlap: yes
+App. E.5: seeds where the four best codes' Wilson intervals overlap: 0, 2, 3, 4, 5 (all but seed 1)

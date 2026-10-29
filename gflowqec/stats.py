@@ -1,6 +1,6 @@
-"""The interval statistics the paper prints (App. C.2, Table VIII).
+"""The interval statistics the paper prints (the statistical procedures of the appendix and their table).
 
-    katz       ratio of two rates with its log-ratio interval, Eq. C1; used at n = 180.
+    katz       ratio of two rates with its log-ratio interval (Katz); used at n = 180.
     paired_t   paired t interval and two-sided p over seeds, in per cent of the second method's mean; used at n = 300.
     wilson     Wilson score interval on a failure count, for a best code's re-estimated error rate.
     pq         per-qubit logical error rate of a code, applied to a Wilson interval's ends.
@@ -12,7 +12,7 @@ from scipy import stats
 
 
 def katz(a, na, b, nb):
-    """Ratio of the rates a / na and b / nb with its 95 % Katz log interval, Eq. C1.
+    """Ratio of the rates a / na and b / nb with its 95 % Katz log interval.
 
     a and b are counts (for example certified top-scoring codes) out of na and nb paid calls. Returns
     (ratio, low, high). The interval needs both counts nonzero; with a zero count the ratio is returned

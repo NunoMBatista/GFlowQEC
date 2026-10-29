@@ -1,17 +1,20 @@
-"""Table IX (App. D.1): certified top-scoring codes in the first 1,000 paid calls at n = 180.
+"""The per-seed n = 180 table: certified top-scoring codes in the first 1,000 paid calls at n = 180.
 
-Every row is one method at gamma = +1 (sign "Z") and gamma = -1 (sign "X"), three seeds each. The columns are:
+Every row is one method at gamma = +1 (sign "Z") and gamma = -1 (sign "X"). The columns are:
 
+    Seeds   how many seeds the row holds: 10 (seeds 0-9) for the four rows repeated at ten seeds
+            (GFlowQEC-offline ranked at mu = 10 and 100, the supervised screen at 10 and 100 times),
+            2 (seeds 1 and 2) for the earlier screen at 100 times, 3 (seeds 0-2) for every other row;
     Codes   certified top-scoring codes per seed among the method's first 1,000 paid calls;
-    Ratio   GFlowQEC-offline's (ranked, mu = 10) pooled count over the row's pooled count, both out of
-            3,000 paid calls, with its 95 % Katz interval (Eq. C1); the interval is printed only when
-            the ratio is below 10;
+    Ratio   GFlowQEC-offline's (ranked, mu = 10) pooled count over the row's pooled count, both summed
+            over the seeds the two rows share (1,000 paid calls per shared seed), with its 95 % Katz
+            interval; the interval is printed only when the ratio is below 10;
     Nbhd    the same ratio on neighbourhoods (distinct gauge classes of the bottleneck half among the
             certified tops), no interval.
 
-The hundredfold rows (mu = 100, 100 times) hold seeds 1 and 2 only, so their pooled counts are out of 2,000
-paid calls. Ratio and Nbhd are blank for the two screens at 100 times, whose oversample the deployment at
-mu = 10 does not match.
+So a three-seed row is read against GFlowQEC-offline's seeds 0-2, and a ten-seed row against all ten.
+Ratio and Nbhd are blank for the two screens at 100 times, whose oversample the deployment at mu = 10
+does not match.
 
 Rows above the rule are methods that saw the stored forms, so a code counts only if no stored run paid its
 canonical form (it is novel). Below the rule the methods never saw them and every certified top counts;
@@ -32,7 +35,8 @@ from gflowqec.stats import katz
 T0 = time.time()
 PREFIX = counts.PREFIX          # 1,000 paid calls per cell
 SEEDS = (0, 1, 2)
-SEEDS_100 = (1, 2)              # the hundredfold rows were run at seeds 1 and 2 only
+SEEDS_10 = tuple(range(10))     # the four rows repeated at ten seeds
+SEEDS_100 = (1, 2)              # the earlier screen at 100 times was run at seeds 1 and 2 only
 
 # The paper's row label, then the row's name in counts.prefix_arms, in the paper's order.
 # Rows above the rule (novel codes only):
@@ -67,13 +71,15 @@ RANKER = "Policy as a ranker"
 RANKED_100 = "Ranked, mu 100"
 MATCHED_100 = "Supervised screen, 100 times (matched)"
 EARLIER_100 = "Earlier, smaller screen, 100 times"
-HUNDREDFOLD = {RANKED_100, MATCHED_100, EARLIER_100}      # rows at seeds 1 and 2 only
+HUNDREDFOLD = {RANKED_100, MATCHED_100, EARLIER_100}      # the rows at 100, their basis printed below
+# the four rows repeated at ten seeds
+TEN_SEEDS = {POLICY, "Supervised screen, 10 times", RANKED_100, MATCHED_100}
 # note a: these rows are read over the matched supervised screen at the same mu, both counted as novel codes
 OVER_MATCHED = {RANKER: "Supervised screen, 10 times", RANKED_100: MATCHED_100}
 # the screens at 100 times print Codes only: the deployment at mu = 10 does not match their oversample
 BLANK = {MATCHED_100, EARLIER_100}
-# Ranked, mu = 100 at gamma = -1, seed 1: the count after the registered top-up that re-draws the cell's stored
-# forms (its dumps are not shipped). The table prints the booked primary count, the cell's own 1,000 paid calls.
+# Ranked, mu = 100 at gamma = -1, seed 1: the count after the top-up that re-draws the cell's stored
+# forms (its files stf_* are read by hyb180). The table prints the primary count, the cell's own 1,000 paid calls.
 TOPUP_X_S1 = 464
 
 
@@ -113,22 +119,31 @@ def hood_cell(a, b):
     return f"{x:.2f}" if x < 10 else f"{x:.0f}"
 
 
+def row_seeds(name):
+    """The seeds a row of this table holds."""
+    if name in TEN_SEEDS:
+        return SEEDS_10
+    if name == EARLIER_100:
+        return SEEDS_100
+    return SEEDS
+
+
 # ------------------------------------------------------------------ read every row at both signs
-cells = {}       # sign -> {row name: [LedgerArm for seeds 0, 1, 2]}
+cells = {}       # sign -> {row name: [LedgerArm per seed, in seed order]}
 for sign in ("Z", "X"):
     arms = {name: sorted(arm_list, key=lambda c: c.seed) for name, arm_list in counts.prefix_arms(sign).items()}
     cells[sign] = arms
-    # every row this table prints must hold seeds 0-2 (1-2 at mu = 100), with every proxy-top row certified
+    # every row this table prints must hold its seeds (row_seeds), with every proxy-top row certified
     for _, name in ABOVE:
-        assert tuple(c.seed for c in arms[name]) == (SEEDS_100 if name in HUNDREDFOLD else SEEDS), (sign, name)
+        assert tuple(c.seed for c in arms[name]) == row_seeds(name), (sign, name)
         assert all(c.uncertified == 0 for c in arms[name]), f"{sign} {name}: proxy-top rows never certified"
     for name in BELOW:
         assert tuple(c.seed for c in arms[name]) == SEEDS, (sign, name)
 
 
 def row_line(label, name, novel):
-    """One table line: Codes, Ratio, Nbhd at gamma = +1, then the same at gamma = -1."""
-    out = [label]
+    """One table line: Seeds, then Codes, Ratio, Nbhd at gamma = +1, then the same at gamma = -1."""
+    out = [label, str(len(row_seeds(name)))]
     for sign in ("Z", "X"):
         arms = cells[sign]
         per_seed = [codes(c, novel) for c in arms[name]]
@@ -138,20 +153,24 @@ def row_line(label, name, novel):
             continue
         if name in OVER_MATCHED:
             # note a: this row over the matched screen at the same mu, both counted as novel codes
-            num, den = name, OVER_MATCHED[name]
-            b = sum(codes(c, True) for c in arms[den])
+            num, den, den_novel = name, OVER_MATCHED[name], True
         else:
             # GFlowQEC-offline's novel codes over this row's codes (novel or all, by the row's side of the rule)
-            num, den = POLICY, name
-            b = sum(per_seed)
-        a = sum(codes(c, True) for c in arms[num])
-        # pooled paid calls: 1,000 per seed (3,000, or 2,000 for the hundredfold rows)
-        out.append(ratio_cell(a, PREFIX * len(arms[num]), b, PREFIX * len(arms[den])))
-        out.append(hood_cell(sum(hoods(c) for c in arms[num]), sum(hoods(c) for c in arms[den])))
+            num, den, den_novel = POLICY, name, novel
+        # pool both sides over the seeds the two rows share, 1,000 paid calls per seed
+        shared = set(row_seeds(num)) & set(row_seeds(den))
+        num_arms = [c for c in arms[num] if c.seed in shared]
+        den_arms = [c for c in arms[den] if c.seed in shared]
+        a = sum(codes(c, True) for c in num_arms)
+        b = sum(codes(c, den_novel) for c in den_arms)
+        n = PREFIX * len(shared)
+        out.append(ratio_cell(a, n, b, n))
+        out.append(hood_cell(sum(hoods(c) for c in num_arms), sum(hoods(c) for c in den_arms)))
     return " | ".join(out)
 
 
-print(f"Table IX (App. D.1): first {PREFIX:,} paid calls, seeds 0-2 (1-2 at mu = 100)")
+print(f"Table D.1: first {PREFIX:,} paid calls, Seeds = 10 (seeds 0-9), 3 (seeds 0-2) or 2 (seeds 1-2); "
+      "each ratio pooled over the seeds its two rows share")
 for label, name in ABOVE:
     print(row_line(label, name, novel=True))
 print("-- below the rule every certified top-scoring code counts --")
@@ -169,7 +188,7 @@ for label, name in ABOVE:
         stored = [int((~c.novel[:PREFIX]).sum()) for c in arms]
         print(f"basis: {label} {sign} seeds {[c.seed for c in arms]}: novel tops {[codes(c, True) for c in arms]}, "
               f"stored forms paid {stored}, neighbourhoods {[hoods(c) for c in arms]}")
-# Ranked, mu = 100 at gamma = -1, seed 1: the booked primary count, and the count after the registered top-up.
+# Ranked, mu = 100 at gamma = -1, seed 1: the primary count, and the count after the top-up.
 arms = cells["X"][RANKED_100]
 s1 = [c for c in arms if c.seed == 1][0]
 primary = codes(s1, True)
@@ -178,9 +197,9 @@ b = sum(codes(c, True) for c in cells["X"][MATCHED_100])
 n = PREFIX * len(arms)
 ha = sum(hoods(c) for c in arms)
 hb = sum(hoods(c) for c in cells["X"][MATCHED_100])
-print(f"basis: Ranked, mu = 100 X seed 1 prints {primary}, the booked primary count (its {PREFIX:,} paid calls, "
-      f"{int((~s1.novel[:PREFIX]).sum())} stored forms paid and never counted); the registered top-up that re-draws "
-      f"them reads {TOPUP_X_S1} (top-up dumps not shipped); Ratio {ratio_cell(a, n, b, n)} on {a} / {b}, "
+print(f"basis: Ranked, mu = 100 X seed 1 prints {primary}, the primary count (its {PREFIX:,} paid calls, "
+      f"{int((~s1.novel[:PREFIX]).sum())} stored forms paid and never counted); the top-up that re-draws "
+      f"them reads {TOPUP_X_S1} (top-up files stf_*, read by hyb180); Ratio {ratio_cell(a, n, b, n)} on {a} / {b}, "
       f"{ratio_cell(a - primary + TOPUP_X_S1, n, b, n)} on {a - primary + TOPUP_X_S1} / {b}; "
       f"Nbhd {ha / hb:.3f} on {ha} / {hb} (primary)")
 

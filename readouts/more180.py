@@ -1,4 +1,5 @@
-"""App. D.1, the text after Table IX: the pay-back sentence and the k check at n = 180.
+"""The further n = 180 results, the text after their per-seed table: the k check, and a pay-back reading
+that the paper does not print.
 
 The sentence on the unranked deployment against the earlier, smaller screen restates note b of the table
 and is printed by readouts/res_prefix.py, not here.
@@ -18,7 +19,7 @@ seeded uniform sample of 4,000 distinct codes.
 
 Reads only data/ through the release library; no oracle is called; about 66 s on a laptop. Run from the
 repo root:
-    python -m readouts.appg180
+    python -m readouts.more180
 """
 import collections
 import json
@@ -134,11 +135,11 @@ for sign in ("Z", "X"):
           f"R* {r} [{lo:.2f}, {hi}]; per seed {[round(x, 1) for x in per_seed[sign][0]]} against "
           f"{[round(x, 1) for x in per_seed[sign][1]]}")
 
-print(f"App. D.1: pay-back R* against tuned PT, in deployments of {DELIVERY:,} paid calls, point [paired-seed interval]: "
+print(f"Not in the paper: pay-back R* against tuned PT, in deployments of {DELIVERY:,} paid calls, point [paired-seed interval]: "
       + "; ".join(payback))
 a, b = per_seed["Z"]
 above = sum(x > y for x, y in zip(a, b))
-print("App. D.1: gamma = +1, CPU-s per novel certified top, deployment against tuned PT: "
+print("Not in the paper: gamma = +1, CPU-s per novel certified top, deployment against tuned PT: "
       f"{' / '.join(f'{x:.1f}' for x in a)} against {' / '.join(f'{y:.1f}' for y in b)}; higher in {above} of {len(a)} seeds")
 
 

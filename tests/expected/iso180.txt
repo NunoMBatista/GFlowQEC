@@ -1,0 +1,30 @@
+Table 3 (n = 180): Inequivalent, mean of seeds 0-2, first 1,000 paid calls | gamma = +1 | gamma = -1
+GFlowQEC-offline | 218 | 226
+Supervised screen | 60 | 62
+Soft Q-learning, trained offline | 209 | 241
+Tuned PT from the stored forms | 80 | 80
+Tuned PT | 98 | 89
+MAP-Elites, five bins | 73 | 72
+Uniform sampling | 11 | 9
+BO, one-hot encoding | 34 | 48
+basis: GFlowQEC-offline Z: counted [308, 297, 333], classes [214, 208, 233]
+basis: GFlowQEC-offline X: counted [294, 321, 311], classes [217, 236, 226]
+basis: Supervised screen Z: counted [99, 69, 89], classes [73, 50, 58]
+basis: Supervised screen X: counted [84, 85, 94], classes [64, 57, 66]
+basis: Soft Q-learning, trained offline Z: counted [256, 325, 313], classes [182, 227, 218]
+basis: Soft Q-learning, trained offline X: counted [338, 314, 342], classes [244, 231, 249]
+basis: Tuned PT from the stored forms Z: counted [106, 147, 113], classes [65, 97, 77]
+basis: Tuned PT from the stored forms X: counted [122, 131, 96], classes [92, 89, 60]
+basis: Tuned PT Z: counted [111, 108, 96], classes [105, 100, 88]
+basis: Tuned PT X: counted [74, 109, 102], classes [71, 100, 95]
+basis: MAP-Elites, five bins Z: counted [91, 92, 79], classes [66, 77, 77]
+basis: MAP-Elites, five bins X: counted [78, 95, 87], classes [63, 77, 75]
+basis: Uniform sampling Z: counted [10, 9, 14], classes [10, 9, 14]
+basis: Uniform sampling X: counted [10, 11, 7], classes [10, 11, 7]
+basis: BO, one-hot encoding Z: counted [38, 23, 41], classes [38, 23, 41]
+basis: BO, one-hot encoding X: counted [50, 16, 82], classes [49, 16, 80]
+Sec. 7 text: GFlowQEC-offline over the row, inequivalent codes, pooled over seeds 0-2 | gamma = +1 | gamma = -1
+Over tuned PT | 2.2 [1.97, 2.54] | 2.6 [2.24, 2.91]
+Over tuned PT from the stored forms | 2.7 [2.38, 3.15] | 2.8 [2.45, 3.23]
+Over tuned PT, above two in every seed | yes | yes
+timed: 525 s

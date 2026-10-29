@@ -6,7 +6,7 @@ learns from. It never proposes codes: it ranks uniform draws from the arena, and
 paid. Both screens rank the same uniform candidates, the first over x 1,000 distinct generating orbits of
 default_rng(10,000 + seed), so their rows compare with the policy's on equal information.
 
-Regenerates the supervised-screen rows of Table III ("Supervised screen") and Table IX, and the Sec. 9.1
+Regenerates the supervised-screen rows of the n = 180 summary table ("Supervised screen") and its per-seed table, and the results
 sentences on them:
 
     matched screen   "Supervised screen, 10 times" and "Supervised screen, 100 times" (the latter pending in the
@@ -18,7 +18,7 @@ sentences on them:
       choose                    the configuration and step count by gflowqec.screens.choose_rule
                                 -> results/screen180match_choice.json
       train --seed s            the choice retrained on all 116,972 stored forms
-                                -> results/r177_mscreen_{C}_st{steps}_s{s}.pt (of record: T1tfr, 252,224 steps)
+                                -> results/r177_mscreen_{C}_st{steps}_s{s}.pt (the paper's: T1tfr, 252,224 steps)
       rank --seed s --sign S --over mu
                                 the mu x 1,000 uniform candidates ranked by the model at the deployment bias; the top
                                 1,000 are written as the paid rows of a samples file, the rest kept unpaid in rank
@@ -27,15 +27,15 @@ sentences on them:
       check-cands --seed s --over mu
                                 the identity check of the candidates alone (rank runs it first)
     earlier, smaller screen
-                     "Earlier, smaller screen, 10 times", and at 100 times (seeds 1 and 2) the Sec. 9.1 ratios
-                     1.32 and 1.57 (pending in the paper): a two-hidden-layer perceptron on the bag encoding, the
+                     "Earlier, smaller screen, 10 times", and at 100 times (seeds 1 and 2) the ratios
+                     1.32 and 1.57 (not printed in the paper): a two-hidden-layer perceptron on the bag encoding, the
                      relational counts and the bias. One leg:
       mlp --seed s --sign S --over mu
                                 trains it (gflowqec.screens.train_mlp_screen), ranks the candidates, pays the top
                                 1,000 on the certifying oracle
                                 -> results/r174_proxy_pool116972_MR_e10{S}_n1000_o{mu}_h64_st315280_s{s}.json
 
-Commands of record (run from the repo root):
+Commands (run from the repo root):
     python -m scripts.n180_screens select --config T1plain --device cuda       (and T2plain, T1tfr, T2tfr)
     python -m scripts.n180_screens choose
     python -m scripts.n180_screens train --seed 0 --device cuda                (seeds 0, 1, 2)
@@ -50,7 +50,7 @@ Every leg writes to results/, and each later leg reads the earlier legs' files f
 shipped model instead of retraining it, copy data/n180/screen180match_choice.json and
 data/models/r177_mscreen_T1tfr_st252224_s{s}.pt into results/ first.
 
-Compute (runs of record): selection 2,792 to 2,952 s of GPU wall per configuration and final training 2,366 to
+Compute (the runs behind the paper): selection 2,792 to 2,952 s of GPU wall per configuration and final training 2,366 to
 2,443 s of GPU wall per seed, on one GPU; rank takes a few minutes on one CPU, and its paid legs belong to
 scripts.n180_offline. Earlier, smaller screen: training 20.4 CPU-h over the six over-10 cells and 13.4 CPU-h over
 the four over-100 cells, paying 21.2 and 46.7 CPU-h on the certifying oracle.
@@ -294,7 +294,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("leg", choices=["select", "choose", "train", "rank", "check-cands", "mlp"])
     ap.add_argument("--config", choices=CONFIGS, help="select: the configuration")
-    ap.add_argument("--device", default="cpu", help="select / train: torch device (cuda for the runs of record)")
+    ap.add_argument("--device", default="cpu", help="select / train: torch device (cuda for the runs behind the paper)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--sign", default="Z", choices=["Z", "X"])
     ap.add_argument("--over", type=int, default=10, choices=[10, 100],

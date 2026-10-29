@@ -1,11 +1,11 @@
-"""Table IV (Sec. 8): good proposals per run at n = 300, mean of seeds 0-5.
+"""The n = 300 summary table: good proposals per run at n = 300, mean of seeds 0-5.
 
 For each method and seed the readout reads two stored files:
   - the search run itself (data/n300/mitten_lersearch_*.json): every paid call in order;
   - its re-estimation leg (data/n300/g1_repay_visited_i4000_*.json): 800 of the run's visits drawn
     at random and re-scored on fresh noise, giving each an unbiased logical error rate "ler_pq".
 
-Column 2 is W of Eq. 20: the run's visit count V times the share of its 800 re-scored
+Column 2 is W, the good-proposal count: the run's visit count V times the share of its 800 re-scored
 visits whose rate is at or below the reference rate y*. y* is fixed per seed as the exact median of
 the re-scored rates of five earlier reference runs pooled (counts.y_star over the cells counts.REFERENCE_CELLS).
 
@@ -73,7 +73,7 @@ for seed in counts.SEEDS:
 
 # Mean over the six seeds, then print with the paper's rounding (whole numbers, thousands comma).
 seeds = list(counts.SEEDS)
-print(f"Table IV (n = 300): good proposals per run, mean of seeds {seeds[0]}-{seeds[-1]}, "
+print(f"Table E.1 (n = 300): good proposals per run, mean of seeds {seeds[0]}-{seeds[-1]}, "
       f"{budget:,} paid calls per run")
 print("method | good proposals per run | with near-duplicates counted once")
 for group, rows in GROUPS:

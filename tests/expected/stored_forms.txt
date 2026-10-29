@@ -1,12 +1,12 @@
-Sec. 6: stored runs 42, paid calls 126,000, distinct canonical forms 116,972
-Sec. 6: certified 6,770, of them at a lower bound 45; others 110,202
-Sec. 6: certification thresholds 10.0 at gamma = +1 and 10.0 at gamma = -1
-Sec. 6 and App. B: legal tuples per stored form 1,296 for 116,395 forms, fewer (432) for 577
+Sec. 5.3: stored runs 42, paid calls 126,000, distinct canonical forms 116,972
+App. B.1: certified 6,770, of them at a lower bound 45; others 110,202
+Sec. 4.3: certification thresholds 10.0 at gamma = +1 and 10.0 at gamma = -1
+Sec. 5.4 and App. B: legal tuples per stored form 1,296 for 116,395 forms, fewer (432) for 577
 App. B: floor binds below 0.723 at beta = 64
-App. B: gamma = +1: 3,359 stored forms at 10.0, 756 by the bound alone (22.5 per cent); gamma = -1: 3,090 and 763 (24.7 per cent)
-App. B: bound-alone forms stored by runs at the opposite bias: 741 of 756 at gamma = +1, 739 of 763 at gamma = -1
-App. B: reference-sample forms among the stored forms 0 of 666; their mirror images 0 of 666
-App. B: pilot steps 1,699 for both networks; policy of record 315,280
-App. B: transformer / perceptron at matched steps 1.30 at gamma = +1, 1.17 at gamma = -1; Katz 95 per cent interval contains 1 at both: within noise
-Sec. 10: training of GFlowQEC-offline 34.4 to 34.6 CPU-hours per policy
-Sec. 10: the 42 stored runs, 126,000 paid calls, 320 CPU-hours
+App. B.1: gamma = +1: 3,359 stored forms at 10.0, 756 by the bound alone (22.5 per cent); gamma = -1: 3,090 and 763 (24.7 per cent)
+App. B.1: bound-alone forms stored by runs at the opposite bias: 741 of 756 at gamma = +1, 739 of 763 at gamma = -1
+App. B.1: reference-sample forms among the stored forms 0 of 666; their mirror images 0 of 666
+App. B.1: pilot steps 1,699 for both networks; GFlowQEC-offline 315,280
+App. B.1: transformer / perceptron at matched steps 1.30 at gamma = +1, 1.17 at gamma = -1; Katz 95 per cent interval contains 1 at both: within noise
+Not in the paper: training of GFlowQEC-offline 34.4 to 34.6 CPU-hours per policy
+Not in the paper: the 42 stored runs, 126,000 paid calls, 320 CPU-hours

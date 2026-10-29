@@ -1,6 +1,6 @@
 """The classical bounds d_A, d_B of the 666 codes of the n = 180 reference sample.
 
-App. A.4 (search spaces, oracle and distances) states that on every reference code the quantum
+The appendix on search spaces, oracle and distances states that on every reference code the quantum
 distances sit under two classical ones: d_Z <= d_A and d_X <= d_B. Here A = [L(a0) | L(a1)] and
 B = [L(b0) | L(b1)] are the two 36 x 72 lifted bases of the code (certify.lifted_bases), and d_A, d_B
 are the minimum weights of their kernels, computed by the same SAT bound ladder the n = 180 oracle pays
@@ -24,7 +24,7 @@ Run from the repo root:
     python -m scripts.ref666_bounds
 
 Compute (laptop, one core): about 3 minutes. Deterministic; the file carries no timing column, and its
-md5 sum is deaa7b646968486e3be8e3bee5ecc666. readouts/appa_codes.py reads the shipped copy in data/n180/.
+md5 sum is deaa7b646968486e3be8e3bee5ecc666. readouts/family_counts.py reads the shipped copy in data/n180/.
 """
 
 import csv
@@ -52,7 +52,7 @@ with open(OUT_PATH, "w", newline="") as f:
     writer.writerow(["index", "d_Z", "d_A", "exactA", "d_X", "d_B", "exactB"])
     writer.writerows(rows)
 
-# The summary App. A.4's sentence rests on: how many codes satisfy both inequalities, and how often
+# The summary the appendix sentence rests on: how many codes satisfy both inequalities, and how often
 # the classical bound is attained exactly.
 held = sum(1 for o in rows if o[1] <= o[2] and o[4] <= o[5])
 both_equal = sum(1 for o in rows if o[1] == o[2] and o[4] == o[5])

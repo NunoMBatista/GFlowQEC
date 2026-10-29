@@ -1,16 +1,16 @@
-"""App. B.1: the relational variant of the policy, trained, deployed once and not used.
+"""The relational variant of the policy (offline-training appendix): trained, deployed once and not used.
 
-The variant is the policy of record with one change: at every position it also reads the relational counts
-(App. B.2) of the entries chosen so far. It was trained on the same stored forms and deployed the same way
+The variant is GFlowQEC-offline with one change: at every position it also reads the relational counts
+(defined in the policy appendix) of the entries chosen so far. It was trained on the same stored forms and deployed the same way
 (ranked deployment, mu = 10: 10,000 candidates drawn, the 1,000 with the highest policy probability paid).
-This readout counts, for the variant and for the policy of record, the novel certified top-scoring codes
+This readout counts, for the variant and for GFlowQEC-offline, the novel certified top-scoring codes
 among the 1,000 paid calls of each seed, at gamma = +1 (sign "Z") and gamma = -1 (sign "X").
 
 The release does not ship the variant's code or checkpoints, only its six deployment cells: per cell the
 screen file (every paid code with its bound distances) and the certified file (the exact distances of the
 proxy-top rows). Their names keep the prefix "rel_r177_" of the run family that wrote them. Both methods
 are counted by the same library path: counts.r177_rows turns a cell into paid rows, counts.LedgerArm
-certifies and checks novelty against the stored forms (counts.ledger_pool), as Table IX does.
+certifies and checks novelty against the stored forms (counts.ledger_pool), as the per-seed n = 180 table does.
 
 Reads only data/n180 through gflowqec.counts; no oracle is called; about 17 s on a laptop. Run from the
 repo root:
@@ -31,8 +31,8 @@ SEEDS = (0, 1, 2)
 PREFIX = counts.PREFIX          # 1,000 paid calls per cell
 OVER = 10                       # mu: candidates drawn per paid call
 
-# The relational variant's cells (shipped for this readout only) and the policy of record's cells
-# (Table IX's first row); {kind} is "screen" or "certified".
+# The relational variant's cells (shipped for this readout only) and GFlowQEC-offline's cells
+# (the first row of the per-seed n = 180 table); {kind} is "screen" or "certified".
 REL_CELL = "rel_r177_{kind}_transformer_w18_b256_x20_rel_e10{sign}_n1000_o10_s{seed}.json"
 POLICY_CELL = "r177_{kind}_transformer_w18_b256_x20_e10{sign}_n1000_o10_s{seed}.json"
 REL_MODEL = "r177_transformer_w18_b256_x20_rel_s{seed}"     # the checkpoint name stamped in each variant cell
@@ -85,7 +85,7 @@ for sign in ("Z", "X"):
         print(f"basis: {sign} s{seed} variant drawn by {r_head['model']}, {r_head['sampled']:,} candidates "
               f"in {r_head['attempts']:,} attempts")
 
-# the pooled ratio with its Katz interval (not printed in the paper; the memo's cross-check)
+# the pooled ratio with its Katz interval (not printed in the paper; a cross-check)
 for sign in ("Z", "X"):
     r, lo, hi = katz(sum(rel[sign]), PREFIX * len(SEEDS), sum(pol[sign]), PREFIX * len(SEEDS))
     below = sum(a < b for a, b in zip(rel[sign], pol[sign]))
@@ -100,5 +100,5 @@ print(f"App. B.1: relational variant, ranked deployment at mu = {OVER}, novel ce
       f"among {PREFIX:,} paid calls, seeds 0-2")
 print("row | gamma = +1 | gamma = -1")
 print(f"Relational variant | {seeds_text(rel['Z'])} | {seeds_text(rel['X'])}")
-print(f"Policy of record | {seeds_text(pol['Z'])} | {seeds_text(pol['X'])}")
+print(f"GFlowQEC-offline | {seeds_text(pol['Z'])} | {seeds_text(pol['X'])}")
 print(f"timed: {time.time() - T0:.0f} s")

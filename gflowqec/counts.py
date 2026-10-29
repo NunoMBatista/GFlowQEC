@@ -2,7 +2,7 @@
 
 The n = 180 file names (data/n180, and the two reference-sample files of data/keys) keep the prefix of the run
 family that wrote them; the prefix is a name only, read by the loaders below:
-    r174_   the stored search runs (the 42 certified ones are the stored runs of Sec. 6), the legs of the
+    r174_   the stored search runs (the 42 certified ones are the stored runs GFlowQEC-offline trains on), the legs of the
             earlier, smaller supervised screen ("leg": "proxy"), and the reference-sample read and resolve;
     r177_   the deployment cells of GFlowQEC-offline and its controls, and the matched supervised screens
             (the dumps also carry "experiment": "r177");
@@ -11,26 +11,26 @@ family that wrote them; the prefix is a name only, read by the loaders below:
     r209_   later rival runs (MAP-Elites, PPO, online soft Q-learning, GFlowQEC-online with Munchausen DQN as
             its learner).
 
-n = 180 (Sec. 9.1, Tables III and IX, App. D.1)
+n = 180 (the n = 180 summary table, its per-seed table and the results text)
     A run dump holds one row per paid call: the code (its orbit representative "rep"), the classical
     bound-ladder distances dA, dB with their processor seconds, and, for a row that reached the certifier,
     the exact distances dX, dZ with the certification seconds. Sign "Z" is gamma = +1 and sign "X" is
     gamma = -1; lam = oracle.lam_of(10, sign). A code is top-scoring when oracle.bias_score reaches the
     bar top = oracle.key_top(lam)[0] (10.0 at both signs).
 
-    stored_forms   the 116,972 distinct canonical forms paid by the 42 stored runs (Sec. 6): the training
+    stored_forms   the 116,972 distinct canonical forms paid by the 42 stored runs: the training
                    data of GFlowQEC-offline and the reference a novel code is checked against.
     LedgerArm      one cell (method, sign, seed) counted row by row: certified top-scoring codes, which of
                    them are novel, their neighbourhoods (codes.half_class) and the processor seconds.
     ledger_arms    every deployment cell and every stored run of one sign as LedgerArms.
-    prefix_arms    every row of Table IX, the search runs cut to their first 1,000 paid calls.
+    prefix_arms    every row of the per-seed n = 180 table, the search runs cut to their first 1,000 paid calls.
 
-n = 300 (Sec. 9.2, Tables IV and X, Fig. 7)
+n = 300 (the n = 300 summary table and figure, the table of further n = 300 runs, and their text)
     A visited file holds 800 visits sampled from one search run, each re-estimated on 4,000 fresh shots
     ("ler_pq"), and the run's number of visits V ("n_local").
 
     y_star         per seed, the median re-estimated rate over the five reference cells (REFERENCE_CELLS).
-    good_count     W, Eq. 20: V times the share of the 800 sampled visits at or below y*.
+    good_count     W, the good-proposal count: V times the share of the 800 sampled visits at or below y*.
     d_visit        D_visit, the near-duplicate factor: the share of the run's visits kept by a greedy
                    packing at Hamming radius 2 in call order. W' = W x D_visit.
 """
@@ -53,7 +53,7 @@ N300 = DATA / "n300"
 # n = 180: the stored runs
 # =============================================================================================
 
-STORED_FORMS = 116_972      # distinct canonical forms paid by the 42 stored runs (Sec. 6)
+STORED_FORMS = 116_972      # distinct canonical forms paid by the 42 stored runs
 
 
 def stored_forms():
@@ -244,16 +244,16 @@ def ledger_pool(runs):
 # The deployment cells of GFlowQEC-offline and its controls (data/n180/r177_screen_<cell>_s<seed>.json),
 # with their seeds, in file-name order.
 POLICY_CELLS = [
-    ("mscreen_T1tfr_st252224_e10{sign}_n1000_u100", (1, 2)),              # matched supervised screen, 100 times
-    ("mscreen_T1tfr_st252224_e10{sign}_n1000_u10", (0, 1, 2)),            # matched supervised screen, 10 times
-    ("transformer_w18_b256_x20_e10{sign}_n1000_o100", (1, 2)),            # GFlowQEC-offline ranked, mu = 100
-    ("transformer_w18_b256_x20_e10{sign}_n1000_o10", (0, 1, 2)),          # GFlowQEC-offline ranked, mu = 10
+    ("mscreen_T1tfr_st252224_e10{sign}_n1000_u100", tuple(range(10))),    # matched supervised screen, 100 times
+    ("mscreen_T1tfr_st252224_e10{sign}_n1000_u10", tuple(range(10))),     # matched supervised screen, 10 times
+    ("transformer_w18_b256_x20_e10{sign}_n1000_o100", tuple(range(10))),  # GFlowQEC-offline ranked, mu = 100
+    ("transformer_w18_b256_x20_e10{sign}_n1000_o10", tuple(range(10))),   # GFlowQEC-offline ranked, mu = 10
     ("transformer_w18_b256_x20_e10{sign}_n1000_u10", (0, 1, 2)),          # the policy as a ranker of uniform draws
     ("transformer_w18_b256_x20_e10{sign}_n2000", (0, 1, 2)),              # unranked deployment, 2,000 paid calls
     ("transformer_w18_b256_x20_softq_e10{sign}_n1000_o10", (0, 1, 2)),    # soft Q-learning trained offline, mu = 10
 ]
-# The two hundredfold cells hold seeds 1 and 2 only, as Table IX prints them (Table IX rows "Ranked, mu = 100" and
-# "Supervised screen, 100 times").
+# The four cells repeated at ten seeds (GFlowQEC-offline ranked at mu = 10 and 100, the matched screen at 10 and
+# 100 times) hold seeds 0-9; every other cell holds seeds 0-2.
 
 
 def ledger_arms(runs, proxies, sign, lam, top, pool_count):
@@ -321,7 +321,7 @@ def ledger_arms(runs, proxies, sign, lam, top, pool_count):
 
 
 # =============================================================================================
-# n = 180: the rows of Table IX, on their first 1,000 paid calls
+# n = 180: the rows of the per-seed n = 180 table, on their first 1,000 paid calls
 # =============================================================================================
 
 PREFIX = 1000
@@ -383,7 +383,7 @@ def prefix_arm(name, sign, seed, lam, top, pool_count, member):
 
 
 def prefix_arms(sign):
-    """Every row of Table IX at this sign, {paper row: [LedgerArm per seed]}.
+    """Every row of the per-seed n = 180 table at this sign, {paper row: [LedgerArm per seed]}.
 
     Search runs are cut to their first 1,000 paid calls. Deployment cells and screens keep all their rows
     (the unranked deployment has 2,000), so read them with upto=PREFIX.
@@ -453,7 +453,7 @@ SUBS = list(itertools.combinations(range(10), 8))       # the 45 eight-position 
 
 
 def source_path(visited):
-    """The search run a visited file re-estimated (the files store it as results/synthesis/<name>)."""
+    """The search run a visited file re-estimated (the files store the path it had when it ran; only its file name is used)."""
     return N300 / Path(visited["source"]).name
 
 
@@ -489,7 +489,7 @@ def y_star(runs, seed):
 
 
 def good_count(visited, q):
-    """W of one run (Eq. 20): its visits V times the share of its sampled visits at or below q = y*."""
+    """W of one run: its visits V times the share of its sampled visits at or below q = y*."""
     frac = (np.array([o["ler_pq"] for o in visited["orbits"]]) <= q).mean()
     return visited["n_local"] * frac
 

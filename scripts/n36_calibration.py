@@ -2,8 +2,8 @@
 
 At n = 36 the whole space is enumerated (data/keys/landscape_l6m3_w3.csv, written by
 scripts/n36_key.py), so the exact target law is known in closed form and every number the
-sampler produces can be graded against it. Regenerates the numbers of Sec. 9.3
-("Proportional sampling at n = 36") and the 0.089 / 0.72 of the introduction:
+sampler produces can be graded against it. Regenerates the n = 36 numbers
+of the appendix on proportional sampling at 36 and 72 qubits (readouts/cal36.py prints them from the stored files):
 
   leg `sampler`: trains the trajectory-balance sampler (gflowqec/policy.py, GFN) on the
       exact merit oracle with the whole space as budget, draws 10,000 codes, and compares

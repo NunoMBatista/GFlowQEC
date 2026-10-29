@@ -1,7 +1,7 @@
 """The n = 180 reference sample: 1,000 uniform draws over C6 x S3 with exact distances.
 
-Regenerates the four files of data/keys that the paper's n = 180 answer key reads (Table II, the
-Sec. 4.3 text and the reference sample behind the n = 180 tables):
+Regenerates the four files of data/keys that the paper's n = 180 answer key reads (the answer-key table, the
+text on the oracle and references, and the reference sample behind the n = 180 tables):
 
     draw             r169_headroom_C6xS3_n1000.json    1,000 uniform legal draws of the lifted-product
                                                        arena over C6 x S3, each scored [[n, k, d]] by
@@ -14,7 +14,7 @@ Sec. 4.3 text and the reference sample behind the n = 180 tables):
     resolve-sectors  r174_bias_resolve_C6xS3_c5M.json  the sectors the read left undecided, at 25x the
                                                        budget
 
-Commands of record, in order (run from the repo root):
+Commands, in order (run from the repo root):
     python -m scripts.n180_reference draw --draws 1000 --workers 4
     python -m scripts.n180_reference resolve --workers 2
     python -m scripts.n180_reference read

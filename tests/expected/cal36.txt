@@ -1,0 +1,9 @@
+App. D.2: proportional sampling at n = 36, the earlier sampler
+App. D.2: binned by the family's 8 score values, the sampler's 10,000 draws lie at 0.089 from the target, against 0.72 for a uniform sampler
+App. D.2: three retrainings gave 0.092 to 0.100
+App. D.2: mass on the highest score value, over its target: 0.63 to 0.66 (0.34 to 0.37 too little)
+basis: sampler leg per level (target, sampled): 0.0 0.0153 0.0217, 0.444 0.0323 0.0992, 0.889 0.0287 0.0382, 1.333 0.0090 0.0146, 1.778 0.6481 0.6485, 2.667 0.0012 0.0004, 3.556 0.0717 0.0538, 4.0 0.1937 0.1236
+basis: level TV per retraining 0.0919, 0.0927, 0.0997; uniform 0.7245
+basis: top-mass ratio per retraining 0.6641, 0.6284, 0.6438
+basis: learned log Z per retraining 16.1357, 16.0910, 16.1492 against the exact 16.2631
+timed: wall 0 s

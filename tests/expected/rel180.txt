@@ -21,5 +21,5 @@ basis: X pooled variant / policy 0.003 [0.001, 0.010], variant below in 3 of 3 s
 App. B.1: relational variant, ranked deployment at mu = 10, novel certified top-scoring codes among 1,000 paid calls, seeds 0-2
 row | gamma = +1 | gamma = -1
 Relational variant | 33, 0, 0 | 3, 0, 0
-Policy of record | 308, 297, 333 | 294, 321, 311
+GFlowQEC-offline | 308, 297, 333 | 294, 321, 311
 timed: 17 s

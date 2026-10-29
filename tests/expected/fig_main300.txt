@@ -1,4 +1,4 @@
-Fig. 7, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once
+Fig. E.2, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once
 one stream per code
 GFlowQEC-online, L = 127 | 23,230 | 3,483
 Local search alone, L = 127 | 21,456 | 3,293
@@ -20,5 +20,5 @@ GFlowQEC-online - local search alone | 8.3 [3.2, 13.3]
 Local search alone - tuned PT | 1.3 [-4.7, 7.4]
 common random numbers
 GFlowQEC-online - tuned PT | 10.9 [6.2, 15.7]
-Sec. 9: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in 6 of 6 seeds
+App. E.4: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in 6 of 6 seeds
 wrote results/fig-main300.pdf

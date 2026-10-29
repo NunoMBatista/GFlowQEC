@@ -1,4 +1,4 @@
-"""Table VII (App. C.1, comparison methods as run): the cells that are measured rather than set in code.
+"""The methods table (comparison methods as run): the cells that are measured rather than set in code.
 
 Tuned PT range. 180: 0.25-2.0 (better of two, all twelve bias and seed pairs);
     300: 0.01-0.15 (best of five on packed yield).
@@ -78,7 +78,7 @@ for block in ("", "_cert"):                  # "" = the exact-oracle block, "_ce
             print(f"basis: PT 180 {block[1:] or 'exact'} {sign} s{seed}: top-scoring per 1,000 paid "
                   + ", ".join(f"t{t} {rate[t]:.1f}" for t in RANGES_180))
 best180 = max(RANGES_180, key=lambda t: wins[t])
-print(f"Table VII tuned PT range 180: {best180}, better of two in {wins[best180]} of {sum(wins.values())} "
+print(f"Table C.1 tuned PT range 180: {best180}, better of two in {wins[best180]} of {sum(wins.values())} "
       f"bias and seed pairs")
 
 
@@ -119,8 +119,8 @@ for t in RANGES_300:
     packed[t] = np.mean(per_seed)
     print(f"basis: PT 300 {t}: packed yield per seed {per_seed}, mean {packed[t]:.1f}")
 best300 = max(RANGES_300, key=lambda t: packed[t])
-assert best300 == "t0.01-0.15", f"the packed-yield winner is {best300}, not the range of record"
-print(f"Table VII tuned PT range 300: {best300[1:]}, best of five on packed yield")
+assert best300 == "t0.01-0.15", f"the packed-yield winner is {best300}, not the range the paper uses"
+print(f"Table C.1 tuned PT range 300: {best300[1:]}, best of five on packed yield")
 
 
 # =============================================================================================
@@ -150,7 +150,7 @@ assert len({(s["n_train"], s["n_held"]) for s in selects}) == 1
 n_train, n_held = selects[0]["n_train"], selects[0]["n_held"]
 assert n_train + n_held == trained_on == counts.STORED_FORMS
 print(f"basis: held out {n_held:,} of {n_train + n_held:,} stored forms; chosen {choice['config']} at step {choice['step']:,}")
-print(f"Table VII supervised screen 180: {params180:,} parameters; {choice['step']:,} updates, chosen among "
+print(f"Table C.1 supervised screen 180: {params180:,} parameters; {choice['step']:,} updates, chosen among "
       f"{len(selects)} variants and {n_checkpoints} checkpoints on a held-out {n_held / (n_train + n_held):.2f} "
       f"of the stored forms, then trained on {trained_on:,}")
 
@@ -165,7 +165,7 @@ params_mlp = screens.n_params(screens.screen_net(4 * T180.n + 2 + T180.dim))
 dumps = [json.load(open(f)) for f in sorted(glob.glob(str(N180 / "r174_proxy_pool116972_MR_e10*_n1000_o*_h64_st315280_s*.json")))]
 assert len(dumps) == 10 and all(d["relational"] and d["hidden"] == 64 for d in dumps)
 assert len({(d["batch"], d["steps"]) for d in dumps}) == 1
-print(f"Table VII earlier, smaller screen 180: {params_mlp:,} parameters, batch {dumps[0]['batch']}, "
+print(f"Table C.1 earlier, smaller screen 180: {params_mlp:,} parameters, batch {dumps[0]['batch']}, "
       f"{dumps[0]['steps']:,} updates")
 
 
@@ -182,4 +182,4 @@ runs = [json.load(open(N300 / f"mitten_lersearch_selfscreen_C10xS3_b0.35_t0.05-0
 assert all(d["ss_params"] == params300 for d in runs)
 rounds = {(d["budget"] - d["ss_calib"]) // d["ss_batch"] for d in runs}
 assert len(rounds) == 1
-print(f"Table VII supervised screen 300: {rounds.pop():,} rounds, {params300:,} parameters")
+print(f"Table C.1 supervised screen 300: {rounds.pop():,} rounds, {params300:,} parameters")

@@ -1,5 +1,5 @@
-Table VII tuned PT range 180: 0.25-2.0, better of two in 12 of 12 bias and seed pairs
-Table VII tuned PT range 300: 0.01-0.15, best of five on packed yield
-Table VII supervised screen 180: 666,113 parameters; 252,224 updates, chosen among 4 variants and 20 checkpoints on a held-out 0.10 of the stored forms, then trained on 116,972
-Table VII earlier, smaller screen 180: 45,889 parameters, batch 64, 315,280 updates
-Table VII supervised screen 300: 1,990 rounds, 96,449 parameters
+Table C.1 tuned PT range 180: 0.25-2.0, better of two in 12 of 12 bias and seed pairs
+Table C.1 tuned PT range 300: 0.01-0.15, best of five on packed yield
+Table C.1 supervised screen 180: 666,113 parameters; 252,224 updates, chosen among 4 variants and 20 checkpoints on a held-out 0.10 of the stored forms, then trained on 116,972
+Table C.1 earlier, smaller screen 180: 45,889 parameters, batch 64, 315,280 updates
+Table C.1 supervised screen 300: 1,990 rounds, 96,449 parameters

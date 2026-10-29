@@ -8,12 +8,12 @@ the run on 4,000 independent shots, on a noise stream the search never saw. Two 
   visited  a uniform random subsample of 800 of the run's visits (counts.visit_indices: the calls its
            proposal mechanism made, after any uniform calibration draws), each re-estimated on stream
            run_seed = 20,000 + seed. There is no selection on the in-run score, so the good-proposal
-           count W (Eq. 20) reads the same way for every method. These files are behind every
-           n = 300 good-proposal count: Table IV and the text of Sec. 8, the text and Fig. 7 of
-           Sec. 9.2, Table X and the text of App. D.2, and App. C.
+           count W reads the same way for every method. These files are behind every
+           n = 300 good-proposal count: the n = 300 summary table and figure, their text, the table of
+           further n = 300 runs and its text, and the protocol appendix.
            Writes results/g1_repay_visited_i4000_<arm>_<cell><tag>_s<seed>.json.
   elites   the run's 200 best codes by in-run score, each re-estimated on stream run_seed = 10,000 + seed:
-           the best-code comparison of App. D.2 (readouts/appg300.py).
+           the best-code comparison of the further n = 300 results (readouts/more300.py).
            Writes results/g1_repay_elites_i4000_<arm><tag>_s<seed>_top200.json.
 
 Every re-estimate is oracle.ler_score: a pure function of (run_seed, the code's orbit), so a re-run on
@@ -91,17 +91,17 @@ ARM_TOKEN = {"gflowqec": "lsgfn"}
 def score_orbit(task):
     """Elites leg: one code re-estimated on the elites stream. The field ler_pq_booked (the name the stored
     files use) is the code's in-run score."""
-    seed, idx, rep, pq_booked = task
+    seed, idx, rep, pq_in_run = task
     r = ler_score(GROUP, rep, P, INDEP_SHOTS, run_seed=INDEP_OFFSET + seed)
-    return {"idx": idx, "rep": rep, "k": r["k"], "ler_pq_booked": pq_booked,
+    return {"idx": idx, "rep": rep, "k": r["k"], "ler_pq_booked": pq_in_run,
             "fails": r["fails"][2], "ler_pq": r["ler_pq"]}
 
 
 def score_visited(task):
     """Visited leg: one code re-estimated on the visited stream."""
-    seed, idx, rep, pq_booked = task
+    seed, idx, rep, pq_in_run = task
     r = ler_score(GROUP, rep, P, INDEP_SHOTS, run_seed=VISITED_OFFSET + seed)
-    return {"idx": idx, "rep": rep, "k": r["k"], "ler_pq_booked": pq_booked,
+    return {"idx": idx, "rep": rep, "k": r["k"], "ler_pq_booked": pq_in_run,
             "fails": r["fails"][2], "ler_pq": r["ler_pq"]}
 
 

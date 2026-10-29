@@ -1,4 +1,4 @@
-Table X (n = 300): mean W over seeds 0-5, 40,000 paid calls per run
+Table E.2 (n = 300): mean W over seeds 0-5, 40,000 paid calls per run
 One stream per code
 The plain sampler | -- | 12,686
 Soft Q-learning | -- | 10,928

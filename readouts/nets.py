@@ -1,8 +1,8 @@
-"""Table VI (App. B): the measured cells of the network table.
+"""The networks table of the paper: its measured cells.
 
 Parameter counts are measured by building each network exactly as the runs built it and counting its
 trainable parameters. Update counts, the reward exponent beta and the log Z warm start are read from the
-stamps of the shipped checkpoints. The same beta values are restated in Sec. 5 ("beta = 64, with none
+stamps of the shipped checkpoints. The same beta values are restated in the text ("beta = 64, with none
 qualifying, at n = 300 ... beta = 8 at gamma = +-1"); they are printed once, here.
 
 Where the paper prints one value for a group of files (every beta, every parameter count, 315,280, 252,224,
@@ -27,7 +27,7 @@ from gflowqec.screens import ScreenTransformer
 
 MODELS = DATA / "models"
 G180, G300 = "C6xS3", "C10xS3"      # the groups of the two arenas: |G| = 36 gives n = 180, |G| = 60 gives n = 300
-SEEDS3, SEEDS6 = (0, 1, 2), range(6)
+SEEDS3, SEEDS6, SEEDS10 = (0, 1, 2), range(6), range(10)
 
 
 def load(path):
@@ -85,8 +85,8 @@ torch.manual_seed(0)
 screen_params = count(ScreenTransformer(n180, rel_dim=T.dim))
 
 # ----------------------------------------------------------------------------- the shipped checkpoints
-# GFlowQEC-offline, three seeds: trained for a fixed number of updates on the stored forms.
-offline = [load(MODELS / f"r177_transformer_w18_b256_x20_s{s}.pt") for s in SEEDS3]
+# GFlowQEC-offline, ten seeds: trained for a fixed number of updates on the stored forms.
+offline = [load(MODELS / f"r177_transformer_w18_b256_x20_s{s}.pt") for s in SEEDS10]
 for c in offline:
     # the saved state holds the trained parameters plus the 100-entry causal mask, which is a buffer
     assert sum(v.numel() for k, v in c["state"].items() if k != "causal") == offline_params
@@ -94,8 +94,8 @@ offline_steps = one((c["steps"] for c in offline), "offline steps")
 passes = one((round(c["visits"] / c["rows"]) for c in offline), "offline passes")    # stored forms visited / stored forms
 offline_rows = one((c["rows"] for c in offline), "offline training rows")
 
-# The supervised screen, three seeds; its update count was chosen on held-out stored forms (the choice file).
-screens = [load(MODELS / f"r177_mscreen_T1tfr_st252224_s{s}.pt") for s in SEEDS3]
+# The supervised screen, ten seeds; its update count was chosen on held-out stored forms (the choice file).
+screens = [load(MODELS / f"r177_mscreen_T1tfr_st252224_s{s}.pt") for s in SEEDS10]
 choice = json.load(open(DATA / "n180" / "screen180match_choice.json"))
 assert one((c["params"] for c in screens), "screen params stamp") == screen_params
 screen_steps = one([c["steps"] for c in screens] + [choice["step"]], "screen steps")
@@ -125,7 +125,7 @@ ppo180 = [load(MODELS / f"r209_ppo_C6xS3_e10{b}_b3000_ent{e}_cert_s{s}.pt")
           for b in "XZ" for e in ("0.01", "0.1") for s in SEEDS3]
 
 # ----------------------------------------------------------------------------- beta
-# The reward exponent rule (Eq. 16, policy.derive_beta): the smallest beta on the grid 1 ... 64 that puts at
+# The reward exponent rule (policy.derive_beta): the smallest beta on the grid 1 ... 64 that puts at
 # least 0.8 of the reward s^beta on the top tenth of the calibration scores, or 64 if none does.
 #
 # n = 300: the rule ran on each run's own 200 calibration draws (uniform, the first 200 rows of the run dump,
@@ -159,7 +159,8 @@ beta_q180 = one((c["beta"] for c in q180), "Q 180 beta")
 beta_ppo300 = one((c["beta"] for c in ppo300), "PPO 300 beta")
 beta_ppo180 = one((c["beta"] for c in ppo180), "PPO 180 beta")
 
-# The offline policy's log Z warm start (Eq. B2), stamped per bias; the table prints the mean of the two.
+# The offline policy's log Z warm start (the policy appendix's warm-start equation on the stored forms),
+# stamped per bias; the table prints the mean of the two.
 logz0 = one((f"{(c['logz0'][1.0] + c['logz0'][-1.0]) / 2:.3f}" for c in offline), "offline log Z_0")
 
 
@@ -169,25 +170,27 @@ def b(x):
 
 
 # ----------------------------------------------------------------------------- the table
-print(f"Table VI input encoding: online, Q and PPO 180: {s180['enc']}; 300: {s300['enc']}; "
+print(f"Table B.1 input encoding: online, Q and PPO 180: {s180['enc']}; 300: {s300['enc']}; "
       f"screen relational counts {T.dim}")
-print(f"Table VI parameters, online: 180: {s180['online']:,}; 300: {s300['online']:,}; "
+print(f"Table B.1 parameters, online: 180: {s180['online']:,}; 300: {s300['online']:,}; "
       f"+{one((s180['logZ'], s300['logZ']), 'log Z size')} for log Z")
-print(f"Table VI parameters, GFlowQEC-offline: {offline_params:,}")
-print(f"Table VI parameters, supervised screen: {screen_params:,}")
-print(f"Table VI parameters, soft Q and Munchausen DQN: 180: {s180['q']:,}; 300: {s300['q']:,}; "
+print(f"Table B.1 parameters, GFlowQEC-offline: {offline_params:,}")
+print(f"Table B.1 parameters, supervised screen: {screen_params:,}")
+print(f"Table B.1 parameters, soft Q and Munchausen DQN: 180: {s180['q']:,}; 300: {s300['q']:,}; "
       f"target copy {s180['target']:,} / {s300['target']:,}, not trained")
-print(f"Table VI parameters, PPO: actor 180: {s180['actor']:,}; 300: {s300['actor']:,}; "
+print(f"Table B.1 parameters, PPO: actor 180: {s180['actor']:,}; 300: {s300['actor']:,}; "
       f"critic 180: {s180['critic']:,}; 300: {s300['critic']:,}")
-print(f"Table VI updates, online 300 depth 127: {span(online300_updates)}")
-print(f"Table VI updates, offline: {offline_steps:,}; about {passes} passes")
-print(f"Table VI updates, supervised screen: {screen_steps:,}, chosen on held-out stored forms")
-print(f"Table VI updates, Q 300: {span([len(c['losses']) for c in q300])}")
-print(f"Table VI updates, PPO 300: {span([len(c['losses']) for c in ppo300])} batches (entropy 0.01); "
+print(f"Table B.1 updates, online 300 depth 127: {span(online300_updates)}")
+print(f"Table B.1 updates, offline: {offline_steps:,}; about {passes} passes")
+print(f"Table B.1 updates, supervised screen: {screen_steps:,}, chosen on held-out stored forms")
+print(f"Table B.1 updates, Q 300: {span([len(c['losses']) for c in q300])}")
+print(f"Table B.1 updates, PPO 300: {span([len(c['losses']) for c in ppo300])} batches (entropy 0.01); "
       f"180: {span([len(c['losses']) for c in ppo180])}")
-print(f"Table VI training data, offline and screen: {training_rows:,} stored forms")
-print(f"Table VI beta, online: 180: {b(beta180)}; 300: {b(beta_online300)}, "
+print(f"Table B.1 training data, offline and screen: {training_rows:,} stored forms")
+print(f"Table B.1 beta, online: 180: {b(beta180)}; 300: {b(beta_online300)}, "
       f"none qualifies in {none_qualifies} of {len(online300)} runs")
-print(f"Table VI beta, offline: {b(offline_beta)} at gamma = +1 and -1")
-print(f"Table VI beta, Q: 300: {b(beta_q300)}; 180: {b(beta_q180)}; PPO: 300: {b(beta_ppo300)}; 180: {b(beta_ppo180)}")
-print(f"Table VI log Z_0, offline: {logz0}")
+print(f"Table B.1 beta, offline: {b(offline_beta)} at gamma = +1 and -1")
+print(f"Table B.1 beta, Q: 300: {b(beta_q300)}; 180: {b(beta_q180)}; PPO: 300: {b(beta_ppo300)}; 180: {b(beta_ppo180)}")
+print(f"Table B.1 log Z_0, offline: {logz0}")
+print(f"Table B.1 seeds and models, GFlowQEC-offline: {SEEDS10[0]}-{SEEDS10[-1]}, {len(offline)} models; "
+      f"supervised screen: {SEEDS10[0]}-{SEEDS10[-1]}, {len(screens)} models")

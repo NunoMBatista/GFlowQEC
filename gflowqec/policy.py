@@ -40,7 +40,7 @@ FORCED = (0, 5)                                    # gauge order: g1 = h1 = e, s
 LAMS = (1.0, -1.0)                                 # the two biases it is conditioned on: Z-biased, then X-biased
 BASE_STEPS = 15764                                 # the update count of the first training run (capped by wall clock)
 # the training budget as a gradient-step count, keyed by the token the model file names carry
-# (x20 = twenty times BASE_STEPS, the policy of record)
+# (x20 = twenty times BASE_STEPS, the policy the paper reports)
 SCALE_STEPS = {"x20": 20 * BASE_STEPS}
 TARGET_EVERY = 100                                 # soft Q-learning: hard refresh of the target copy every 100 steps
 

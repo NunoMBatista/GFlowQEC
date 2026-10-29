@@ -1,4 +1,4 @@
-"""Time paid oracle calls at n = 36 and n = 300 on one CPU core (two cells of Table V, App. A.4).
+"""Time paid oracle calls at n = 36 and n = 300 on one CPU core (two cells of the oracle-cost table).
 
 The stored runs at n = 72 and n = 180 stamp the seconds of every paid call, so readouts/oracle_costs.py
 reads those cells from data/. Nothing at n = 36 or n = 300 stores a time, so this script measures them

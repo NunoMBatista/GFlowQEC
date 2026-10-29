@@ -1,4 +1,4 @@
-Table IV (n = 300): good proposals per run, mean of seeds 0-5, 40,000 paid calls per run
+Table E.1 (n = 300): good proposals per run, mean of seeds 0-5, 40,000 paid calls per run
 method | good proposals per run | with near-duplicates counted once
 One stream per code
 GFlowQEC-online | 23,230* | 3,483

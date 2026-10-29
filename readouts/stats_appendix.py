@@ -1,4 +1,4 @@
-"""App. C.2 (statistical procedures): the seed-count row of Table VIII and the threshold of the packed-yield
+"""The statistical procedures appendix: the seed-count row of its table and the threshold of the packed-yield
 paragraph above it.
 
 Seed count    Under a fair coin per seed, at least five of six has probability 0.109, six of six 0.016,
@@ -29,7 +29,7 @@ def at_least(j, n):
 
 
 # ---------------------------------------------------------------------------------------------
-# Table VIII, the seed count. The last case is two independent biases with three seeds each, and
+# The statistics table, the seed count. The last case is two independent biases with three seeds each, and
 # at least two of three must lead at both: (4 / 8) ** 2. The paper prints three decimals, and two
 # for the last value.
 # ---------------------------------------------------------------------------------------------
@@ -37,14 +37,14 @@ p5of6 = at_least(5, 6)               # 7 / 64
 p6of6 = at_least(6, 6)               # 1 / 64
 p4of6 = at_least(4, 6)               # 22 / 64
 p2of3_twice = at_least(2, 3) ** 2    # (4 / 8) ** 2
-print(f"Table VIII seed count under a fair coin: at least 5 of 6 {p5of6:.3f}; 6 of 6 {p6of6:.3f}; "
+print(f"Table C.2 seed count under a fair coin: at least 5 of 6 {p5of6:.3f}; 6 of 6 {p6of6:.3f}; "
       f"at least 4 of 6 {p4of6:.3f}; at least 2 of 3 at each of two biases {p2of3_twice:.2f}")
 
 # ---------------------------------------------------------------------------------------------
 # The packed-yield paragraph, tau_1%. The threshold is defined on the generating draws only: a draw
 # whose A side or B side lives in a proper subgroup is not a genuine member of the family
 # (codes.generates_g), so it is dropped before the quantile is taken. tau_1% is the 1st percentile of
-# ler_pq over the rest (numpy's default linear interpolation). The value was registered before the
+# ler_pq over the rest (numpy's default linear interpolation). The value was fixed before the
 # n = 300 searches and is the constant counts.TAU1 the readouts use; this check stops if the data
 # disagree with it.
 # ---------------------------------------------------------------------------------------------
@@ -61,5 +61,5 @@ for f in files:
 
 tau = np.quantile(rates, 0.01)
 print(f"basis: {n_draws:,} uniform draws in {len(files)} files, {len(rates):,} of them generate the group")
-assert round(tau, 6) == counts.TAU1, f"tau_1% from the data is {tau:.6f}, the registered constant {counts.TAU1}"
+assert round(tau, 6) == counts.TAU1, f"tau_1% from the data is {tau:.6f}, the stored constant {counts.TAU1}"
 print(f"App. C.2: tau_1% {tau:.6f}, the first percentile of {len(rates):,} generating uniform draws")

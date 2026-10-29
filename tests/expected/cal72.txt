@@ -1,10 +1,10 @@
-Sec. 9.3: proportional sampling at n = 72, the earlier sampler, three seeds
-Sec. 9.3: trained for 360,000 steps
-Sec. 9.3: total variation from its target 0.115 to 0.124; uniform sampler 0.76
-Sec. 9.3: learned log Z within 0.14 of the exact 20.5509
-Sec. 9.3: mass on the highest score value, over its target: 0.47 to 0.54
-Sec. 9.3: ten times longer training (36,000 to 360,000 steps): top-mass ratio 0.44 -> 0.50, 0.43 -> 0.47, 0.38 -> 0.54 (seeds 0, 1, 2)
-Sec. 9.3: replaying high-scoring codes more often (36,000 steps): top-mass ratio 0.39 -> 0.54, 0.40 -> 0.51, 0.38 -> 0.58 (seeds 0, 1, 2)
+App. D.2: proportional sampling at n = 72, the earlier sampler, three seeds
+App. D.2: trained for 360,000 steps
+App. D.2: total variation from its target 0.115 to 0.124; uniform sampler 0.76
+App. D.2: learned log Z within 0.14 of the exact 20.5509
+App. D.2: mass on the highest score value, over its target: 0.47 to 0.54
+App. D.2: ten times longer training (36,000 to 360,000 steps): top-mass ratio 0.44 -> 0.50, 0.43 -> 0.47, 0.38 -> 0.54 (seeds 0, 1, 2)
+App. D.2: replaying high-scoring codes more often (36,000 steps): top-mass ratio 0.39 -> 0.54, 0.40 -> 0.51, 0.38 -> 0.58 (seeds 0, 1, 2)
 basis: target from the key: 40,401 forms, 50,979,600 raw pairs, 10 merit levels, top level 6.0 with target share 0.015964
 basis: level TV at 360,000 steps per seed 0.1214, 0.1244, 0.1148; uniform 0.7634; recomputed from the stored per-level shares of 50,000 draws, not from the networks
 basis: learned log Z per seed 20.4575, 20.4360, 20.4207 (read); gaps 0.0934, 0.1150, 0.1302

@@ -1,8 +1,8 @@
 """The n = 180 searches: one method, one seed, one noise condition, a fixed number of paid oracle calls.
 
 Regenerates the run files data/n180/r174_*, r200_* and r209_*.json behind every n = 180 search number of the
-paper: Table III (Sec. 8) and its per-seed Table IX (App. D.1), the method choices of Table VII (the better of
-two PT ranges), the per-call costs of Table V, and the 42 stored runs that GFlowQEC-offline trains on (Sec. 6).
+paper: the n = 180 summary table and its per-seed table, the method choices of the methods table (the better of
+two PT ranges), the per-call costs of the oracle-cost table, and the 42 stored runs that GFlowQEC-offline trains on.
 The readouts read the files; nothing here prints a paper number.
 
 The arena. A code is ten group elements of G = C6 x S3 (order 36): A = [g1+g2+g3, e+g4+g5] and
@@ -10,13 +10,13 @@ B = [h1+h2+h3, e+h4+h5] define the lifted product, n = 5|G| = 180 (gflowqec.code
 elements generate all of G are legal. The oracle caches by the code's gauge orbit, so the budget counts distinct
 orbits: a revisit or a gauge copy of a paid code is free.
 
-The score (Sec. 4.3) is the leading-order failure exponent under biased noise, min(c_X d_X, c_Z d_Z), at the
+The score (the oracle section of the paper) is the leading-order failure exponent under biased noise, min(c_X d_X, c_Z d_Z), at the
 condition set by --eta (p_noisy / p_quiet; 10 in every printed comparison) and --sign (the noisy sector:
 Z is gamma = +1, X is gamma = -1). Two oracles (--oracle):
     cert    the certifying oracle: two classical bound ladders per paid code (d_A >= d_X, d_B >= d_Z), and the
             exact sector ladders only when the bound score reaches the reference sample's top score, so the top
             set is exact. Every printed cell paid the FULL bound ladder (no parity skip), pinned below.
-    exact   exact sector distances for every paid code (the default; the reference cells of Table V).
+    exact   exact sector distances for every paid code (the default; the reference cells of the oracle-cost table).
 
 The methods (--arm):
     random      uniform legal draws
@@ -34,7 +34,7 @@ The methods (--arm):
 stored runs and the exact-oracle block, r200 for the later runs kept out of the stored pool (tuned PT started
 from the stored forms, uniform at gamma = -1, BO), r209 for the remaining rivals.
 
-Commands of record, each for seeds s = 0, 1, 2 and both --sign Z and --sign X unless stated (--eta 10 and
+Commands, each for seeds s = 0, 1, 2 and both --sign Z and --sign X unless stated (--eta 10 and
 --budget 3000 are the defaults):
   stored runs (the pool)
     tuned PT                   python -m scripts.n180_search --arm pt --tmin 0.25 --tmax 2.0 --oracle cert --sign S --seed s
@@ -80,7 +80,7 @@ from gflowqec.rivals import (ME_ASYM_EDGES_N180, ME_K_BIN_N180, arm_bo, arm_maxe
                              arm_pt, arm_random, me_cell_of, warm_pool_states)
 
 # torch's thread count changes the order of floating-point sums, so a learner's run reproduces only at a fixed
-# count: the runs of record set OMP_NUM_THREADS and torch follows it
+# count: the runs behind the paper set OMP_NUM_THREADS and torch follows it
 torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "1")))
 
 # the uniform calibration draws every learner pays first (they are also MAP-Elites' and BO's initial draws)
@@ -149,7 +149,7 @@ def main():
 
     # the run's header. Fields fixed by this release (no conditional sampler, no relational features, the
     # depth-7 strict-improvement schedule, 200 calibration draws, no tag) keep the values the shipped files carry,
-    # so a regenerated file has the fields of a shipped one (the r174 files predate five of them: ladder, ls_iters,
+    # so a regenerated file has the fields of a shipped one (the r174 files lack five of them: ladder, ls_iters,
     # accept, warm_pool, warm_paid; a missing ladder field means the full ladder)
     header = {"experiment": args.prefix, "arm": arm, "group": GROUP_180, "eta": args.eta,
               "ladder": "full" if cert else None,

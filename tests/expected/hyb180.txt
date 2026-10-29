@@ -1,19 +1,71 @@
-Sec. 9.1: novel certified top-scoring codes in the first 1,000 paid calls, hundredfold grant, seeds 1-2
+Sec. 7: novel certified top-scoring codes in the first 1,000 paid calls, hundredfold grant, seeds 0-9
+basis: H Z s0: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s0.json (md5 7dc756132c0311de76f178e1e4e9040e), stored forms skipped 13, paid rows also paid by P 62
+basis: U Z s0: 0 stored form(s) replaced by the top-up; novel tops 582 without it (Table D.1), 582 with it
+basis: P Z s0: 0 stored form(s) replaced by the top-up; novel tops 273 without it (Table D.1), 273 with it
 basis: H Z s1: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s1.json (md5 24f7a4c48f466ef78ad41d04196fda73), stored forms skipped 20, paid rows also paid by P 80
-basis: P Z s1: 1 stored form(s) replaced by the top-up; novel tops 338 without it (Table IX), 338 with it
+basis: U Z s1: 0 stored form(s) replaced by the top-up; novel tops 642 without it (Table D.1), 642 with it
+basis: P Z s1: 1 stored form(s) replaced by the top-up; novel tops 338 without it (Table D.1), 338 with it
 basis: H Z s2: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s2.json (md5 f1c093bff580ca9268d5753c24b4f035), stored forms skipped 21, paid rows also paid by P 80
-basis: P Z s2: 0 stored form(s) replaced by the top-up; novel tops 400 without it (Table IX), 400 with it
+basis: U Z s2: 0 stored form(s) replaced by the top-up; novel tops 636 without it (Table D.1), 636 with it
+basis: P Z s2: 0 stored form(s) replaced by the top-up; novel tops 400 without it (Table D.1), 400 with it
+basis: H Z s3: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s3.json (md5 6a1537b2428c82c2d8d76b65a018ccde), stored forms skipped 11, paid rows also paid by P 45
+basis: U Z s3: 0 stored form(s) replaced by the top-up; novel tops 615 without it (Table D.1), 615 with it
+basis: P Z s3: 0 stored form(s) replaced by the top-up; novel tops 185 without it (Table D.1), 185 with it
+basis: H Z s4: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s4.json (md5 e62cdd3199dc91813d73b13653f0f0ee), stored forms skipped 14, paid rows also paid by P 50
+basis: U Z s4: 0 stored form(s) replaced by the top-up; novel tops 660 without it (Table D.1), 660 with it
+basis: P Z s4: 0 stored form(s) replaced by the top-up; novel tops 235 without it (Table D.1), 235 with it
+basis: H Z s5: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s5.json (md5 9ac015b77ab1bcb8505b09b53af4bd24), stored forms skipped 19, paid rows also paid by P 55
+basis: U Z s5: 0 stored form(s) replaced by the top-up; novel tops 626 without it (Table D.1), 626 with it
+basis: P Z s5: 0 stored form(s) replaced by the top-up; novel tops 258 without it (Table D.1), 258 with it
+basis: H Z s6: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s6.json (md5 bf78e06ac94a3c94efe4aeb986df023c), stored forms skipped 24, paid rows also paid by P 68
+basis: U Z s6: 1 stored form(s) replaced by the top-up; novel tops 645 without it (Table D.1), 645 with it
+basis: P Z s6: 0 stored form(s) replaced by the top-up; novel tops 301 without it (Table D.1), 301 with it
+basis: H Z s7: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s7.json (md5 afad16bb07f312cc451aed6418ec2089), stored forms skipped 14, paid rows also paid by P 63
+basis: U Z s7: 0 stored form(s) replaced by the top-up; novel tops 643 without it (Table D.1), 643 with it
+basis: P Z s7: 0 stored form(s) replaced by the top-up; novel tops 276 without it (Table D.1), 276 with it
+basis: H Z s8: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s8.json (md5 2758573e6031b85a26aeb2a3bf426eeb), stored forms skipped 20, paid rows also paid by P 59
+basis: U Z s8: 0 stored form(s) replaced by the top-up; novel tops 501 without it (Table D.1), 501 with it
+basis: P Z s8: 0 stored form(s) replaced by the top-up; novel tops 261 without it (Table D.1), 261 with it
+basis: H Z s9: candidates r177_samples_transformer_w18_b256_x20_e10Z_n1000_o100_s9.json (md5 76045cf62dcb7be3f0f06e91c1f156ba), stored forms skipped 14, paid rows also paid by P 61
+basis: U Z s9: 0 stored form(s) replaced by the top-up; novel tops 563 without it (Table D.1), 563 with it
+basis: P Z s9: 0 stored form(s) replaced by the top-up; novel tops 236 without it (Table D.1), 236 with it
+basis: H X s0: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s0.json (md5 40f327ffc0e2cce71c77049ac364644e), stored forms skipped 14, paid rows also paid by P 75
+basis: U X s0: 0 stored form(s) replaced by the top-up; novel tops 500 without it (Table D.1), 500 with it
+basis: P X s0: 0 stored form(s) replaced by the top-up; novel tops 336 without it (Table D.1), 336 with it
 basis: H X s1: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s1.json (md5 303c52ca5d7a998d49d0776a9623cab3), stored forms skipped 21, paid rows also paid by P 118
-basis: P X s1: 2 stored form(s) replaced by the top-up; novel tops 463 without it (Table IX), 464 with it
+basis: U X s1: 0 stored form(s) replaced by the top-up; novel tops 644 without it (Table D.1), 644 with it
+basis: P X s1: 2 stored form(s) replaced by the top-up; novel tops 463 without it (Table D.1), 464 with it
 basis: H X s2: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s2.json (md5 be474464cc93a64a88da0067a3dd8343), stored forms skipped 16, paid rows also paid by P 94
-basis: P X s2: 0 stored form(s) replaced by the top-up; novel tops 488 without it (Table IX), 488 with it
-H (screen ranking the policy's draws) | gamma = +1: 799, 793 | gamma = -1: 782, 784
-U (screen ranking uniform draws) | gamma = +1: 642, 636 | gamma = -1: 644, 590
-P (policy ranked by its log-probability, with its top-up) | gamma = +1: 338, 400 | gamma = -1: 464, 488
-basis: H / U at Z: novel certified tops [s1 799/642, s2 793/636], pooled per 1,000 796.0 / 639.0, ratio 1.246 Katz [1.197, 1.296]
-basis: H / U at X: novel certified tops [s1 782/644, s2 784/590], pooled per 1,000 783.0 / 617.0, ratio 1.269 Katz [1.217, 1.323]
-H / U | gamma = +1: 1.25 [1.20, 1.30], H ahead in 2 of 2 seeds | gamma = -1: 1.27 [1.22, 1.32], H ahead in 2 of 2 seeds
-basis: H / P at Z: novel certified tops [s1 799/338, s2 793/400], pooled per 1,000 796.0 / 369.0, ratio 2.157 Katz [2.029, 2.294]
-basis: H / P at X: novel certified tops [s1 782/464, s2 784/488], pooled per 1,000 783.0 / 476.0, ratio 1.645 Katz [1.562, 1.732]
-H / P | gamma = +1: 2.16 [2.03, 2.29], H ahead in 2 of 2 seeds | gamma = -1: 1.64 [1.56, 1.73], H ahead in 2 of 2 seeds
-timed: 18 s
+basis: U X s2: 0 stored form(s) replaced by the top-up; novel tops 590 without it (Table D.1), 590 with it
+basis: P X s2: 0 stored form(s) replaced by the top-up; novel tops 488 without it (Table D.1), 488 with it
+basis: H X s3: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s3.json (md5 908381bcb10ed94436916f54331564db), stored forms skipped 18, paid rows also paid by P 43
+basis: U X s3: 1 stored form(s) replaced by the top-up; novel tops 611 without it (Table D.1), 612 with it
+basis: P X s3: 1 stored form(s) replaced by the top-up; novel tops 229 without it (Table D.1), 229 with it
+basis: H X s4: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s4.json (md5 c5117187e32516feefac0dd83673a78e), stored forms skipped 14, paid rows also paid by P 68
+basis: U X s4: 0 stored form(s) replaced by the top-up; novel tops 659 without it (Table D.1), 659 with it
+basis: P X s4: 0 stored form(s) replaced by the top-up; novel tops 290 without it (Table D.1), 290 with it
+basis: H X s5: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s5.json (md5 11582dba7081dc38cb705ecf4a91c874), stored forms skipped 10, paid rows also paid by P 71
+basis: U X s5: 0 stored form(s) replaced by the top-up; novel tops 621 without it (Table D.1), 621 with it
+basis: P X s5: 0 stored form(s) replaced by the top-up; novel tops 360 without it (Table D.1), 360 with it
+basis: H X s6: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s6.json (md5 6909ecbeb3ba60c03d934acb00610645), stored forms skipped 19, paid rows also paid by P 97
+basis: U X s6: 0 stored form(s) replaced by the top-up; novel tops 625 without it (Table D.1), 625 with it
+basis: P X s6: 0 stored form(s) replaced by the top-up; novel tops 367 without it (Table D.1), 367 with it
+basis: H X s7: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s7.json (md5 9f9ecb04f8b42d778062499fb10dacf4), stored forms skipped 17, paid rows also paid by P 101
+basis: U X s7: 0 stored form(s) replaced by the top-up; novel tops 626 without it (Table D.1), 626 with it
+basis: P X s7: 0 stored form(s) replaced by the top-up; novel tops 421 without it (Table D.1), 421 with it
+basis: H X s8: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s8.json (md5 42a21f9eb55824fd7143d00c37a1b2e8), stored forms skipped 14, paid rows also paid by P 81
+basis: U X s8: 1 stored form(s) replaced by the top-up; novel tops 558 without it (Table D.1), 558 with it
+basis: P X s8: 0 stored form(s) replaced by the top-up; novel tops 434 without it (Table D.1), 434 with it
+basis: H X s9: candidates r177_samples_transformer_w18_b256_x20_e10X_n1000_o100_s9.json (md5 91d48c75787b96608deb26db3f11ed93), stored forms skipped 18, paid rows also paid by P 70
+basis: U X s9: 0 stored form(s) replaced by the top-up; novel tops 555 without it (Table D.1), 555 with it
+basis: P X s9: 0 stored form(s) replaced by the top-up; novel tops 349 without it (Table D.1), 349 with it
+H (screen ranking the policy's draws) | gamma = +1: 722, 799, 793, 781, 783, 790, 759, 826, 746, 758 | gamma = -1: 728, 782, 784, 800, 805, 787, 795, 825, 760, 732
+U (screen ranking uniform draws, with its top-up) | gamma = +1: 582, 642, 636, 615, 660, 626, 645, 643, 501, 563 | gamma = -1: 500, 644, 590, 612, 659, 621, 625, 626, 558, 555
+P (policy ranked by its log-probability, with its top-up) | gamma = +1: 273, 338, 400, 185, 235, 258, 301, 276, 261, 236 | gamma = -1: 336, 464, 488, 229, 290, 360, 367, 421, 434, 349
+basis: H / U at Z: novel certified tops [s0 722/582, s1 799/642, s2 793/636, s3 781/615, s4 783/660, s5 790/626, s6 759/645, s7 826/643, s8 746/501, s9 758/563], pooled per 1,000 775.7 / 611.3, ratio 1.269 Katz [1.245, 1.293]
+basis: H / U at X: novel certified tops [s0 728/500, s1 782/644, s2 784/590, s3 800/612, s4 805/659, s5 787/621, s6 795/625, s7 825/626, s8 760/558, s9 732/555], pooled per 1,000 779.8 / 599.0, ratio 1.302 Katz [1.277, 1.327]
+H / U | gamma = +1: 1.27 [1.25, 1.29], H ahead in 10 of 10 seeds | gamma = -1: 1.30 [1.28, 1.33], H ahead in 10 of 10 seeds
+basis: H / P at Z: novel certified tops [s0 722/273, s1 799/338, s2 793/400, s3 781/185, s4 783/235, s5 790/258, s6 759/301, s7 826/276, s8 746/261, s9 758/236], pooled per 1,000 775.7 / 276.3, ratio 2.807 Katz [2.715, 2.903]
+basis: H / P at X: novel certified tops [s0 728/336, s1 782/464, s2 784/488, s3 800/229, s4 805/290, s5 787/360, s6 795/367, s7 825/421, s8 760/434, s9 732/349], pooled per 1,000 779.8 / 373.8, ratio 2.086 Katz [2.030, 2.144]
+H / P | gamma = +1: 2.81 [2.72, 2.90], H ahead in 10 of 10 seeds | gamma = -1: 2.09 [2.03, 2.14], H ahead in 10 of 10 seeds
+timed: 59 s

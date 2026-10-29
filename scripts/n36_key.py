@@ -1,7 +1,7 @@
 """The n = 36 answer key: every two-block code over Z_6 x Z_3, scored exactly.
 
-Regenerates two files of data/keys/ (the n = 36 row of Table II, Sec. 4.3; the landscape is
-also the exact target of the n = 36 sampler of Sec. 9.3):
+Regenerates two files of data/keys/ (the n = 36 row of the answer-key table; the landscape is
+also the exact target of the n = 36 sampler check):
 
   leg `landscape`: results/landscape_l6m3_w3.csv, one row per raw (A, B) pair of weight-3
       polynomials (816 x 816 = 665,856 rows) with exact n, k, d, merit k d^2 / n and the

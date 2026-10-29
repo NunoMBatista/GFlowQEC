@@ -1,4 +1,4 @@
-"""Table V (App. A.4): the cost of one paid call on one CPU core, from stored time stamps.
+"""The oracle-cost table of the paper: the cost of one paid call on one CPU core, from stored time stamps.
 
 n 72   every form of the complete key carries the seconds each pass spent on it (first pass, wider
        sweep, SAT ladder); a form's cost is the sum over the passes that touched it.
@@ -29,7 +29,7 @@ T0 = time.time()
 KEYS = DATA / "keys"
 N180 = DATA / "n180"
 
-print("Table V, cost per paid call on one CPU core")
+print("Table A.1, cost per paid call on one CPU core")
 
 # The Instrument column at n 300 is a setting, not a measurement: check it against a stored search run.
 head = json.load(open(DATA / "n300" / "mitten_lersearch_pt_C10xS3_b0.35_t0.01-0.15_wC_s0_crn.json"))

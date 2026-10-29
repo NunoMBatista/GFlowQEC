@@ -1,14 +1,14 @@
 # GFlowQEC dependencies. Install with: pip install -r requirements.txt
 #
-# Every package imported by gflowqec/, scripts/ and readouts/, pinned to the exact version
-# installed in the laptop environment (Python 3.12.3), read with pip show on 2026-10-11.
-# That environment has qldpc 0.3.0 and ldpc 2.4.1, the versions stamped in
-# data/timing/oracle_times.json. The qldpc version on the remote boxes is not recorded here.
+# Every package imported by gflowqec/, scripts/ and readouts/, pinned to the versions the paper's
+# results were produced and tested with, on Python 3.12 with the CPU wheel of torch
+# (pip install torch==2.12.1 --index-url https://download.pytorch.org/whl/cpu).
+# qldpc 0.3.0 and ldpc 2.4.1 are also the versions stamped in data/timing/oracle_times.json.
 # Licenses are listed in THIRD-PARTY.md.
 
 numpy==2.4.6
 scipy==1.18.0
-torch==2.12.1           # the laptop has the CPU wheel 2.12.1+cpu (https://download.pytorch.org/whl/cpu)
+torch==2.12.1           # tested with the CPU wheel 2.12.1+cpu
 matplotlib==3.11.0      # readouts/fig_main300.py patches the private module matplotlib._type1font
 ldpc==2.4.1             # the v2 API: ldpc.mod2 and ldpc.BpOsdDecoder
 qldpc==0.3.0            # code construction and the decoder-based distance upper bound

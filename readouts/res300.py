@@ -1,7 +1,7 @@
-"""Table X (App. D.2): the mean good-proposal count W at n = 300 for the runs that Table IV leaves out,
+"""The table of further n = 300 runs: the mean good-proposal count W for the runs the summary table leaves out,
 and the seed counts quoted in the table's caption.
 
-W of one run at one seed (Eq. 20): the run's number of visits V times the share of 800 visits,
+W of one run at one seed: the run's number of visits V times the share of 800 visits,
 sampled from the run and re-estimated on 4,000 fresh shots, whose per-qubit logical error rate is at
 or below y*. y* is fixed per seed as the median rate of five reference runs pooled (counts.y_star),
 so every run at that seed is measured against the same bar. A table row is the mean of W over seeds 0-5.
@@ -27,13 +27,13 @@ ONE_STREAM = [("The plain sampler", "--", "gfn"),
 COMMON_RANDOM = [("Objective swap", "127", "p127")]
 
 # The caption's comparisons: (GFlowQEC-online, rival), GFlowQEC-online at the rival's depth (127 when
-# the rival has none) and seeding mode. The rivals are every other run of this table and of Table IV;
+# the rival has none) and seeding mode. The rivals are every other run of this table and of the summary table;
 # the plain sampler is not compared. The objective swap is counted apart.
 NON_SWAP = [("d127", "sdqn"), ("d127", "ppo"),                  # this table, one stream
-            ("d127", "u127"), ("d127", "pt"), ("d127", "me"),   # Table IV, one stream
+            ("d127", "u127"), ("d127", "pt"), ("d127", "me"),   # summary table, one stream
             ("d127", "ppo1"), ("d127", "rnd"), ("d127", "ss300"),
             ("d31", "u31"),                                     # this table, depth 31
-            ("c127", "ptc"), ("c127", "bo40k")]                 # Table IV, common random numbers
+            ("c127", "ptc"), ("c127", "bo40k")]                 # summary table, common random numbers
 SWAP = [("d31", "p31"), ("c127", "p127")]                       # the objective swap at L = 31 and L = 127
 
 # Load the visited files: the five reference cells that fix y*, every printed row and every rival.
@@ -62,7 +62,7 @@ def mean_w(c):
 # PPO at entropy weight 0.01: the paid calls each seed's run reached before it stopped
 ppo_calls = [source_stamp(runs["ppo"][s])[0] for s in SEEDS]
 
-print("Table X (n = 300): mean W over seeds 0-5, 40,000 paid calls per run")
+print("Table E.2 (n = 300): mean W over seeds 0-5, 40,000 paid calls per run")
 print("One stream per code")
 for label, depth, c in ONE_STREAM:
     if c == "ppo":

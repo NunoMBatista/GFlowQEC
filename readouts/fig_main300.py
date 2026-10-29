@@ -1,6 +1,6 @@
-"""Fig. 7 of the paper (Sec. 9.2): the comparisons at n = 300, drawn from the stored runs.
+"""The n = 300 comparison figure of the paper, drawn from the stored runs.
 
-    (a) good proposals per run W (Eq. 20), one dot per seed and a line at the mean;
+    (a) good proposals per run W, one dot per seed and a line at the mean;
     (b) W' = W x D, good proposals with near-duplicates counted once (D = the share of a run's visits kept
         by the greedy near-duplicate pass);
     (c) seed-paired differences in W at depth L = 127, first-named method minus second, in per cent of the
@@ -121,7 +121,7 @@ def fig_main300():
     runs = counts.load_visited(cells)              # runs[cell][seed] = the visited file of that run
     q = {s: counts.y_star(runs, s) for s in counts.SEEDS}
     drawn = [r[0] for r in MAIN300]
-    # W per drawn cell and seed (Eq. 20), D from one greedy near-duplicate pass over the run's visits
+    # W per drawn cell and seed, D from one greedy near-duplicate pass over the run's visits
     Y = {c: np.array([counts.good_count(runs[c][s], q[s]) for s in counts.SEEDS]) for c in drawn}
     D = {c: np.array([counts.d_visit(counts.source_path(runs[c][s])) for s in counts.SEEDS]) for c in drawn}
     Yp = {c: Y[c] * D[c] for c in drawn}           # good proposals with near-duplicates counted once, per seed
@@ -133,7 +133,7 @@ def fig_main300():
         stats_of[(a, b)] = (mode_of[a], pct, lo, hi, per_seed)
 
     # The printed values: (a) and (b) means in the order the figure draws them, then the (c) intervals
-    print("Fig. 7, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once")
+    print("Fig. E.2, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once")
     for mode in ("code", "crn"):
         print(MODE_NAME[mode])
         for cell, label, _, _ in sorted([r for r in MAIN300 if r[3] == mode], key=lambda r: -Y[r[0]].mean()):
@@ -146,11 +146,11 @@ def fig_main300():
             if m_ == mode:
                 name = f"{SHORT_300[a]} - {SHORT_300[b]}"
                 print(f"{name[0].upper() + name[1:]} | {m:.1f} [{l:.1f}, {h:.1f}]")
-    # Sec. 9: the depth L = 127 was set after GFlowQEC-online at L = 31 trailed tuned PT on good proposals;
+    # Results at n = 300: the depth L = 127 was set after GFlowQEC-online at L = 31 trailed tuned PT on good proposals;
     # the count of seeds where it trailed, from the same per-seed W as panel (a)
     trailed = int(np.sum(Y["d31"] < Y["pt"]))
     print(f"basis: per-seed W, L = 31 {Y['d31'].tolist()} against tuned PT {Y['pt'].tolist()}")
-    print(f"Sec. 9: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in {trailed} of {len(Y['pt'])} seeds")
+    print(f"App. E.4: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in {trailed} of {len(Y['pt'])} seeds")
 
     # Layout in inches. The row names take a left gutter; (a) and (b) sit side by side above (c) and share the
     # rows and the x scale, so a method's drop from (a) to (b) reads directly.

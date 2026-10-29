@@ -1,6 +1,6 @@
-"""Sec. 9.3 at n = 72: does the earlier sampler draw codes in proportion to their reward?
+"""Proportional sampling at n = 72: does the earlier sampler draw codes in proportion to their reward?
 
-The earlier sampler of Sec. 9.3 (the n = 36 multilayer perceptron, width 128, trained by trajectory balance
+The earlier sampler (the n = 36 multilayer perceptron, width 128, trained by trajectory balance
 with beta = 1 on the whole family) was trained on the n = 72 two-block family over Z_6 x Z_6, three seeds.
 The recipe is the n = 36 one, 24,000 steps at exploration 0.1 then 12,000 at 0.02, with the second stage run
 on for 324,000 more steps at 0.02: 36,000 + 324,000 = 360,000 steps in all (the 'x324000' in the file names).
@@ -138,7 +138,7 @@ for seed in SEEDS:
     assert settings["hidden"] == 128 and settings["batch"] == 128
     assert settings["beta"] == BETA and settings["floor"] == FLOOR
     assert settings["draws_graded"] == 50_000
-    # 360,000 steps = the two registered stages (24,000 + 12,000) + the 324,000-step extension.
+    # 360,000 steps = the two planned stages (24,000 + 12,000) + the 324,000-step extension.
     steps = sum(stage[0] for stage in settings["stages"]) + settings["extra"][0]
     assert steps == run["steps_done"] == LONG and run["complete"] and not run["diverged"]
     # The run's own exact log Z is the one rebuilt here.
@@ -181,17 +181,17 @@ for arm in ("plain", "prt"):
 # Print
 # =============================================================================================
 
-print("Sec. 9.3: proportional sampling at n = 72, the earlier sampler, three seeds")
-print(f"Sec. 9.3: trained for {LONG:,} steps")
-print(f"Sec. 9.3: total variation from its target {min(tv_long):.3f} to {max(tv_long):.3f};"
+print("App. D.2: proportional sampling at n = 72, the earlier sampler, three seeds")
+print(f"App. D.2: trained for {LONG:,} steps")
+print(f"App. D.2: total variation from its target {min(tv_long):.3f} to {max(tv_long):.3f};"
       f" uniform sampler {uniform_tv:.2f}")
 # "within": the smallest two-decimal bound at or above the largest gap
-print(f"Sec. 9.3: learned log Z within {math.ceil(max(log_z_gap) * 100) / 100:.2f} of the exact {log_z_exact:.4f}")
-print(f"Sec. 9.3: mass on the highest score value, over its target: {two(ratio_long)}")
+print(f"App. D.2: learned log Z within {math.ceil(max(log_z_gap) * 100) / 100:.2f} of the exact {log_z_exact:.4f}")
+print(f"App. D.2: mass on the highest score value, over its target: {two(ratio_long)}")
 # The two partial fixes, per seed: top-mass ratio before -> after (1 would close the gap).
-print(f"Sec. 9.3: ten times longer training ({SHORT:,} to {LONG:,} steps): top-mass ratio "
+print(f"App. D.2: ten times longer training ({SHORT:,} to {LONG:,} steps): top-mass ratio "
       + ", ".join(f"{a:.2f} -> {b:.2f}" for a, b in zip(ratio_short, ratio_long)) + " (seeds 0, 1, 2)")
-print(f"Sec. 9.3: replaying high-scoring codes more often ({SHORT:,} steps): top-mass ratio "
+print(f"App. D.2: replaying high-scoring codes more often ({SHORT:,} steps): top-mass ratio "
       + ", ".join(f"{p['ratio']:.2f} -> {q['ratio']:.2f}" for p, q in zip(replay["plain"], replay["prt"]))
       + " (seeds 0, 1, 2)")
 

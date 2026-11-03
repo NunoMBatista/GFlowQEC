@@ -1,7 +1,7 @@
 App. D.2: proportional sampling at n = 72, the earlier sampler, three seeds
 App. D.2: trained for 360,000 steps
 App. D.2: total variation from its target 0.115 to 0.124; uniform sampler 0.76
-App. D.2: learned log Z within 0.14 of the exact 20.5509
+App. D.2: learned log Z within 0.131 of the exact 20.5509
 App. D.2: mass on the highest score value, over its target: 0.47 to 0.54
 App. D.2: ten times longer training (36,000 to 360,000 steps): top-mass ratio 0.44 -> 0.50, 0.43 -> 0.47, 0.38 -> 0.54 (seeds 0, 1, 2)
 App. D.2: replaying high-scoring codes more often (36,000 steps): top-mass ratio 0.39 -> 0.54, 0.40 -> 0.51, 0.38 -> 0.58 (seeds 0, 1, 2)

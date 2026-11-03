@@ -34,7 +34,8 @@ The methods (--arm):
     bo          Bayesian optimisation, a one-hot Matern-5/2 GP with expected improvement.
     selfscreen  a supervised screen trained on the run's own paid calls (gflowqec.screens.arm_selfscreen).
 
-Commands, each for seeds s = 0..5. --budget 40000, --p 0.07 and --shots 1000 are the defaults, and
+Commands, each for seeds s = 0-5 and 7-10 (seed 6 was the tuning seed).
+--budget 40000, --p 0.07 and --shots 1000 are the defaults, and
 every command starts with `python -m scripts.n300_search`:
     GFlowQEC-online at L = 127, one stream per code, under --crn, and the local search alone:
         --arm gflowqec --ls-iters 127 --tag _d127 --seed s
@@ -70,7 +71,7 @@ every command starts with `python -m scripts.n300_search`:
 Compute: one paid call costs 1.2 to 2.5 s on one core, so a 40,000-call run spends about 14 to 28 CPU-hours in
 the oracle (the GFlowQEC-online runs at L = 127 took 89,600 to 94,700 s each on a loaded server; BO at 40,000
 calls 389,000 to 394,000 s per seed, most of it GP refits; the supervised screen adds about 10,300 s of fitting
-and 9,100 s of candidate drawing). The full grid of 20 cells x 6 seeds is about 2,000 to 3,500 CPU-hours.
+and 9,100 s of candidate drawing). The full grid of 20 cells x 10 seeds is about 3,300 to 5,800 CPU-hours.
 BO at 200 calls takes about 15 minutes per run.
 
 Output: results/<the same file name as the stored run>.json, rewritten every 1,000 paid calls so a run that is

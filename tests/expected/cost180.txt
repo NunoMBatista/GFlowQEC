@@ -1,9 +1,9 @@
-Sec. 7 Cost: n = 180, first 1,000 paid calls, seeds 0-2 pooled
-Paid calls that ran the exact ladders, GFlowQEC-offline over tuned PT | 3.3 | 3.7
-Per cent of the oracle's processor seconds spent in the exact ladders, GFlowQEC-offline and tuned PT | 89 and 86 | 94 and 90
-Exact-ladder processor seconds per certified top-scoring code (novel for GFlowQEC-offline), GFlowQEC-offline against tuned PT | 138.8 against 133.2 | 233.9 against 234.8
-Top-scoring codes per exact-ladder processor second, GFlowQEC-offline over tuned PT | 0.96 | 1.00
+Sec. 7 Cost: n = 180, first 1,000 paid calls, pooled over seeds 0-2 (seeds 3-9 ran on different machines), the ladder-run line over seeds 0-9
+Paid calls that ran the exact ladders, GFlowQEC-offline over tuned PT, seeds 0-9 | 3.5 | 4.2
+Not in the paper: per cent of the oracle's processor seconds spent in the exact ladders, GFlowQEC-offline and tuned PT | 89 and 86 | 94 and 90
+Not in the paper: exact-ladder processor seconds per certified top-scoring code (novel for GFlowQEC-offline), GFlowQEC-offline against tuned PT | 138.8 against 133.2 | 233.9 against 234.8
+Not in the paper: top-scoring codes per exact-ladder processor second, GFlowQEC-offline over tuned PT | 0.96 | 1.00
 Within five per cent at both biases | yes
-basis: Z ladder runs 1,328 and 401, ladder seconds 130,199 and 41,954, oracle seconds 145,611 and 48,923, top-scoring codes 938 and 315 (GFlowQEC-offline and tuned PT)
-basis: X ladder runs 1,339 and 365, ladder seconds 216,590 and 66,910, oracle seconds 231,098 and 74,153, top-scoring codes 926 and 285 (GFlowQEC-offline and tuned PT)
-timed: wall 95 s
+basis: Z ladder runs, seeds 0-9, 4,409 and 1,247; seeds 0-2: ladder runs 1,328 and 401, ladder seconds 130,199 and 41,954, oracle seconds 145,611 and 48,923, top-scoring codes 938 and 315 (GFlowQEC-offline and tuned PT)
+basis: X ladder runs, seeds 0-9, 4,534 and 1,068; seeds 0-2: ladder runs 1,339 and 365, ladder seconds 216,590 and 66,910, oracle seconds 231,098 and 74,153, top-scoring codes 926 and 285 (GFlowQEC-offline and tuned PT)
+timed: wall 200 s

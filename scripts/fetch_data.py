@@ -1,7 +1,7 @@
 """Download the large data files from Hugging Face, then check data/ against data/MANIFEST.md5.
 
 The GitHub repo holds the code, the tests, the small data files and data/MANIFEST.md5. The large
-files (data/n180, data/n300, data/models and data/keys/landscape_l6m3_w3.csv, about 826 MB) live in
+files (data/n180, data/n300, data/models and data/keys/landscape_l6m3_w3.csv, about 1.9 GB) live in
 a Hugging Face dataset under the same relative paths, so downloading it into the repo root restores
 data/ exactly.
 
@@ -21,18 +21,23 @@ from gflowqec.paths import DATA, ROOT
 # The Hugging Face dataset id. It must match the real dataset id on huggingface.co.
 HF_REPO = "NunoBatista/gflowqec-data"
 
+# The dataset revision (a tag on the Hugging Face dataset) that this release reads. Pinning it keeps
+# later uploads from changing what this checkout downloads. Release v1.0 reads revision "v1.0".
+HF_REVISION = "v1.1"
+
 MANIFEST = DATA / "MANIFEST.md5"
 
 
 def download():
-    """Download the dataset's data/ folder into the repo root."""
+    """Download the dataset's data/ folder, at revision HF_REVISION, into the repo root."""
     # Imported here so that --check-only runs without huggingface_hub installed.
     from huggingface_hub import snapshot_download
 
     # Only data/ is fetched. The dataset root also holds its own README.md (the dataset card) and
     # LICENSE-DATA, which would otherwise overwrite this repo's files of the same name.
     # The pattern is matched with fnmatch, where * also matches '/', so it covers every subfolder.
-    snapshot_download(repo_id=HF_REPO, repo_type="dataset", local_dir=ROOT, allow_patterns=["data/*"])
+    snapshot_download(repo_id=HF_REPO, repo_type="dataset", revision=HF_REVISION, local_dir=ROOT,
+                      allow_patterns=["data/*"])
 
 
 def md5_of(path):

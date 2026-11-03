@@ -11,7 +11,7 @@ tried: target T1 (the stored score, z-scored per bias) or T2 (the policy's log-r
 without ("plain") the relational counts added to the start vector. One was chosen by `choose_rule` on a fixed
 held-out tenth of the stored forms, then retrained on all of them.
 
-Earlier screen, n = 180. A two-hidden-layer perceptron (`screen_net`) on the bag encoding plus the relational
+Pilot screen, n = 180. A two-hidden-layer perceptron (`screen_net`) on the bag encoding plus the relational
 counts plus the condition vector, trained on the same stored forms (`train_mlp_screen`) and deployed on the
 same uniform candidates (`propose`).
 
@@ -46,7 +46,7 @@ BATCH = 256
 TIE = 0.01                              # selection points within 0.01 of the best mean are ties
 # the earlier, unscreened ranking cell of the policy: its candidates are the ones the matched screen must rank
 U10 = "r177_samples_transformer_w18_b256_x20_e10Z_n1000_u10_s{seed}.json"
-# the earlier screen's paid picks: they too must lie inside the matched screen's candidates
+# the pilot screen's paid picks: they too must lie inside the matched screen's candidates
 MLP_PICKS = "r174_proxy_pool116972_MR_e10{sign}_n1000_o{over}_h64_st315280_s{seed}.json"
 
 
@@ -227,7 +227,7 @@ def mscreen_stem(config, steps, seed):
 def candidate_check(cands, seed, over, n):
     """The identity check of the matched screen's candidates: it must rank exactly the codes the earlier cells
     ranked. The orbit-key set of the first 10,000 candidates must equal the policy's unscreened u10 ranking
-    cell's 10,000 (rows + unpaid), and at n = 1,000 every pick of the earlier screen at this over-sampling must
+    cell's 10,000 (rows + unpaid), and at n = 1,000 every pick of the pilot screen at this over-sampling must
     lie inside the candidates. Raises on any mismatch; returns the md5 of the sorted candidate keys."""
     keys = [orbit_key(GROUP_180, c) for c in cands]
     md5 = lambda ks: hashlib.md5(repr(sorted(ks)).encode()).hexdigest()
@@ -243,18 +243,18 @@ def candidate_check(cands, seed, over, n):
         for sign in ("Z", "X"):
             f = N180 / MLP_PICKS.format(sign=sign, over=over, seed=seed)
             if not f.exists():
-                # the earlier screen ran over-sampling 100 at seeds 1-2 only, as the policy's over-100 cells did
+                # the pilot screen ran over-sampling 100 at seeds 1-9 only (no seed 0)
                 assert over == 100 and seed == 0, f"{f.name} missing: the check cannot run"
-                print(f"  check-cands s{seed}: no earlier over-{over} MLP screen at seed {seed} (seeds 1-2 only)")
+                print(f"  check-cands s{seed}: no pilot over-{over} MLP screen at seed {seed} (seeds 1-9 only)")
                 continue
             picks = [orbit_key(GROUP_180, r["rep"]) for r in json.load(open(f))["screen"]]
-            assert all(k in inside for k in picks), f"{f.name}: an earlier MLP pick lies outside the candidates"
+            assert all(k in inside for k in picks), f"{f.name}: a pilot screen pick lies outside the candidates"
             print(f"  check-cands s{seed}: the {len(picks):,} picks of {f.name} lie inside the candidates", flush=True)
     return md5(keys)
 
 
 def draw_candidates(seed, over, n):
-    """The earlier screen's exact candidate call: over x n distinct generating uniform orbits."""
+    """The pilot screen's exact candidate call: over x n distinct generating uniform orbits."""
     return propose(over * n, np.random.default_rng(10_000 + seed))
 
 
@@ -268,7 +268,7 @@ def rank_rows(cands, pred, novel, n):
 
 
 # =============================================================================================
-# Earlier screen, n = 180
+# Pilot screen, n = 180
 # =============================================================================================
 
 def propose(m, uniform_rng, cap_mult=50):
@@ -312,7 +312,7 @@ def encode(chosen, n, T):
 
 
 def train_mlp_screen(rows, steps, batch, hidden, seed):
-    """The earlier n = 180 screen: an MLP on (bag encoding, relational counts, condition) trained on the stored
+    """The pilot screen at n = 180: an MLP on (bag encoding, relational counts, condition) trained on the stored
     forms `rows` (counts.stored_forms().values()) with the same augmentations as the policy (the reordering
     is implicit in the bag, conjugation and mirror explicit). Target: the score at a training bias drawn per
     example, z-scored per bias, using the exact sector distances where the form was certified and the bound
@@ -359,7 +359,7 @@ def train_mlp_screen(rows, steps, batch, hidden, seed):
 
 # 200 uniform calibration calls, then rounds: refit on every paid form, rank a fresh slate of 2,000 unpaid uniform
 # candidates, pay the top 20. 160 warm-started Adam steps per refit: 1,990 rounds x 160 = 318,400 updates over a
-# 40,000-call run, about the earlier n = 180 screen's 315,280.
+# 40,000-call run, about the n = 180 pilot screen's 315,280.
 SS_CALIB, SS_SLATE, SS_BATCH, SS_STEPS = 200, 2000, 20, 160
 
 

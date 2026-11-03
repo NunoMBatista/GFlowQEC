@@ -1,4 +1,4 @@
-"""The n = 180 summary table: the Inequivalent column pair, seeds 0 to 2, and the four ratios of the text.
+"""The n = 180 summary table: the Inequivalent column pair, seeds 0 to 9, and the ratios of the text.
 
 Each run is read on its first 1,000 paid calls, and a cell counts the certified top-scoring codes the paper counts
 (the per-seed table): novel ones only for the methods trained on or started from the stored forms, all of them for the
@@ -13,8 +13,9 @@ the unordered pair (certificate, mirror certificate), so equivalent codes and mi
   * the other methods: the classes of the counted codes, with no test against the stored forms.
 None of the first group is one of the 42 stored runs, so its codes are tested against every stored form.
 
-A printed cell is the mean of the three per-seed class counts, rounded to a whole number. The ratios are
-GFlowQEC-offline's pooled count over the row's, both on 3,000 paid calls, with the Katz interval.
+A printed cell is the mean of the ten per-seed class counts, rounded to a whole number. The ratios are
+GFlowQEC-offline's pooled count over the row's, both on 10,000 paid calls, with the Katz interval; the per-seed
+ratios over tuned PT give the range over single seeds and the count of runs above two.
 
 Reads only data/n180 through gflowqec.counts: the 42 stored runs (r174_*_cert*.json) for the stored forms, and
 every cell of counts.prefix_arms (r174_, r177_screen_ and r177_certified_, r200_, r209_ files). Writes nothing.
@@ -32,8 +33,8 @@ from gflowqec.stats import katz
 
 t0 = time.time()
 PREFIX = counts.PREFIX          # 1,000 paid calls per run
-PAID = 3 * PREFIX               # paid calls under a pooled count (three seeds)
-SEEDS = (0, 1, 2)
+SEEDS = tuple(range(10))
+PAID = len(SEEDS) * PREFIX      # paid calls under a pooled count (ten seeds)
 SIGNS = ("Z", "X")              # gamma = +1, gamma = -1
 
 POLICY = "GFlowQEC-offline, ranked, mu 10"
@@ -54,18 +55,32 @@ ROWS = [
 
 # Acceptance tests: the counted codes per seed (the per-seed table) and the pooled class counts behind the printed cells.
 EXPECT_COUNTED = {
-    "Z": {POLICY: [308, 297, 333], "Supervised screen, 10 times": [99, 69, 89],
-          "Soft Q-learning, trained offline": [256, 325, 313], PT_STORED: [106, 147, 113], PT: [111, 108, 96],
-          "MAP-Elites, 5 bins": [91, 92, 79], "Uniform sampling": [10, 9, 14], "BO, one-hot encoding": [38, 23, 41]},
-    "X": {POLICY: [294, 321, 311], "Supervised screen, 10 times": [84, 85, 94],
-          "Soft Q-learning, trained offline": [338, 314, 342], PT_STORED: [122, 131, 96], PT: [74, 109, 102],
-          "MAP-Elites, 5 bins": [78, 95, 87], "Uniform sampling": [10, 11, 7], "BO, one-hot encoding": [50, 16, 82]},
+    "Z": {
+        POLICY: [308, 297, 333, 283, 302, 314, 321, 317, 337, 321],
+        "Supervised screen, 10 times": [99, 69, 89, 81, 101, 101, 92, 85, 71, 78],
+        "Soft Q-learning, trained offline": [256, 325, 313, 303, 325, 316, 353, 327, 370, 286],
+        PT_STORED: [106, 147, 113, 124, 115, 113, 103, 114, 90, 165],
+        PT: [111, 108, 96, 75, 103, 136, 95, 52, 91, 105],
+        "MAP-Elites, 5 bins": [91, 92, 79, 150, 108, 124, 57, 115, 110, 108],
+        "Uniform sampling": [10, 9, 14, 16, 13, 9, 6, 9, 15, 14],
+        "BO, one-hot encoding": [38, 23, 41, 36, 40, 86, 60, 89, 36, 47],
+    },
+    "X": {
+        POLICY: [294, 321, 311, 298, 342, 307, 296, 321, 338, 346],
+        "Supervised screen, 10 times": [84, 85, 94, 77, 93, 80, 86, 87, 86, 68],
+        "Soft Q-learning, trained offline": [338, 314, 342, 380, 399, 389, 404, 364, 390, 324],
+        PT_STORED: [122, 131, 96, 129, 116, 109, 143, 122, 108, 158],
+        PT: [74, 109, 102, 101, 63, 72, 109, 74, 34, 97],
+        "MAP-Elites, 5 bins": [78, 95, 87, 96, 97, 92, 91, 97, 87, 102],
+        "Uniform sampling": [10, 11, 7, 6, 6, 7, 12, 8, 9, 8],
+        "BO, one-hot encoding": [50, 16, 82, 64, 10, 53, 103, 76, 36, 37],
+    },
 }
 EXPECT_CLASSES = {
-    "Z": {POLICY: 655, "Supervised screen, 10 times": 181, "Soft Q-learning, trained offline": 627, PT_STORED: 239,
-          PT: 293, "MAP-Elites, 5 bins": 220, "Uniform sampling": 33, "BO, one-hot encoding": 102},
-    "X": {POLICY: 679, "Supervised screen, 10 times": 187, "Soft Q-learning, trained offline": 724, PT_STORED: 241,
-          PT: 266, "MAP-Elites, 5 bins": 215, "Uniform sampling": 28, "BO, one-hot encoding": 145},
+    "Z": {POLICY: 2214, "Supervised screen, 10 times": 623, "Soft Q-learning, trained offline": 2246, PT_STORED: 791,
+          PT: 923, "MAP-Elites, 5 bins": 882, "Uniform sampling": 115, "BO, one-hot encoding": 493},
+    "X": {POLICY: 2221, "Supervised screen, 10 times": 593, "Soft Q-learning, trained offline": 2592, PT_STORED: 838,
+          PT: 794, "MAP-Elites, 5 bins": 744, "Uniform sampling": 84, "BO, one-hot encoding": 520},
 }
 
 
@@ -96,7 +111,7 @@ workers = mp.get_context("fork").Pool(4)
 # code, so its Tanner graph is isomorphic and its certificate the same.
 stored = set(workers.map(cert_of, [(r["traj"], False) for r in counts.stored_forms().values()], chunksize=64))
 
-# ------------------------------------------------------------------ the cells, seeds 0 to 2
+# ------------------------------------------------------------------ the cells, seeds 0 to 9
 # arms[sign][row][seed] is a LedgerArm; deployment cells keep all their rows, so counts are cut to 1,000 paid calls
 arms = {}
 for sign in SIGNS:
@@ -144,25 +159,28 @@ for sign in SIGNS:
     assert pooled == EXPECT_CLASSES[sign], f"{sign}: class counts {pooled}"
 
 # ------------------------------------------------------------------ the Inequivalent column pair
-print("Table 3 (n = 180): Inequivalent, mean of seeds 0-2, first 1,000 paid calls | gamma = +1 | gamma = -1")
+print("Table 3 (n = 180): Inequivalent, mean of seeds 0-9, first 1,000 paid calls | gamma = +1 | gamma = -1")
 for paper_row, row in ROWS:
-    cells = [format(sum(n_classes[sign][row]) / 3, ".0f") for sign in SIGNS]
+    cells = [str(int(sum(n_classes[sign][row]) / len(SEEDS) + 0.5)) for sign in SIGNS]   # half up, as sum180
     print(" | ".join([paper_row] + cells))
 for paper_row, row in ROWS:
     for sign in SIGNS:
         print(f"basis: {paper_row} {sign}: counted {n_counted[sign][row]}, classes {n_classes[sign][row]}")
 
 # ------------------------------------------------------------------ the ratios of the text
-print("Sec. 7 text: GFlowQEC-offline over the row, inequivalent codes, pooled over seeds 0-2 | gamma = +1 | gamma = -1")
-for label, row in (("Over tuned PT", PT), ("Over tuned PT from the stored forms", PT_STORED)):
+print("Sec. 7 and App. D.1 text: GFlowQEC-offline over the row, inequivalent codes, pooled over seeds 0-9 "
+      "| gamma = +1 | gamma = -1")
+# App. D.1 prints the ratio over tuned PT to two decimals, Sec. 7 the other one to one
+for label, row, digits in (("Over tuned PT", PT, 2), ("Over tuned PT from the stored forms", PT_STORED, 1)):
     cells = []
     for sign in SIGNS:
         r, lo, hi = katz(sum(n_classes[sign][POLICY]), PAID, sum(n_classes[sign][row]), PAID)
-        cells.append(f"{r:.1f} [{lo:.2f}, {hi:.2f}]")
+        cells.append(f"{r:.{digits}f} [{lo:.2f}, {hi:.2f}]")
     print(" | ".join([label] + cells))
-# the text also says "more than twice as many in every seed" against tuned PT
-cells = []
-for sign in SIGNS:
-    cells.append("yes" if all(a > 2 * b for a, b in zip(n_classes[sign][POLICY], n_classes[sign][PT])) else "no")
-print(" | ".join(["Over tuned PT, above two in every seed"] + cells))
+# the per-seed ratios over tuned PT: their range (App. D.1) and the runs above two (Sec. 7: "19 of its 20 runs")
+ratios = {sign: [a / b for a, b in zip(n_classes[sign][POLICY], n_classes[sign][PT])] for sign in SIGNS}
+print(" | ".join(["Over tuned PT, range over single seeds"]
+                 + [f"{min(ratios[sign]):.2f} to {max(ratios[sign]):.2f}" for sign in SIGNS]))
+above = sum(r > 2 for sign in SIGNS for r in ratios[sign])
+print(f"Over tuned PT, runs above two (both biases) | {above} of {len(SIGNS) * len(SEEDS)}")
 print(f"timed: {time.time() - t0:.0f} s")

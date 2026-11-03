@@ -1,2 +1,3 @@
-App. C: BO runs at n = 300 with a budget of 200 calls: 6
-App. C: y* per seed between 0.004233 and 0.004245
+App. C: BO runs at n = 300 with a budget of 200 calls: 10
+basis: y* per seed 0-5 and 7-10 = 0.004243, 0.004239, 0.004239, 0.004245, 0.004239, 0.004233, 0.004234, 0.004234, 0.004234, 0.004228
+App. C: y* per seed between 0.004228 and 0.004245

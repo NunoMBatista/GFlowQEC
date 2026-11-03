@@ -1,17 +1,18 @@
-App. E.4 text, n = 300, seeds 0-5
-App. E.4: GFlowQEC-online (L = 127) led tuned PT in 6 of 6 seeds and local search alone in 6 of 6 seeds
-App. E.4: GFlowQEC-online minus tuned PT: 9.7 per cent [4.8, 14.7], p = 0.0039, paired t
-App. E.4: common random numbers, GFlowQEC-online minus tuned PT: 10.9 per cent [6.2, 15.7]
-App. E.4: per paid call, GFlowQEC-online over MAP-Elites: 1.39, in 6 of 6 seeds
-App. E.4: per paid call, GFlowQEC-online over PPO, entropy weight 0.1: 2.09, in 6 of 6 seeds
-App. E.4: per paid call, GFlowQEC-online over PPO, entropy weight 0.01: 1.9, in 6 of 6 seeds
-App. E.4: GFlowQEC-online minus the supervised screen: 9.7 per cent [2.2, 17.2], in 6 of 6 seeds, p = 0.02, paired t
-App. E.4: local search alone minus tuned PT: 1.3 per cent [-4.7, 7.4]
-App. E.4: GFlowQEC-online minus local search alone: 8.3 per cent [3.2, 13.3], in 6 of 6 seeds, p = 0.008, paired t
-App. E.4: near-duplicates counted once, seeds in which each led GFlowQEC-online: tuned PT 6, MAP-Elites 6, uniform sampling 6, PPO entropy weight 0.1 6, supervised screen 6 (of 6)
-App. E.4: share kept by the near-duplicate pass: GFlowQEC-online 0.15; methods that draw every tuple afresh 0.72 to 1.0
-App. E.4: local search alone keeps 0.15; GFlowQEC-online led it with near-duplicates counted once in 5 of 6 seeds
-basis: PPO at entropy weight 0.01 stopped before 40,000 paid calls in 6 of 6 runs (17,552 to 36,224 paid calls)
-basis: supervised screen minus tuned PT: 0.0 per cent [-4.6, 4.7], in 4 of 6 seeds
-basis: near-duplicates counted once, the largest lead over GFlowQEC-online is the supervised screen's: 21,050 against 3,483
-basis: share kept, fresh-draw runs: uniform 0.998, PPO 0.1 0.995, screen 0.994, plain sampler 0.995, soft Q 0.995, PPO 0.01 0.951, one-hot BO 0.717
+App. E.2 text, n = 300, seeds 0-5 and 7-10
+App. E.2: GFlowQEC-online (L = 127) led tuned PT in 10 of 10 seeds and local search alone in 10 of 10 seeds
+App. E.2: GFlowQEC-online minus tuned PT: 10.0 per cent [6.7, 13.3], p = 0.00008, paired t
+App. E.2: common random numbers, GFlowQEC-online minus tuned PT: 12.8 per cent [9.7, 16.0]
+App. E.2: MAP-Elites, PPO at entropy weight 0.1, PPO at 0.01 trailed GFlowQEC-online per paid call in 10, 10, 10 of 10 seeds
+Not in the paper: per paid call, GFlowQEC-online over MAP-Elites 1.43, PPO at entropy weight 0.1 2.04, PPO at 0.01 1.86
+App. E.2: GFlowQEC-online minus the supervised screen: 10.0 per cent [5.7, 14.3], in 10 of 10 seeds, p = 0.0005, paired t
+Not in the paper: local search alone minus tuned PT: 1.0 per cent [-2.7, 4.7]
+App. E.2: GFlowQEC-online minus local search alone: 8.9 per cent [5.5, 12.2], in 10 of 10 seeds, p = 0.0002, paired t
+App. E.2: near-duplicates counted once, seeds in which each led GFlowQEC-online: tuned PT 10, MAP-Elites 10, uniform sampling 10, PPO entropy weight 0.1 10, supervised screen 10 (of 10)
+App. E.2: under common random numbers, Bayesian optimisation led GFlowQEC-online with near-duplicates counted once in 10 of 10 seeds
+App. E.2: share kept by the near-duplicate pass: GFlowQEC-online 0.15; methods that draw every tuple afresh 0.72 to 1.0
+App. E.2: local search alone keeps 0.15; GFlowQEC-online led it with near-duplicates counted once in 8 of 10 seeds
+basis: PPO at entropy weight 0.01 stopped before 40,000 paid calls in 10 of 10 runs (17,552 to 37,316 paid calls)
+basis: supervised screen minus tuned PT: -0.0 per cent [-3.9, 3.8], in 7 of 10 seeds
+basis: near-duplicates counted once, the largest lead over GFlowQEC-online is the supervised screen's: 21,014 against 3,478
+basis: share kept, fresh-draw runs: uniform 0.998, PPO 0.1 0.995, screen 0.994, plain sampler 0.995, soft Q 0.995, PPO 0.01 0.939, one-hot BO 0.718
+basis: p values, paired t: d127 - pt 7.69e-05; d127 - ss300 5.14e-04; d127 - u127 2.07e-04; c127 - ptc 7.28e-06

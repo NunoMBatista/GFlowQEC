@@ -1,5 +1,37 @@
-Table C.1 tuned PT range 180: 0.25-2.0, better of two in 12 of 12 bias and seed pairs
+basis: PT 180 exact Z s0: top-scoring per 1,000 paid t0.25-2.0 102.3, t0.5-4.0 40.7
+basis: PT 180 exact Z s1: top-scoring per 1,000 paid t0.25-2.0 110.7, t0.5-4.0 55.0
+basis: PT 180 exact Z s2: top-scoring per 1,000 paid t0.25-2.0 101.7, t0.5-4.0 60.0
+basis: PT 180 exact X s0: top-scoring per 1,000 paid t0.25-2.0 90.7, t0.5-4.0 48.3
+basis: PT 180 exact X s1: top-scoring per 1,000 paid t0.25-2.0 100.0, t0.5-4.0 61.3
+basis: PT 180 exact X s2: top-scoring per 1,000 paid t0.25-2.0 101.7, t0.5-4.0 57.0
+basis: PT 180 cert Z s0: top-scoring per 1,000 paid t0.25-2.0 120.3, t0.5-4.0 39.7
+basis: PT 180 cert Z s1: top-scoring per 1,000 paid t0.25-2.0 121.7, t0.5-4.0 58.7
+basis: PT 180 cert Z s2: top-scoring per 1,000 paid t0.25-2.0 118.0, t0.5-4.0 69.7
+basis: PT 180 cert Z s3: top-scoring per 1,000 paid t0.25-2.0 93.7, t0.5-4.0 62.0
+basis: PT 180 cert Z s4: top-scoring per 1,000 paid t0.25-2.0 102.0, t0.5-4.0 51.3
+basis: PT 180 cert Z s5: top-scoring per 1,000 paid t0.25-2.0 117.3, t0.5-4.0 75.7
+basis: PT 180 cert Z s6: top-scoring per 1,000 paid t0.25-2.0 128.3, t0.5-4.0 55.3
+basis: PT 180 cert Z s7: top-scoring per 1,000 paid t0.25-2.0 87.7, t0.5-4.0 41.3
+basis: PT 180 cert Z s8: top-scoring per 1,000 paid t0.25-2.0 125.7, t0.5-4.0 61.7
+basis: PT 180 cert Z s9: top-scoring per 1,000 paid t0.25-2.0 113.0, t0.5-4.0 53.0
+basis: PT 180 cert X s0: top-scoring per 1,000 paid t0.25-2.0 90.3, t0.5-4.0 36.7
+basis: PT 180 cert X s1: top-scoring per 1,000 paid t0.25-2.0 111.0, t0.5-4.0 34.7
+basis: PT 180 cert X s2: top-scoring per 1,000 paid t0.25-2.0 97.0, t0.5-4.0 69.7
+basis: PT 180 cert X s3: top-scoring per 1,000 paid t0.25-2.0 96.3, t0.5-4.0 35.3
+basis: PT 180 cert X s4: top-scoring per 1,000 paid t0.25-2.0 98.3, t0.5-4.0 43.3
+basis: PT 180 cert X s5: top-scoring per 1,000 paid t0.25-2.0 94.3, t0.5-4.0 52.7
+basis: PT 180 cert X s6: top-scoring per 1,000 paid t0.25-2.0 110.7, t0.5-4.0 51.0
+basis: PT 180 cert X s7: top-scoring per 1,000 paid t0.25-2.0 105.7, t0.5-4.0 45.0
+basis: PT 180 cert X s8: top-scoring per 1,000 paid t0.25-2.0 92.0, t0.5-4.0 53.0
+basis: PT 180 cert X s9: top-scoring per 1,000 paid t0.25-2.0 135.0, t0.5-4.0 49.7
+Table C.1 tuned PT range 180: 0.25-2.0, better of two in 26 of 26 bias and seed pairs
+basis: PT 300 t0.01-0.15: packed yield per seed [663, 630, 670, 693, 622, 630], mean 651.3
+basis: PT 300 t0.02-0.3: packed yield per seed [648, 624, 638, 629, 632, 610], mean 630.2
+basis: PT 300 t0.05-0.67: packed yield per seed [605, 602, 599, 626, 650, 619], mean 616.8
+basis: PT 300 t0.05-0.67_c32: packed yield per seed [649, 618, 605, 580, 654, 642], mean 624.7
+basis: PT 300 t0.3-4.0: packed yield per seed [420, 477, 447, 444, 437, 451], mean 446.0
 Table C.1 tuned PT range 300: 0.01-0.15, best of five on packed yield
+basis: held out 11,697 of 116,972 stored forms; chosen T1tfr at step 252,224
 Table C.1 supervised screen 180: 666,113 parameters; 252,224 updates, chosen among 4 variants and 20 checkpoints on a held-out 0.10 of the stored forms, then trained on 116,972
-Table C.1 earlier, smaller screen 180: 45,889 parameters, batch 64, 315,280 updates
+Table C.1 pilot screen 180: 45,889 parameters, batch 64, 315,280 updates
 Table C.1 supervised screen 300: 1,990 rounds, 96,449 parameters

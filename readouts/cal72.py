@@ -185,8 +185,8 @@ print("App. D.2: proportional sampling at n = 72, the earlier sampler, three see
 print(f"App. D.2: trained for {LONG:,} steps")
 print(f"App. D.2: total variation from its target {min(tv_long):.3f} to {max(tv_long):.3f};"
       f" uniform sampler {uniform_tv:.2f}")
-# "within": the smallest two-decimal bound at or above the largest gap
-print(f"App. D.2: learned log Z within {math.ceil(max(log_z_gap) * 100) / 100:.2f} of the exact {log_z_exact:.4f}")
+# "within": the smallest three-decimal bound at or above the largest gap
+print(f"App. D.2: learned log Z within {math.ceil(max(log_z_gap) * 1000) / 1000:.3f} of the exact {log_z_exact:.4f}")
 print(f"App. D.2: mass on the highest score value, over its target: {two(ratio_long)}")
 # The two partial fixes, per seed: top-mass ratio before -> after (1 would close the gap).
 print(f"App. D.2: ten times longer training ({SHORT:,} to {LONG:,} steps): top-mass ratio "

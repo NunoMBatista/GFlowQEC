@@ -1,13 +1,12 @@
-Table 3 (n = 180): first 1,000 paid calls, mean over seeds (Seeds = 10: seeds 0-9; 3: seeds 0-2), columns Seeds | tops +1 | tops -1 | neighbourhoods +1 | neighbourhoods -1
+Table 3 (n = 180): first 1,000 paid calls, mean over seeds 0-9, columns tops +1 | tops -1 | neighbourhoods +1 | neighbourhoods -1 (the neighbourhood columns are not in the paper)
 -- trained on, or started from, the stored evaluations of 42 earlier runs: novel certified top-scoring codes --
-GFlowQEC-offline | 10 | 313 | 317 | 191 | 190
-Supervised screen | 10 | 87 | 84 | 74 | 73
-Soft Q-learning, trained offline | 3 | 298 | 331 | 175 | 183
-Tuned PT started from the stored forms | 3 | 122 | 116 | 32 | 26
+GFlowQEC-offline | 313 | 317 | 191 | 190
+Supervised screen | 87 | 84 | 74 | 73
+Soft Q-learning, trained offline | 317 | 364 | 185 | 197
+Tuned PT from the stored forms | 119 | 123 | 28 | 27
 -- searching without stored data: every certified top-scoring code counts --
-Tuned PT | 3 | 105 | 95 | 24 | 21
-MAP-Elites, five bins | 3 | 87 | 87 | 16 | 10
-Uniform sampling | 3 | 11 | 9 | 10 | 9
-BO, one-hot encoding | 3 | 34 | 49 | 15 | 12
-bold, best per column | GFlowQEC-offline | Soft Q-learning, trained offline | GFlowQEC-offline | GFlowQEC-offline
-timed: 96 s
+Tuned PT | 97 | 84 | 23 | 18
+MAP-Elites, five bins | 103 | 92 | 15 | 12
+Uniform sampling | 12 | 8 | 11 | 8
+BO, one-hot encoding | 50 | 53 | 18 | 13
+timed: 206 s

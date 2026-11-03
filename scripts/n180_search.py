@@ -32,10 +32,12 @@ The methods (--arm):
 
 --prefix only names the file, so a regenerated run lands under the name its shipped file carries: r174 for the
 stored runs and the exact-oracle block, r200 for the later runs kept out of the stored pool (tuned PT started
-from the stored forms, uniform at gamma = -1, BO), r209 for the remaining rivals.
+from the stored forms, uniform at gamma = -1, BO), r209 for the remaining rivals. r200 also names seeds 3-9 of
+the stored-run families (tuned PT at both ranges, GFlowQEC-online, Munchausen DQN, uniform at gamma = +1), which
+are not stored runs.
 
-Commands, each for seeds s = 0, 1, 2 and both --sign Z and --sign X unless stated (--eta 10 and
---budget 3000 are the defaults):
+Commands, each for seeds s = 0-9 (the stored runs at seeds 0-2 under r174, their seeds 3-9 with --prefix r200)
+and both --sign Z and --sign X unless stated (--eta 10 and --budget 3000 are the defaults):
   stored runs (the pool)
     tuned PT                   python -m scripts.n180_search --arm pt --tmin 0.25 --tmax 2.0 --oracle cert --sign S --seed s
     PT at the other range      python -m scripts.n180_search --arm pt --tmin 0.5 --tmax 4.0 --oracle cert --sign S --seed s
@@ -51,17 +53,17 @@ Commands, each for seeds s = 0, 1, 2 and both --sign Z and --sign X unless state
     PPO                        python -m scripts.n180_search --arm ppo --ppo-ent 0.1 --oracle cert --prefix r209 --sign S --seed s   (and --ppo-ent 0.01)
     soft Q-learning            python -m scripts.n180_search --arm sdqn --oracle cert --prefix r209 --sign S --seed s
     MDQN in the local search   python -m scripts.n180_search --arm mdqnls --oracle cert --prefix r209 --sign S --seed s
-  exact-oracle block
+  exact-oracle block (seeds 0, 1, 2 only)
     both PT ranges             python -m scripts.n180_search --arm pt --tmin 0.25 --tmax 2.0 --sign S --seed s   (and --tmin 0.5 --tmax 4.0)
     uniform, unbiased          python -m scripts.n180_search --arm random --eta 1 --sign Z --seed s
 The other 15 stored runs (a conditional sampler with and without relational features, a relational variant of
 GFlowQEC-online, and GFlowQEC-online at eta 1) are shipped as data only.
 
-Compute, CPU-hours per cell (all its seeds and signs), network training included: tuned PT 113.6, PT 0.5-4.0
-54.1, GFlowQEC-online 25.9, Munchausen DQN 16.9, uniform at +1 12.0 (the 42 stored runs: 320.4); tuned PT
-started from the stored forms 49.2; uniform at -1 10.2; BO 16.6; MAP-Elites g5 87.9, g20 91.2; PPO 0.1 23.0, 0.01
-20.3; soft Q-learning 18.6; MDQN in the local search 31.0; exact block: PT 526.9, uniform at eta 1 56.6. So
-between about 3 CPU-hours (one BO run) and 44 (one exact-oracle PT run) per run.
+Compute, CPU-hours per cell (seeds 0-2 and both signs; seeds 3-9 ran on other machines), network training
+included: tuned PT 113.6, PT 0.5-4.0 54.1, GFlowQEC-online 25.9, Munchausen DQN 16.9, uniform at +1 12.0 (the 42
+stored runs: 320.4); tuned PT started from the stored forms 49.2; uniform at -1 10.2; BO 16.6; MAP-Elites g5 87.9,
+g20 91.2; PPO 0.1 23.0, 0.01 20.3; soft Q-learning 18.6; MDQN in the local search 31.0; exact block: PT 526.9,
+uniform at eta 1 56.6. So between about 3 CPU-hours (one BO run) and 44 (one exact-oracle PT run) per run.
 """
 
 import argparse

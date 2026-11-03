@@ -1,15 +1,16 @@
-Table E.1 (n = 300): good proposals per run, mean of seeds 0-5, 40,000 paid calls per run
+Table E.1 (n = 300): good proposals per run, mean of seeds 0-5 and 7-10, 40,000 paid calls per run
 method | good proposals per run | with near-duplicates counted once
 One stream per code
-GFlowQEC-online | 23,230* | 3,483
-Local search alone | 21,456 | 3,293
-Tuned PT | 21,171 | 6,164
-MAP-Elites | 16,733 | 7,932
-PPO, entropy weight 0.1 | 11,119 | 11,060
-Uniform sampling | 9,425 | 9,404
-Supervised screen, trained on the run's own paid calls | 21,177 | 21,050*
+GFlowQEC-online | 23,255* | 3,478
+Local search alone | 21,362 | 3,270
+Tuned PT | 21,146 | 6,076
+MAP-Elites | 16,258 | 7,644
+PPO, entropy weight 0.1 | 11,403 | 11,341
+Uniform sampling | 9,360 | 9,339
+Supervised screen, trained on the run's own paid calls | 21,139 | 21,014*
 Common random numbers
-GFlowQEC-online | 24,465* | 3,974
-Tuned PT | 22,054 | 7,220
-Bayesian optimisation, one-hot encoding | 18,499 | 13,258*
+GFlowQEC-online | 24,633* | 4,016
+Tuned PT | 21,831 | 7,162
+Bayesian optimisation, one-hot encoding | 18,492 | 13,274*
 * best per column within a group (bold in the paper)
+basis: y* per seed 0.004243, 0.004239, 0.004239, 0.004245, 0.004239, 0.004233, 0.004234, 0.004234, 0.004234, 0.004228; reference cells d31, f31, g31, u31, pt

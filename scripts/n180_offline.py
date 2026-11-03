@@ -21,14 +21,14 @@ Four legs, each writing one file under results/ (the shipped copies sit in data/
 sign X is gamma = -1). The readouts count these files into the n = 180 rows of GFlowQEC-offline, offline soft Q, the
 policy as a ranker of uniform candidates and the matched screen (the n = 180 summary table and its per-seed table).
 
-Commands (seeds s = 0, 1, 2; signs S = Z, X):
+Commands (seeds s = 0-9; signs S = Z, X):
 
     python -m scripts.n180_offline train --scale x20 --seed s                                    GFlowQEC-offline
     python -m scripts.n180_offline train --scale x20 --objective softq --device cuda --seed s    offline soft Q
 
     then sample, screen and certify, in that order, with the same flags:
     python -m scripts.n180_offline sample --scale x20 --sign S --seed s --n 1000 --over 10       second deployment (mu = 10)
-    python -m scripts.n180_offline sample --scale x20 --sign S --seed s --n 1000 --over 100      hundredfold (seeds 1, 2)
+    python -m scripts.n180_offline sample --scale x20 --sign S --seed s --n 1000 --over 100      hundredfold
     python -m scripts.n180_offline sample --scale x20 --sign S --seed s --n 1000 --over 10 --source uniform
                                                                     the policy as a ranker of uniform candidates
     python -m scripts.n180_offline sample --scale x20 --sign S --seed s --n 2000                 first, unranked deployment
@@ -37,7 +37,7 @@ Commands (seeds s = 0, 1, 2; signs S = Z, X):
     the matched screen's paid legs (its samples file is written by scripts.n180_screens rank; only the stem of
     --model-path is read here, to name the files):
     python -m scripts.n180_offline screen --model-path data/models/r177_mscreen_T1tfr_st252224_s{s}.pt \\
-        --source uniform --over 10 --sign S --n 1000 --seed s          (and certify; --over 100 at seeds 1, 2)
+        --source uniform --over 10 --sign S --n 1000 --seed s          (and certify; and --over 100)
 
     To deploy a shipped checkpoint instead of retraining, add --model-path data/models/<model file>.pt to sample,
     screen and certify; the output names are then exactly the shipped ones. --steps N trains a step-capped cell
@@ -48,7 +48,8 @@ Compute (from the stamps of the paper's runs):
     train      34.4 to 34.6 CPU-hours per seed on 4 threads (9.1 to 9.6 h wall; 315,280 steps at batch 256);
                offline soft Q 3,728 to 3,766 s wall per seed on one GPU
     sample     about 24 s per 10,000 draws
-    screen + certify, CPU-hours summed over the cells of one row (3 seeds x 2 signs unless stated):
+    screen + certify, CPU-hours summed over the cells of one row (seeds 0-2 x 2 signs unless stated; seeds 3-9
+               ran on other machines):
                mu = 10: 8.3 + 96.3; hundredfold (4 cells): 5.5 + 77.9; ranker: 4.0 + 22.1; unranked: 6.7 + 34.3;
                offline soft Q: 8.4 + 100.2; matched screen mu = 10: 5.2 + 33.0, mu = 100 (4 cells): 9.5 + 135.3
                (one exact certification takes about 2 to 4 minutes)
@@ -264,7 +265,7 @@ def sample_leg(args):
     # THE RANKER: with --source uniform the candidates are UNIFORM draws instead of the policy's own, drawn exactly
     # as the uniform search arm draws them (codes.draw_gen: redraw until both sides generate G) and scored by the
     # SAME model's teacher-forced logp, so the two deployments differ only in where the candidates came from. The
-    # stream is default_rng(10,000 + seed), the uniform candidate pool of the earlier supervised screen, so at
+    # stream is default_rng(10,000 + seed), the uniform candidate pool of the pilot screen, so at
     # over 10 / n 1,000 it draws the very codes that screen ranked. draw_gen absorbs the non-generating
     # rejections itself, so a uniform cell's `attempts` counts candidates that already generate and its
     # `nongenerating` is 0 by construction.

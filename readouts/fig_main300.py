@@ -1,4 +1,4 @@
-"""The n = 300 comparison figure of the paper, drawn from the stored runs.
+"""The n = 300 comparison figure, kept in the repository (not in the full version), drawn from the stored runs.
 
     (a) good proposals per run W, one dot per seed and a line at the mean;
     (b) W' = W x D, good proposals with near-duplicates counted once (D = the share of a run's visits kept
@@ -133,7 +133,8 @@ def fig_main300():
         stats_of[(a, b)] = (mode_of[a], pct, lo, hi, per_seed)
 
     # The printed values: (a) and (b) means in the order the figure draws them, then the (c) intervals
-    print("Fig. E.2, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once")
+    print("n = 300 comparison figure (repository only, not in the full version), means over seeds 0-5 and 7-10: "
+          "(a) good proposals per run | (b) near-duplicates counted once")
     for mode in ("code", "crn"):
         print(MODE_NAME[mode])
         for cell, label, _, _ in sorted([r for r in MAIN300 if r[3] == mode], key=lambda r: -Y[r[0]].mean()):
@@ -147,10 +148,12 @@ def fig_main300():
                 name = f"{SHORT_300[a]} - {SHORT_300[b]}"
                 print(f"{name[0].upper() + name[1:]} | {m:.1f} [{l:.1f}, {h:.1f}]")
     # Results at n = 300: the depth L = 127 was set after GFlowQEC-online at L = 31 trailed tuned PT on good proposals;
-    # the count of seeds where it trailed, from the same per-seed W as panel (a)
-    trailed = int(np.sum(Y["d31"] < Y["pt"]))
-    print(f"basis: per-seed W, L = 31 {Y['d31'].tolist()} against tuned PT {Y['pt'].tolist()}")
-    print(f"App. E.4: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in {trailed} of {len(Y['pt'])} seeds")
+    # the count of seeds where it trailed, from the same per-seed W as panel (a). The depth was set on seeds 0-5,
+    # before seeds 7-10 ran; counts.SEEDS begins with them.
+    assert list(counts.SEEDS[:6]) == list(range(6))
+    trailed = int(np.sum(Y["d31"][:6] < Y["pt"][:6]))
+    print(f"basis: per-seed W, seeds 0-5, L = 31 {Y['d31'][:6].tolist()} against tuned PT {Y['pt'][:6].tolist()}")
+    print(f"App. E.2: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in {trailed} of 6 seeds (seeds 0-5)")
 
     # Layout in inches. The row names take a left gutter; (a) and (b) sit side by side above (c) and share the
     # rows and the x scale, so a method's drop from (a) to (b) reads directly.
@@ -182,7 +185,7 @@ def fig_main300():
         for cell, label, colour, _ in rows:
             edge = BLACK if colour == YELLOW else colour       # yellow dots get a black rim
             for axes, values in ((ax, Y[cell]), (bx, Yp[cell])):
-                for s, dy in enumerate(offsets(6, 0.5)):       # one dot per seed, spread so none hides another
+                for s, dy in enumerate(offsets(len(values), 0.5)):       # one dot per seed, spread so none hides another
                     axes.plot(values[s], y + dy, "o", ms=2.6, mfc=colour, mec=edge, mew=0.4, alpha=0.9, zorder=3)
                 axes.plot([values.mean()] * 2, [y - 0.38, y + 0.38], color=BLACK, lw=1.1, zorder=4)   # the mean
             ticks.append(y)
@@ -204,7 +207,7 @@ def fig_main300():
     tag(ax, "(a)", 0.03)
     tag(bx, "(b)", gutter + half + gap)
 
-    # (c) per comparison: the six per-seed differences (circles) above, the mean (diamond) on its
+    # (c) per comparison: the ten per-seed differences (circles) above, the mean (diamond) on its
     # 95 % paired t interval (bar) below, in per cent of the second method's mean
     ticks, labels, y = [], [], 0.0
     for mode in ("code", "crn"):
@@ -218,7 +221,7 @@ def fig_main300():
             two_line = (a, b) in (("d127", "u127"), ("u127", "pt"), ("d127", "ss300"))   # the names wider than the gutter
             if two_line:
                 y -= 0.5
-            for s, dy in enumerate(offsets(6, 0.24)):
+            for s, dy in enumerate(offsets(len(per_seed), 0.24)):
                 cx.plot(per_seed[s], y + 0.2 + dy, "o", ms=2.2, mfc="white", mec=colour, mew=0.6, zorder=3)
             cx.plot([l, h], [y - 0.25] * 2, color=colour, lw=1.3, zorder=3)
             cx.plot(m, y - 0.25, "D", ms=3.6, mfc=colour, mec=BLACK, mew=0.4, zorder=4)

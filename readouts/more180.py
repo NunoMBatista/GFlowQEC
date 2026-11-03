@@ -1,7 +1,7 @@
 """The further n = 180 results, the text after their per-seed table: the k check, and a pay-back reading
 that the paper does not print.
 
-The sentence on the unranked deployment against the earlier, smaller screen restates note b of the table
+The sentence on the unranked deployment against the pilot screen restates note b of the table
 and is printed by readouts/res_prefix.py, not here.
 
 Pay-back against tuned PT. The unranked deployment of GFlowQEC-offline reused the stored evaluations
@@ -9,7 +9,7 @@ and its own training; charged with their processor time (the fixed cost), how ma
 calls would it need before its all-in seconds per novel certified top-scoring code fell to tuned PT's? That
 count is R*. It is infinite when one deployment's seconds already exceed the seconds tuned PT pays for the
 same number of tops: reuse divides only the fixed cost and can never repair a per-deployment deficit. The
-interval resamples the three seeds in pairs (deployment and tuned PT of the same seed together). The rival
+interval resamples seeds 0-2 in pairs (deployment and tuned PT of the same seed together). The rival
 is tuned PT continued, its paid calls 1,000 to 2,999, the honest rival from the second deployment on.
 
 The k check. Does the number of logical qubits k single out the top-scoring codes? Over the distinct
@@ -41,6 +41,7 @@ DELIVERY = 1000          # one deployment = one cell of 1,000 paid calls (the re
 BOOTS = 2000             # paired seed bootstrap resamples of R*
 DEPLOY = "POLICY r177_screen_transformer_w18_b256_x20_e10{sign}_n2000"   # the unranked deployment, 2,000 calls
 RIVAL = "PT continued t0.25-2.0 (orbits 1,000-3,000)"                     # tuned PT, paid calls 1,000-2,999
+SEEDS3 = (0, 1, 2)   # processor seconds are compared on seeds 0-2 only: seeds 3-9 ran on different machines
 
 print("App. D.1 text")
 
@@ -110,8 +111,8 @@ for sign in ("Z", "X"):
     lam = lam_of(10, sign)
     top = key_top(lam)[0]
     arms = counts.ledger_arms(runs, proxies, sign, lam, top, pool_count)
-    dep = sorted(arms[DEPLOY.format(sign=sign)], key=lambda c: c.seed)
-    pt = sorted(arms[RIVAL], key=lambda c: c.seed)
+    dep = sorted((c for c in arms[DEPLOY.format(sign=sign)] if c.seed in SEEDS3), key=lambda c: c.seed)
+    pt = sorted((c for c in arms[RIVAL] if c.seed in SEEDS3), key=lambda c: c.seed)
     assert all(c.uncertified == 0 for c in dep + pt), "a proxy-top row was never certified"
 
     # the fixed cost: the 42 stored runs' price at this condition (the runs counts.ledger_pool counts) ...

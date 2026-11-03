@@ -1,17 +1,18 @@
 Table B.1 input encoding: online, Q and PPO 180: 154; 300: 250; screen relational counts 504
 Table B.1 parameters, online: 180: 16,420; 300: 24,124; +1 for log Z
-Table B.1 parameters, GFlowQEC-offline: 605,863
+Table B.1 parameters, GFlowQEC-offline: 605,863, incl. 3 of f_theta
 Table B.1 parameters, supervised screen: 666,113
 Table B.1 parameters, soft Q and Munchausen DQN: 180: 16,420; 300: 24,124; target copy 16,420 / 24,124, not trained
 Table B.1 parameters, PPO: actor 180: 16,420; 300: 24,124; critic 180: 14,145; 300: 20,289
 Table B.1 updates, online 300 depth 127: 148,988-157,481
 Table B.1 updates, offline: 315,280; about 690 passes
 Table B.1 updates, supervised screen: 252,224, chosen on held-out stored forms
-Table B.1 updates, Q 300: 132,576-147,101
-Table B.1 updates, PPO 300: 3,082-5,417 batches (entropy 0.01); 180: 401-435
+Table B.1 updates, Q 300: 132,576-147,801
+Table B.1 updates, PPO 300: 3,082-5,830 batches (entropy 0.01); 180: 401-435 (seeds 0-2, the stored models)
 Table B.1 training data, offline and screen: 116,972 stored forms
-Table B.1 beta, online: 180: 8; 300: 64, none qualifies in 12 of 12 runs
+Table B.1 beta, online: 180: 8; 300: 64, none qualifies in 20 of 20 runs
 Table B.1 beta, offline: 8 at gamma = +1 and -1
 Table B.1 beta, Q: 300: 64; 180: 8; PPO: 300: 64; 180: 8
 Table B.1 log Z_0, offline: 43.118
 Table B.1 seeds and models, GFlowQEC-offline: 0-9, 10 models; supervised screen: 0-9, 10 models
+Table B.1 seeds, online, Q and PPO: 180: 0-9 per bias (120 run dumps); 300: 0-5, 7-10 (20 online, 10 Q and 10 PPO models)

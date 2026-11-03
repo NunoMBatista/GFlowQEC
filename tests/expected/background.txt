@@ -1,2 +1,5 @@
-Sec. 1 and App. E.2 text
+Sec. 1 and App. E.1 text
 Z10 x S3: at most about 3 x 10^8 codes up to equivalence (exact orbit count, ops (a)-(d) and the two entry swaps: 131,504,342 = 1.32e8)
+basis: |G| = 60, |Aut| = 48, |Inn| = 6; 34,220 3-element sets, 571 right and 571 left translation classes
+basis: orbits under (a)+(b) 106,302,733,681; + (d) 4,028,440,900; + (c) 517,872,884; + entry swaps 131,504,342
+timed: wall 8 s

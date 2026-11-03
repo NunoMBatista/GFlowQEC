@@ -1,12 +1,26 @@
-Table E.2 (n = 300): mean W over seeds 0-5, 40,000 paid calls per run
+Further runs at n = 300 (repository only, not in the full version; App. E.2 quotes its soft Q-learning and PPO rows): mean W over seeds 0-5 and 7-10, 40,000 paid calls per run
 One stream per code
-The plain sampler | -- | 12,686
-Soft Q-learning | -- | 10,928
-PPO, entropy weight 0.01, stopped early (17,552 to 36,224 paid calls, mean 29,940) | -- | 9,171
-Local search alone | 31 | 17,090
-Objective swap | 31 | 19,825
-GFlowQEC-online | 31 | 19,489
+The plain sampler | -- | 12,816
+Soft Q-learning | -- | 10,686
+PPO, entropy weight 0.01, stopped early (17,552 to 37,316 paid calls, mean 31,552) | -- | 9,889
+Local search alone | 31 | 17,172
+Objective swap | 31 | 19,531
+GFlowQEC-online | 31 | 19,476
 Common random numbers
-Objective swap | 127 | 24,562
-caption: GFlowQEC-online had the larger W in 6 of 6 seeds against every other run except the objective swap
-caption: against the objective swap it led in 2 of 6 seeds at L = 31 and 2 of 6 at L = 127
+Objective swap | 127 | 24,454
+caption: GFlowQEC-online had the larger W in 10 of 10 seeds against every other run except the objective swap
+caption: against the objective swap it led in 4 of 10 seeds at L = 31 and 5 of 10 at L = 127
+basis: d127 over sdqn 10/10
+basis: d127 over ppo 10/10
+basis: d127 over u127 10/10
+basis: d127 over pt 10/10
+basis: d127 over me 10/10
+basis: d127 over ppo1 10/10
+basis: d127 over rnd 10/10
+basis: d127 over ss300 10/10
+basis: d31 over u31 10/10
+basis: c127 over ptc 10/10
+basis: c127 over bo40k 10/10
+basis: d31 over p31 4/10
+basis: c127 over p127 5/10
+basis: PPO paid calls per seed 33,037, 31,822, 36,224, 29,757, 31,245, 17,552, 28,735, 34,279, 37,316, 35,558

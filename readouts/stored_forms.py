@@ -21,6 +21,7 @@ laptop. Run from the repo root:
 """
 import collections
 import json
+import math
 import re
 
 import torch
@@ -103,6 +104,10 @@ full = leaves.pop(1296)
 fewer = ", ".join(f"{c:,}" for c in sorted(leaves))
 print(f"Sec. 5.4 and App. B: legal tuples per stored form 1,296 for {full:,} forms, "
       f"fewer ({fewer}) for {sum(leaves.values()):,}")
+# The augmentation reorders the two free slots of each of the four sums (the identity term stays put):
+# 2! orders per sum, four sums, so 2!^4 = 16 tuples of the up to 1,296.
+reorderings = math.factorial(2) ** 4
+print(f"Sec. 5.4 and App. B: augmentation reorderings {reorderings} (two free slots per sum, four sums)")
 
 # ----------------------------------------------------------------------------- the reward floor
 # The reward is s^beta clamped at 1e-9 (the log of a zero reward is undefined), so the floor binds when the

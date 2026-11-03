@@ -22,7 +22,7 @@ the same ldpc build reproduces every value exactly. The search runs are read fro
 
 Which run a command picks: the file mitten_lersearch_<arm>_C10xS3_*<cell>_s<seed><tag>.json must match
 exactly one stored run (--src-cell plays the role of --cell in the elites leg). The 20 cells of the
-paper (counts.CELLS), each for --seed 0..5, with --workers 2 as run:
+paper (counts.CELLS), each for --seed 0-5 and 7-10 (seed 6 was the tuning seed), with --workers 2 as run:
 
     cell    --arm       --cell               --tag
     d31     gflowqec    det                  _d31
@@ -51,7 +51,7 @@ paper (counts.CELLS), each for --seed 0..5, with --workers 2 as run:
 The d31 and f31 visited files in data/n300 were written before the arm entered the file name, so they
 are named det_d31 and detP_f31; this script writes lsgfn_det_d31 and lsgfn_detP_f31 for them.
 
-The six best-code runs, each for --seed 0..5:
+The six best-code runs, each for --seed 0-5 and 7-10:
 
     python -m scripts.n300_rescore elites --arm gflowqec --tag _d127 --workers 2   (also _u127, _c127)
     python -m scripts.n300_rescore elites --arm pt --tag= --src-cell t0.01-0.15_w --workers 2
@@ -59,7 +59,7 @@ The six best-code runs, each for --seed 0..5:
     python -m scripts.n300_rescore elites --arm selfscreen --tag _ss300 --workers 2
 
 Compute: a visited run is 800 codes x 4,000 shots, 1,360 to 1,392 s with two workers on one server
-(about 0.4 CPU-h), about 46 CPU-h over the 120 runs; an elites run is about a quarter of that.
+(about 0.4 CPU-h), about 77 CPU-h over the 200 runs; an elites run is about a quarter of that.
 """
 
 import argparse

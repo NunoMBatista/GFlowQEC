@@ -1,4 +1,4 @@
-"""The n = 300 summary table: good proposals per run at n = 300, mean of seeds 0-5.
+"""The n = 300 summary table: good proposals per run at n = 300, mean of seeds 0-5 and 7-10.
 
 For each method and seed the readout reads two stored files:
   - the search run itself (data/n300/mitten_lersearch_*.json): every paid call in order;
@@ -71,9 +71,8 @@ for seed in counts.SEEDS:
         w[cell].append(good)
         w_once[cell].append(good * counts.d_visit(counts.source_path(visited)))
 
-# Mean over the six seeds, then print with the paper's rounding (whole numbers, thousands comma).
-seeds = list(counts.SEEDS)
-print(f"Table E.1 (n = 300): good proposals per run, mean of seeds {seeds[0]}-{seeds[-1]}, "
+# Mean over the ten seeds, then print with the paper's rounding (whole numbers, thousands comma).
+print(f"Table E.1 (n = 300): good proposals per run, mean of seeds 0-5 and 7-10, "
       f"{budget:,} paid calls per run")
 print("method | good proposals per run | with near-duplicates counted once")
 for group, rows in GROUPS:

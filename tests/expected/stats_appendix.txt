@@ -1,2 +1,3 @@
-Table C.2 seed count under a fair coin: at least 5 of 6 0.109; 6 of 6 0.016; at least 4 of 6 0.344; at least 2 of 3 at each of two biases 0.25
+Table C.2 seed count under a fair coin: 10 of 10 0.001; at least 8 of 10 0.055
+basis: 40,000 uniform draws in 40 files, 26,281 of them generate the group
 App. C.2: tau_1% 0.003567, the first percentile of 26,281 generating uniform draws

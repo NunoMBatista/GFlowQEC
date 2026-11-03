@@ -2,9 +2,8 @@
 
 Every row is one method at gamma = +1 (sign "Z") and gamma = -1 (sign "X"). The columns are:
 
-    Seeds   how many seeds the row holds: 10 (seeds 0-9) for the four rows repeated at ten seeds
-            (GFlowQEC-offline ranked at mu = 10 and 100, the supervised screen at 10 and 100 times),
-            2 (seeds 1 and 2) for the earlier screen at 100 times, 3 (seeds 0-2) for every other row;
+    Seeds   how many seeds the row holds: 10 (seeds 0-9) for every row except the pilot screen at
+            100 times, 9 (seeds 1-9);
     Codes   certified top-scoring codes per seed among the method's first 1,000 paid calls;
     Ratio   GFlowQEC-offline's (ranked, mu = 10) pooled count over the row's pooled count, both summed
             over the seeds the two rows share (1,000 paid calls per shared seed), with its 95 % Katz
@@ -12,7 +11,6 @@ Every row is one method at gamma = +1 (sign "Z") and gamma = -1 (sign "X"). The 
     Nbhd    the same ratio on neighbourhoods (distinct gauge classes of the bottleneck half among the
             certified tops), no interval.
 
-So a three-seed row is read against GFlowQEC-offline's seeds 0-2, and a ten-seed row against all ten.
 Ratio and Nbhd are blank for the two screens at 100 times, whose oversample the deployment at mu = 10
 does not match.
 
@@ -21,9 +19,9 @@ canonical form (it is novel). Below the rule the methods never saw them and ever
 GFlowQEC-offline's numerator still counts novel codes only. Note a: the "Policy as a ranker" and
 "Ranked, mu = 100" rows are read over the matched supervised screen at the same mu (10 for the ranker,
 100 for the ranked deployment), not over GFlowQEC-offline. Note b: the unranked deployment over all its
-2,000 paid calls against the earlier, smaller screen's 1,000.
+2,000 paid calls against the pilot screen's 1,000.
 
-Reads only data/ through gflowqec.counts; no oracle is called; about 38 s on a laptop. Run from the repo
+Reads only data/ through gflowqec.counts; no oracle is called; about 55 s on a laptop. Run from the repo
 root:
     python -m readouts.res_prefix
 """
@@ -34,9 +32,8 @@ from gflowqec.stats import katz
 
 T0 = time.time()
 PREFIX = counts.PREFIX          # 1,000 paid calls per cell
-SEEDS = (0, 1, 2)
-SEEDS_10 = tuple(range(10))     # the four rows repeated at ten seeds
-SEEDS_100 = (1, 2)              # the earlier screen at 100 times was run at seeds 1 and 2 only
+SEEDS = tuple(range(10))
+SEEDS_100 = tuple(range(1, 10))  # the pilot screen at 100 times has no seed 0
 
 # The paper's row label, then the row's name in counts.prefix_arms, in the paper's order.
 # Rows above the rule (novel codes only):
@@ -46,8 +43,8 @@ ABOVE = [
     ("Policy as a ranker", "Policy as a ranker"),
     ("Ranked, mu = 100", "Ranked, mu 100"),
     ("Supervised screen, 100 times", "Supervised screen, 100 times (matched)"),
-    ("Earlier, smaller screen, 10 times", "Earlier, smaller screen, 10 times"),
-    ("Earlier, smaller screen, 100 times", "Earlier, smaller screen, 100 times"),
+    ("Pilot screen, 10 times", "Pilot screen, 10 times"),
+    ("Pilot screen, 100 times", "Pilot screen, 100 times"),
     ("Unranked deployment", "Unranked deployment"),
     ("Soft Q-learning, trained offline", "Soft Q-learning, trained offline"),
     ("Tuned PT started from the stored forms", "Tuned PT started from the stored forms"),
@@ -70,14 +67,12 @@ POLICY = "GFlowQEC-offline, ranked, mu 10"        # the numerator of every other
 RANKER = "Policy as a ranker"
 RANKED_100 = "Ranked, mu 100"
 MATCHED_100 = "Supervised screen, 100 times (matched)"
-EARLIER_100 = "Earlier, smaller screen, 100 times"
-HUNDREDFOLD = {RANKED_100, MATCHED_100, EARLIER_100}      # the rows at 100, their basis printed below
-# the four rows repeated at ten seeds
-TEN_SEEDS = {POLICY, "Supervised screen, 10 times", RANKED_100, MATCHED_100}
+PILOT_100 = "Pilot screen, 100 times"
+HUNDREDFOLD = {RANKED_100, MATCHED_100, PILOT_100}      # the rows at 100, their basis printed below
 # note a: these rows are read over the matched supervised screen at the same mu, both counted as novel codes
 OVER_MATCHED = {RANKER: "Supervised screen, 10 times", RANKED_100: MATCHED_100}
 # the screens at 100 times print Codes only: the deployment at mu = 10 does not match their oversample
-BLANK = {MATCHED_100, EARLIER_100}
+BLANK = {MATCHED_100, PILOT_100}
 # Ranked, mu = 100 at gamma = -1, seed 1: the count after the top-up that re-draws the cell's stored
 # forms (its files stf_* are read by hyb180). The table prints the primary count, the cell's own 1,000 paid calls.
 TOPUP_X_S1 = 464
@@ -121,11 +116,7 @@ def hood_cell(a, b):
 
 def row_seeds(name):
     """The seeds a row of this table holds."""
-    if name in TEN_SEEDS:
-        return SEEDS_10
-    if name == EARLIER_100:
-        return SEEDS_100
-    return SEEDS
+    return SEEDS_100 if name == PILOT_100 else SEEDS
 
 
 # ------------------------------------------------------------------ read every row at both signs
@@ -138,7 +129,7 @@ for sign in ("Z", "X"):
         assert tuple(c.seed for c in arms[name]) == row_seeds(name), (sign, name)
         assert all(c.uncertified == 0 for c in arms[name]), f"{sign} {name}: proxy-top rows never certified"
     for name in BELOW:
-        assert tuple(c.seed for c in arms[name]) == SEEDS, (sign, name)
+        assert tuple(c.seed for c in arms[name]) == row_seeds(name), (sign, name)
 
 
 def row_line(label, name, novel):
@@ -169,7 +160,7 @@ def row_line(label, name, novel):
     return " | ".join(out)
 
 
-print(f"Table D.1: first {PREFIX:,} paid calls, Seeds = 10 (seeds 0-9), 3 (seeds 0-2) or 2 (seeds 1-2); "
+print(f"Table D.1: first {PREFIX:,} paid calls, Seeds = 10 (seeds 0-9) or 9 (seeds 1-9); "
       "each ratio pooled over the seeds its two rows share")
 for label, name in ABOVE:
     print(row_line(label, name, novel=True))
@@ -204,14 +195,14 @@ print(f"basis: Ranked, mu = 100 X seed 1 prints {primary}, the primary count (it
       f"Nbhd {ha / hb:.3f} on {ha} / {hb} (primary)")
 
 # ------------------------------------------------------------------ note b
-# The unranked deployment over ALL its 2,000 paid calls (novel tops) against the earlier, smaller screen's
-# 1,000 (novel tops), pooled over seeds with the Katz interval; and whether it trails in every seed.
+# The unranked deployment over ALL its 2,000 paid calls (novel tops) against the pilot screen's 1,000
+# (novel tops), pooled over seeds with the Katz interval; and whether it trails in every seed.
 UNRANKED = "Unranked deployment"
-EARLIER = "Earlier, smaller screen, 10 times"
+PILOT_10 = "Pilot screen, 10 times"
 note = []
 per_seed_ratios = []
 for sign in ("Z", "X"):
-    dep, scr = cells[sign][UNRANKED], cells[sign][EARLIER]
+    dep, scr = cells[sign][UNRANKED], cells[sign][PILOT_10]
     assert len({c.n for c in dep}) == 1, "the unranked deployment cells differ in length"
     calls = dep[0].n
     ua = [c.tops(True) for c in dep]           # novel tops over all rows

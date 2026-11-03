@@ -3,11 +3,13 @@
 The n = 180 file names (data/n180, and the two reference-sample files of data/keys) keep the prefix of the run
 family that wrote them; the prefix is a name only, read by the loaders below:
     r174_   the stored search runs (the 42 certified ones are the stored runs GFlowQEC-offline trains on), the legs of the
-            earlier, smaller supervised screen ("leg": "proxy"), and the reference-sample read and resolve;
+            pilot screen ("leg": "proxy"), and the reference-sample read and resolve;
     r177_   the deployment cells of GFlowQEC-offline and its controls, and the matched supervised screens
             (the dumps also carry "experiment": "r177");
-    r200_   later runs compared against the stored ones (tuned PT started from the stored forms, uniform
-            sampling at gamma = -1, one-hot BO), never part of the stored pool;
+    r200_   later runs compared against the stored ones, never part of the stored pool: tuned PT started from
+            the stored forms, uniform sampling at gamma = -1, one-hot BO, and seeds 3-9 of the r174 search
+            families (tuned PT at both temperature ranges, uniform sampling at gamma = +1, Munchausen DQN,
+            GFlowQEC-online at depth 7);
     r209_   later rival runs (MAP-Elites, PPO, online soft Q-learning, GFlowQEC-online with Munchausen DQN as
             its learner).
 
@@ -24,7 +26,7 @@ n = 180 (the n = 180 summary table, its per-seed table and the results text)
                    data of GFlowQEC-offline and the reference a novel code is checked against.
     LedgerArm      one cell (method, sign, seed) counted row by row: certified top-scoring codes, which of
                    them are novel, their neighbourhoods (codes.half_class) and the processor seconds.
-    ledger_arms    every deployment cell and every stored run of one sign as LedgerArms.
+    ledger_arms    every deployment cell, every stored run and every later r200 run of one sign as LedgerArms.
     prefix_arms    every row of the per-seed n = 180 table, the search runs cut to their first 1,000 paid calls.
 
 n = 300 (the n = 300 summary table and figure, the table of further n = 300 runs, and their text)
@@ -111,10 +113,10 @@ def kind_of(d):
 
 
 def load_dumps():
-    """The r174 dumps of data/n180, each with its file name: (search runs, earlier-screen legs).
+    """The r174 dumps of data/n180, each with its file name: (search runs, pilot screen legs).
 
-    The search runs include the 42 stored runs. The earlier-screen legs ("leg": "proxy") hold the codes
-    the earlier, smaller supervised screen picked and paid."""
+    The search runs include the 42 stored runs. The pilot screen legs ("leg": "proxy") hold the codes
+    the pilot screen picked and paid."""
     runs, proxies = [], []
     for f in sorted(N180.glob("r174_*.json")):
         d = json.load(open(f))
@@ -127,7 +129,8 @@ def load_dumps():
 
 def load_r200():
     """The later complete n = 180 runs (tuned PT started from the stored forms, uniform sampling at gamma = -1,
-    one-hot BO). Their r200 prefix keeps them out of the stored runs they are compared against."""
+    one-hot BO, and seeds 3-9 of the r174 search families). Their r200 prefix keeps them out of the stored runs
+    they are compared against."""
     out = []
     for f in sorted(N180.glob("r200_*.json")):
         d = json.load(open(f))
@@ -244,18 +247,16 @@ def ledger_pool(runs):
 
 
 # The deployment cells of GFlowQEC-offline and its controls (data/n180/r177_screen_<cell>_s<seed>.json),
-# with their seeds, in file-name order.
+# with their seeds (0-9 for every cell), in file-name order.
 POLICY_CELLS = [
     ("mscreen_T1tfr_st252224_e10{sign}_n1000_u100", tuple(range(10))),    # matched supervised screen, 100 times
     ("mscreen_T1tfr_st252224_e10{sign}_n1000_u10", tuple(range(10))),     # matched supervised screen, 10 times
     ("transformer_w18_b256_x20_e10{sign}_n1000_o100", tuple(range(10))),  # GFlowQEC-offline ranked, mu = 100
     ("transformer_w18_b256_x20_e10{sign}_n1000_o10", tuple(range(10))),   # GFlowQEC-offline ranked, mu = 10
-    ("transformer_w18_b256_x20_e10{sign}_n1000_u10", (0, 1, 2)),          # the policy as a ranker of uniform draws
-    ("transformer_w18_b256_x20_e10{sign}_n2000", (0, 1, 2)),              # unranked deployment, 2,000 paid calls
-    ("transformer_w18_b256_x20_softq_e10{sign}_n1000_o10", (0, 1, 2)),    # soft Q-learning trained offline, mu = 10
+    ("transformer_w18_b256_x20_e10{sign}_n1000_u10", tuple(range(10))),   # the policy as a ranker of uniform draws
+    ("transformer_w18_b256_x20_e10{sign}_n2000", tuple(range(10))),       # unranked deployment, 2,000 paid calls
+    ("transformer_w18_b256_x20_softq_e10{sign}_n1000_o10", tuple(range(10))),  # soft Q-learning offline, mu = 10
 ]
-# The four cells repeated at ten seeds (GFlowQEC-offline ranked at mu = 10 and 100, the matched screen at 10 and
-# 100 times) hold seeds 0-9; every other cell holds seeds 0-2.
 
 
 def ledger_arms(runs, proxies, sign, lam, top, pool_count):
@@ -263,7 +264,7 @@ def ledger_arms(runs, proxies, sign, lam, top, pool_count):
 
     From the run dumps: "PT from scratch t<range>" and "PT continued t<range> (orbits 1,000-3,000)", the same
     with "POOL-WARM PT" for PT started from the stored forms, "uniform + screen", "lsgfn" (GFlowQEC-online),
-    "lsgfn-rel" and "mdqn". From the earlier-screen legs: "supervised proxy-SCREEN (relational, full pool)"
+    "lsgfn-rel" and "mdqn". From the pilot screen's legs: "supervised proxy-SCREEN (relational, full pool)"
     and its ", over 100)" twin. From POLICY_CELLS: "POLICY r177_screen_<cell>".
     """
     arms = {}
@@ -277,6 +278,7 @@ def ledger_arms(runs, proxies, sign, lam, top, pool_count):
             continue
         rows = rep_rows(d)
         keys = dump_keys(d, rows)
+        stored = not d["file"].startswith("r200_")     # an r200 run is never one of the stored runs (ledger_pool)
         if d["arm"] == "random":                       # uniform draws do not depend on the sign
             # ONE cell per seed: a uniform run re-certified at the other sign holds the same codes, so the
             # dump certified at THIS sign is preferred (its certification seconds are the ones charged)
@@ -288,13 +290,13 @@ def ledger_arms(runs, proxies, sign, lam, top, pool_count):
         elif d["arm"] == "pt":
             warm = "POOL-WARM PT" if "_Wpool" in d["file"] else "PT"
             lad = f"t{d['tmin']}-{d['tmax']}"
-            add(f"{warm} from scratch {lad}", d, rows, keys, True)
+            add(f"{warm} from scratch {lad}", d, rows, keys, stored)
             if len(rows) > 1000:          # a 1,000-call run has no continuation
-                add(f"{warm} continued {lad} (orbits 1,000-3,000)", d, rows[1000:], keys[1000:], True)
+                add(f"{warm} continued {lad} (orbits 1,000-3,000)", d, rows[1000:], keys[1000:], stored)
         elif d["arm"] in ("lsgfn", "mdqn"):
-            add(d["arm"] + ("-rel" if d.get("relational") else ""), d, rows, keys, True)
+            add(d["arm"] + ("-rel" if d.get("relational") else ""), d, rows, keys, stored)
     for d, rows, keys in rnd.values():
-        add("uniform + screen", d, rows, keys, True)
+        add("uniform + screen", d, rows, keys, not d["file"].startswith("r200_"))
     grants = {}                                   # screen label -> its oversampling factors (must be one)
     for d in proxies:
         if d["eta"] != 10.0 or d["sign"] != sign or kind_of(d) != "[cert]":
@@ -335,8 +337,8 @@ PREFIX_LEDGER = [
     ("Policy as a ranker", "POLICY r177_screen_transformer_w18_b256_x20_e10{sign}_n1000_u10"),
     ("Ranked, mu 100", "POLICY r177_screen_transformer_w18_b256_x20_e10{sign}_n1000_o100"),
     ("Supervised screen, 100 times (matched)", "POLICY r177_screen_mscreen_T1tfr_st252224_e10{sign}_n1000_u100"),
-    ("Earlier, smaller screen, 100 times", "supervised proxy-SCREEN (relational, full pool, over 100)"),
-    ("Earlier, smaller screen, 10 times", "supervised proxy-SCREEN (relational, full pool)"),
+    ("Pilot screen, 100 times", "supervised proxy-SCREEN (relational, full pool, over 100)"),
+    ("Pilot screen, 10 times", "supervised proxy-SCREEN (relational, full pool)"),
     ("Unranked deployment", "POLICY r177_screen_transformer_w18_b256_x20_e10{sign}_n2000"),
     ("Soft Q-learning, trained offline", "POLICY r177_screen_transformer_w18_b256_x20_softq_e10{sign}_n1000_o10"),
 ]
@@ -388,7 +390,8 @@ def prefix_arms(sign):
     """Every row of the per-seed n = 180 table at this sign, {paper row: [LedgerArm per seed]}.
 
     Search runs are cut to their first 1,000 paid calls. Deployment cells and screens keep all their rows
-    (the unranked deployment has 2,000), so read them with upto=PREFIX.
+    (the unranked deployment has 2,000), so read them with upto=PREFIX. Every row holds seeds 0-9, except the
+    pilot screen at 100 times (seeds 1-9).
     """
     lam = lam_of(10, sign)
     top = key_top(lam)[0]
@@ -398,7 +401,11 @@ def prefix_arms(sign):
     arms = ledger_arms(runs, proxies, sign, lam, top, pool_count)
     out = {row: arms[label.format(sign=sign)] for row, label in PREFIX_LEDGER}
     for row, name, member in prefix_rivals(sign):
-        out[row] = [prefix_arm(name.format(seed=s), sign, s, lam, top, pool_count, member) for s in (0, 1, 2)]
+        # seeds 0-2 under the file name given; seeds 3-9 of an r174 family were run later under the r200 prefix,
+        # so they are not stored runs (an r200 or r209 row has the same name at every seed)
+        later = name.replace("r174_", "r200_")
+        out[row] = ([prefix_arm(name.format(seed=s), sign, s, lam, top, pool_count, member) for s in (0, 1, 2)]
+                    + [prefix_arm(later.format(seed=s), sign, s, lam, top, pool_count, False) for s in range(3, 10)])
     return out
 
 
@@ -428,7 +435,7 @@ def visit_indices(d):
 REFERENCE_CELLS = ("d31", "f31", "g31", "u31", "pt")   # the five reference cells whose pooled median fixes y*
 # PPO at entropy weight 0.01 stopped early in every seed and is read as a disclosed partial cell.
 PARTIAL_CELLS = ("ppo",)
-SEEDS = range(6)
+SEEDS = (0, 1, 2, 3, 4, 5, 7, 8, 9, 10)  # seeds 0-5 and 7-10 (seed 6 was the tuning seed)
 
 # cell -> the infix of its visited files, data/n300/g1_repay_visited_i4000_<infix>_s<seed>.json
 CELLS = {"d31": "det_d31",                      # GFlowQEC-online, depth 31 (reference)
@@ -467,8 +474,9 @@ def source_stamp(visited):
 
 
 def load_visited(cells):
-    """{cell: {seed: visited file}} for seeds 0-5. A short visit leg or a search run short of its budget
-    is a hard stop, except the PPO cell of PARTIAL_CELLS. Each file gets "crn" from its search run."""
+    """{cell: {seed: visited file}} for the seeds in SEEDS (0-5 and 7-10). A short visit leg or a search run
+    short of its budget is a hard stop, except the PPO cell of PARTIAL_CELLS. Each file gets "crn" from its
+    search run."""
     runs = {}
     for cell in cells:
         for seed in SEEDS:

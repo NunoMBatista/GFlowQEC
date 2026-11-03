@@ -9,11 +9,11 @@ The first group of rows used the stored evaluations of the 42 earlier runs (trai
 from them), so only NOVEL top-scoring codes count for it: codes whose canonical form no stored run paid.
 The second group searched without stored data, so every certified top-scoring code counts.
 
-Each printed cell is the mean over the row's seeds of the per-seed count, rounded to a whole number, a half
-rounded up (a mean of ten integers can end in .5). GFlowQEC-offline and the supervised screen hold seeds 0-9,
-every other row seeds 0-2; the Seeds column prints how many. The per-seed counts are in the per-seed table (res_prefix).
+Each printed cell is the mean over seeds 0-9 of the per-seed count, rounded to a whole number, a half rounded up
+(a mean of ten integers can end in .5). The neighbourhood columns are printed for reference; the paper's Table 3
+does not show them. The per-seed counts are in the per-seed table (res_prefix).
 
-Reads only data/ (through gflowqec.counts); no oracle call, nothing written; about 37 s on a laptop. Run from
+Reads only data/ (through gflowqec.counts); no oracle call, nothing written; about 50 s on a laptop. Run from
 the repo root:
     python -m readouts.sum180
 """
@@ -23,23 +23,22 @@ import time
 from gflowqec import counts
 
 t0 = time.time()
-SEEDS = (0, 1, 2)
-SEEDS_10 = tuple(range(10))     # the two rows repeated at ten seeds
+SEEDS = tuple(range(10))     # every row holds seeds 0-9
 
-# The paper's rows, in table order: (row label in the table, row label in counts.prefix_arms, seeds).
+# The paper's rows, in table order: (row label in the table, row label in counts.prefix_arms).
 # The first four are the methods that used the stored evaluations (novel codes only); the last four searched
 # without stored data (every certified top-scoring code counts).
 NOVEL_ROWS = [
-    ("GFlowQEC-offline", "GFlowQEC-offline, ranked, mu 10", SEEDS_10),          # draws 10x, pays its top 1,000
-    ("Supervised screen", "Supervised screen, 10 times", SEEDS_10),             # ranks 10x uniform candidates
-    ("Soft Q-learning, trained offline", "Soft Q-learning, trained offline", SEEDS),
-    ("Tuned PT started from the stored forms", "Tuned PT started from the stored forms", SEEDS),
+    ("GFlowQEC-offline", "GFlowQEC-offline, ranked, mu 10"),          # draws 10x, pays its top 1,000
+    ("Supervised screen", "Supervised screen, 10 times"),             # ranks 10x uniform candidates
+    ("Soft Q-learning, trained offline", "Soft Q-learning, trained offline"),
+    ("Tuned PT from the stored forms", "Tuned PT started from the stored forms"),
 ]
 ALL_ROWS = [
-    ("Tuned PT", "Tuned PT", SEEDS),
-    ("MAP-Elites, five bins", "MAP-Elites, 5 bins", SEEDS),
-    ("Uniform sampling", "Uniform sampling", SEEDS),              # a separate run per bias (counts.prefix_rivals)
-    ("BO, one-hot encoding", "BO, one-hot encoding", SEEDS),
+    ("Tuned PT", "Tuned PT"),
+    ("MAP-Elites, five bins", "MAP-Elites, 5 bins"),
+    ("Uniform sampling", "Uniform sampling"),              # a separate run per bias (counts.prefix_rivals)
+    ("BO, one-hot encoding", "BO, one-hot encoding"),
 ]
 
 
@@ -63,12 +62,12 @@ for col, sign in enumerate(("Z", "X")):
     # exactly 42 runs and 126,000 paid calls, the "42 earlier runs" of the header and the table note
     arms = counts.prefix_arms(sign)
     for rows, novel_only in ((NOVEL_ROWS, True), (ALL_ROWS, False)):
-        for paper_row, prefix_row, seeds in rows:
+        for paper_row, prefix_row in rows:
             per_seed = {arm.seed: cell_counts(arm, novel_only) for arm in arms[prefix_row]}
-            assert sorted(per_seed) == list(seeds), f"{paper_row} at {sign}: seeds {sorted(per_seed)}"
+            assert sorted(per_seed) == list(SEEDS), f"{paper_row} at {sign}: seeds {sorted(per_seed)}"
             cells = table.setdefault(paper_row, [None] * 4)
-            cells[col] = [per_seed[s][0] for s in seeds]          # top-scoring codes
-            cells[2 + col] = [per_seed[s][1] for s in seeds]      # neighbourhoods
+            cells[col] = [per_seed[s][0] for s in SEEDS]          # top-scoring codes
+            cells[2 + col] = [per_seed[s][1] for s in SEEDS]      # neighbourhoods
 
 
 def mean(xs):
@@ -76,16 +75,12 @@ def mean(xs):
     return int(sum(xs) / len(xs) + 0.5)
 
 
-print("Table 3 (n = 180): first 1,000 paid calls, mean over seeds (Seeds = 10: seeds 0-9; 3: seeds 0-2), "
-      "columns Seeds | tops +1 | tops -1 | neighbourhoods +1 | neighbourhoods -1")
+print("Table 3 (n = 180): first 1,000 paid calls, mean over seeds 0-9, columns tops +1 | tops -1 | "
+      "neighbourhoods +1 | neighbourhoods -1 (the neighbourhood columns are not in the paper)")
 print("-- trained on, or started from, the stored evaluations of 42 earlier runs: novel certified top-scoring codes --")
-for paper_row, _, seeds in NOVEL_ROWS:
-    print(" | ".join([paper_row, str(len(seeds))] + [str(mean(c)) for c in table[paper_row]]))
+for paper_row, _ in NOVEL_ROWS:
+    print(" | ".join([paper_row] + [str(mean(c)) for c in table[paper_row]]))
 print("-- searching without stored data: every certified top-scoring code counts --")
-for paper_row, _, seeds in ALL_ROWS:
-    print(" | ".join([paper_row, str(len(seeds))] + [str(mean(c)) for c in table[paper_row]]))
-
-# the bold cells: the row with the largest rounded mean in each column, over both groups
-best = [max(table, key=lambda row: mean(table[row][j])) for j in range(4)]
-print(" | ".join(["bold, best per column"] + best))
+for paper_row, _ in ALL_ROWS:
+    print(" | ".join([paper_row] + [str(mean(c)) for c in table[paper_row]]))
 print(f"timed: {time.time() - t0:.0f} s")

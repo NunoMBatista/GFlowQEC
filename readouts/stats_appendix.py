@@ -1,8 +1,7 @@
 """The statistical procedures appendix: the seed-count row of its table and the threshold of the packed-yield
 paragraph above it.
 
-Seed count    Under a fair coin per seed, at least five of six has probability 0.109, six of six 0.016,
-              at least four of six 0.344, at least two of three at each of two biases 0.25.
+Seed count    Under a fair coin per seed, ten of ten has probability 0.001 and at least eight of ten 0.055.
 Packed yield  Packed yield counted paid codes whose rate was at most 0.003567, the first percentile of
               26,281 earlier uniform draws.
 
@@ -29,16 +28,12 @@ def at_least(j, n):
 
 
 # ---------------------------------------------------------------------------------------------
-# The statistics table, the seed count. The last case is two independent biases with three seeds each, and
-# at least two of three must lead at both: (4 / 8) ** 2. The paper prints three decimals, and two
-# for the last value.
+# The statistics table, the seed count, for ten seeds (the count the paper's seed comparisons use). The paper
+# prints three decimals.
 # ---------------------------------------------------------------------------------------------
-p5of6 = at_least(5, 6)               # 7 / 64
-p6of6 = at_least(6, 6)               # 1 / 64
-p4of6 = at_least(4, 6)               # 22 / 64
-p2of3_twice = at_least(2, 3) ** 2    # (4 / 8) ** 2
-print(f"Table C.2 seed count under a fair coin: at least 5 of 6 {p5of6:.3f}; 6 of 6 {p6of6:.3f}; "
-      f"at least 4 of 6 {p4of6:.3f}; at least 2 of 3 at each of two biases {p2of3_twice:.2f}")
+p10of10 = at_least(10, 10)           # 1 / 1,024
+p8of10 = at_least(8, 10)             # 56 / 1,024
+print(f"Table C.2 seed count under a fair coin: 10 of 10 {p10of10:.3f}; at least 8 of 10 {p8of10:.3f}")
 
 # ---------------------------------------------------------------------------------------------
 # The packed-yield paragraph, tau_1%. The threshold is defined on the generating draws only: a draw

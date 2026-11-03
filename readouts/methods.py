@@ -1,10 +1,10 @@
 """The methods table (comparison methods as run): the cells that are measured rather than set in code.
 
-Tuned PT range. 180: 0.25-2.0 (better of two, all twelve bias and seed pairs);
+Tuned PT range. 180: 0.25-2.0 (better of two, all 26 bias and seed pairs);
     300: 0.01-0.15 (best of five on packed yield).
 Supervised screen, 180: 666,113 parameters; 252,224 updates, chosen among four variants and twenty
     checkpoints by held-out precision on a tenth of the stored forms, then trained on all of them.
-Earlier, smaller screen, 180: two hidden layers of 64 (45,889 parameters), batch 64, 315,280 updates.
+Pilot screen, 180: two hidden layers of 64 (45,889 parameters), batch 64, 315,280 updates.
 Supervised screen, 300: 1,990 rounds; 96,449 parameters.
 
 Every other cell of the table is a setting written in the code. This script reads data/ only and calls
@@ -31,10 +31,10 @@ MODELS = DATA / "models"
 # =============================================================================================
 # Tuned PT range at n = 180.
 #
-# Two temperature ranges were run, each at both biases (sign Z is gamma = +1, sign X is gamma = -1)
-# and three seeds, in two blocks: one on the exact oracle (every paid code gets exact distances) and
-# one on the certifying oracle (bound ladders first, exact distances only when the bounds reach the
-# bar). That is 2 blocks x 2 signs x 3 seeds = 12 pairs. In each pair the better range is the one
+# Two temperature ranges were run, each at both biases (sign Z is gamma = +1, sign X is gamma = -1),
+# in two blocks: the exact oracle (every paid code gets exact distances) at seeds 0-2 and the
+# certifying oracle (bound ladders first, exact distances only when the bounds reach the bar) at
+# seeds 0-9. That is 2 signs x (3 + 10) seeds = 26 pairs. In each pair the better range is the one
 # with more top-scoring codes per 1,000 paid codes.
 # =============================================================================================
 
@@ -60,15 +60,17 @@ def top_count(rows, lam, top):
 
 
 RANGES_180 = ("0.25-2.0", "0.5-4.0")
+SEEDS_180 = {"": range(3), "_cert": range(10)}   # the exact-oracle block ran seeds 0-2, the certifying block seeds 0-9
 wins = {t: 0 for t in RANGES_180}
 for block in ("", "_cert"):                  # "" = the exact-oracle block, "_cert" = the certifying block
     for sign in ("Z", "X"):
         lam = lam_of(10, sign)
         top = key_top(lam)[0]                # the answer key's best score at this bias (10.0 at both signs)
-        for seed in range(3):
+        for seed in SEEDS_180[block]:
+            prefix = "r174" if seed < 3 else "r200"   # seeds 3-9 were run later and are not stored runs
             rate = {}
             for t in RANGES_180:
-                d = json.load(open(N180 / f"r174_pt_C6xS3_e10{sign}_b3000_t{t}{block}_s{seed}.json"))
+                d = json.load(open(N180 / f"{prefix}_pt_C6xS3_e10{sign}_b3000_t{t}{block}_s{seed}.json"))
                 assert d["complete"] and d["sign"] == sign and d["eta"] == 10.0
                 rows = counts.run_rows(d)
                 rate[t] = 1000 * top_count(rows, lam, top) / len(rows)
@@ -156,16 +158,16 @@ print(f"Table C.1 supervised screen 180: {params180:,} parameters; {choice['step
 
 
 # =============================================================================================
-# The earlier, smaller screen at n = 180: a perceptron on the bag encoding of the code (4 x 36),
-# the condition vector (2) and the relational counts. Its batch and update count are stamped in the
-# ten deployment dumps it ranked.
+# The pilot screen at n = 180: a perceptron on the bag encoding of the code (4 x 36), the condition
+# vector (2) and the relational counts. Its batch and update count are stamped in the 38 deployment
+# dumps it ranked (10 times at seeds 0-9, 100 times at seeds 1-9, both biases).
 # =============================================================================================
 
 params_mlp = screens.n_params(screens.screen_net(4 * T180.n + 2 + T180.dim))
 dumps = [json.load(open(f)) for f in sorted(glob.glob(str(N180 / "r174_proxy_pool116972_MR_e10*_n1000_o*_h64_st315280_s*.json")))]
-assert len(dumps) == 10 and all(d["relational"] and d["hidden"] == 64 for d in dumps)
+assert len(dumps) == 38 and all(d["relational"] and d["hidden"] == 64 for d in dumps)
 assert len({(d["batch"], d["steps"]) for d in dumps}) == 1
-print(f"Table C.1 earlier, smaller screen 180: {params_mlp:,} parameters, batch {dumps[0]['batch']}, "
+print(f"Table C.1 pilot screen 180: {params_mlp:,} parameters, batch {dumps[0]['batch']}, "
       f"{dumps[0]['steps']:,} updates")
 
 
@@ -178,7 +180,7 @@ print(f"Table C.1 earlier, smaller screen 180: {params_mlp:,} parameters, batch 
 T300 = RelTables("C10xS3")
 params300 = screens.n_params(screens.screen_net(4 * T300.n + T300.dim))
 runs = [json.load(open(N300 / f"mitten_lersearch_selfscreen_C10xS3_b0.35_t0.05-0.67_w_s{seed}_ss300.json"))
-        for seed in range(6)]
+        for seed in counts.SEEDS]   # seeds 0-5 and 7-10
 assert all(d["ss_params"] == params300 for d in runs)
 rounds = {(d["budget"] - d["ss_calib"]) // d["ss_batch"] for d in runs}
 assert len(rounds) == 1

@@ -1,4 +1,4 @@
-"""The two supervised screens at n = 180: the matched screen and the earlier, smaller screen.
+"""The two supervised screens at n = 180: the matched screen and the pilot screen.
 
 A supervised screen is the plain alternative to a generative policy. It is a regressor trained on the 116,972
 stored forms (every code the 42 stored runs paid for, with its stored distances), the same data GFlowQEC-offline
@@ -9,8 +9,8 @@ default_rng(10,000 + seed), so their rows compare with the policy's on equal inf
 Regenerates the supervised-screen rows of the n = 180 summary table ("Supervised screen") and its per-seed table, and the results
 sentences on them:
 
-    matched screen   "Supervised screen, 10 times" and "Supervised screen, 100 times" (the latter pending in the
-                     paper): GFlowQEC-offline's transformer turned into a regressor
+    matched screen   "Supervised screen, 10 times" and "Supervised screen, 100 times": GFlowQEC-offline's
+                     transformer turned into a regressor
                      (gflowqec.screens.ScreenTransformer). Legs, in order:
       select --config C         one configuration (T1plain, T2plain, T1tfr, T2tfr) trained at seed 0 on a fixed
                                 90 % of the stored forms; its held-out precision at the top 1 % per bias every
@@ -26,10 +26,8 @@ sentences on them:
                                 scripts.n180_offline's screen and certify legs then pay it (the command is printed).
       check-cands --seed s --over mu
                                 the identity check of the candidates alone (rank runs it first)
-    earlier, smaller screen
-                     "Earlier, smaller screen, 10 times", and at 100 times (seeds 1 and 2) the ratios
-                     1.32 and 1.57 (not printed in the paper): a two-hidden-layer perceptron on the bag encoding, the
-                     relational counts and the bias. One leg:
+    pilot screen     "Pilot screen, 10 times" and "Pilot screen, 100 times" (seeds 1-9): a two-hidden-layer
+                     perceptron on the bag encoding, the relational counts and the bias. One leg:
       mlp --seed s --sign S --over mu
                                 trains it (gflowqec.screens.train_mlp_screen), ranks the candidates, pays the top
                                 1,000 on the certifying oracle
@@ -38,13 +36,13 @@ sentences on them:
 Commands (run from the repo root):
     python -m scripts.n180_screens select --config T1plain --device cuda       (and T2plain, T1tfr, T2tfr)
     python -m scripts.n180_screens choose
-    python -m scripts.n180_screens train --seed 0 --device cuda                (seeds 0, 1, 2)
-    python -m scripts.n180_screens rank --seed 0 --sign Z --over 10            (signs Z, X; over 10 at seeds 0-2,
-                                                                                over 100 at seeds 1-2)
+    python -m scripts.n180_screens train --seed 0 --device cuda                (seeds 0-9)
+    python -m scripts.n180_screens rank --seed 0 --sign Z --over 10            (signs Z, X; over 10 and over 100
+                                                                                at seeds 0-9)
     python -m scripts.n180_offline screen --model-path results/r177_mscreen_T1tfr_st252224_s0.pt --source uniform
         --over 10 --sign Z --n 1000 --seed 0                                   (then certify, same flags)
-    python -m scripts.n180_screens mlp --seed 0 --sign Z --over 10             (signs Z, X; over 10 at seeds 0-2,
-                                                                                over 100 at seeds 1-2)
+    python -m scripts.n180_screens mlp --seed 0 --sign Z --over 10             (signs Z, X; over 10 at seeds 0-9,
+                                                                                over 100 at seeds 1-9)
 
 Every leg writes to results/, and each later leg reads the earlier legs' files from results/. To rank with the
 shipped model instead of retraining it, copy data/n180/screen180match_choice.json and
@@ -52,8 +50,9 @@ data/models/r177_mscreen_T1tfr_st252224_s{s}.pt into results/ first.
 
 Compute (the runs behind the paper): selection 2,792 to 2,952 s of GPU wall per configuration and final training 2,366 to
 2,443 s of GPU wall per seed, on one GPU; rank takes a few minutes on one CPU, and its paid legs belong to
-scripts.n180_offline. Earlier, smaller screen: training 20.4 CPU-h over the six over-10 cells and 13.4 CPU-h over
-the four over-100 cells, paying 21.2 and 46.7 CPU-h on the certifying oracle.
+scripts.n180_offline. Pilot screen: training 20.4 CPU-h over the six over-10 cells of seeds 0-2 and 13.4 CPU-h
+over the four over-100 cells of seeds 1-2, paying 21.2 and 46.7 CPU-h on the certifying oracle (seeds 3-9 ran
+on other machines).
 """
 
 import argparse
@@ -82,7 +81,7 @@ N = 1000                                # paid calls per deployment cell
 ETA = 10.0                              # the deployment bias: eta = 10 at either sign (lam = +1 or -1)
 CHOICE = OUT / "screen180match_choice.json"
 
-# The earlier, smaller screen's recipe: hidden width 64, batch 64, and the policy's 315,280 updates
+# The pilot screen's recipe: hidden width 64, batch 64, and the policy's 315,280 updates
 MLP_HIDDEN = 64
 MLP_BATCH = 64
 MLP_STEPS = MAX_STEPS
@@ -202,7 +201,7 @@ def train_leg(args):
 # ----------------------------------------------------------------------------- check-cands
 def check_cands_leg(args):
     """Draws the candidates and runs the identity check alone (they must be the policy's u10 ranking cell's
-    candidates, and hold every pick of the earlier, smaller screen)."""
+    candidates, and hold every pick of the pilot screen)."""
     cands, attempts = draw_candidates(args.seed, args.over, N)
     print(f"{len(cands):,} candidates in {attempts:,} attempts", flush=True)
     candidate_check(cands, args.seed, args.over, N)
@@ -256,9 +255,9 @@ def rank_leg(args):
           f"--over {args.over} --sign {args.sign} --n {N} --seed {args.seed}   (then certify, same flags)", flush=True)
 
 
-# ----------------------------------------------------------------------------- mlp (the earlier, smaller screen)
+# ----------------------------------------------------------------------------- mlp (the pilot screen)
 def mlp_leg(args):
-    """The earlier, smaller screen: the perceptron trained on all stored forms for the policy's 315,280 updates,
+    """The pilot screen: the perceptron trained on all stored forms for the policy's 315,280 updates,
     then the mu x N uniform candidates ranked at the deployment bias and the top N paid on the certifying oracle
     (its bound ladders use the parity rule, the oracle's default)."""
     lam = lam_of(ETA, args.sign)

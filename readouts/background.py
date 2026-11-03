@@ -1,7 +1,6 @@
 """The size of the n = 300 space (in the introduction and in the appendix on the n = 300 oracle and settings).
 
-"the tuple makes ten choices among the sixty elements of the group, giving at most about 3 x 10^8
-codes up to equivalence". The receipt is an exact count, by Burnside's lemma, of the orbits of the
+App. E.1: "the space, at most about 3 x 10^8 codes up to equivalence, is too large to enumerate". The receipt is an exact count, by Burnside's lemma, of the orbits of the
 family's tuples under relabellings that are known to give the same code (qubits and checks
 relabelled, X and Z colours kept):
 
@@ -33,7 +32,7 @@ from fractions import Fraction
 from gflowqec.codes import group_for, mul_table
 
 T0 = time.time()
-print("Sec. 1 and App. E.2 text")
+print("Sec. 1 and App. E.1 text")
 
 name = "C10xS3"
 mul = mul_table(name)

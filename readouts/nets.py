@@ -2,8 +2,8 @@
 
 Parameter counts are measured by building each network exactly as the runs built it and counting its
 trainable parameters. Update counts, the reward exponent beta and the log Z warm start are read from the
-stamps of the shipped checkpoints. The same beta values are restated in the text ("beta = 64, with none
-qualifying, at n = 300 ... beta = 8 at gamma = +-1"); they are printed once, here.
+stamps of the shipped checkpoints. The same beta values are restated in Table B.1 and the text ("300: 64, none
+qualifies" ... "8 at gamma = +-1"); they are printed once, here.
 
 Where the paper prints one value for a group of files (every beta, every parameter count, 315,280, 252,224,
 116,972), the files must agree with each other: a disagreement stops the script with an assertion instead of
@@ -27,7 +27,9 @@ from gflowqec.screens import ScreenTransformer
 
 MODELS = DATA / "models"
 G180, G300 = "C6xS3", "C10xS3"      # the groups of the two arenas: |G| = 36 gives n = 180, |G| = 60 gives n = 300
-SEEDS3, SEEDS6, SEEDS10 = (0, 1, 2), range(6), range(10)
+SEEDS3 = (0, 1, 2)                         # n = 180: the online, Q and PPO models the release stores
+SEEDS10 = range(10)                        # n = 180: GFlowQEC-offline and the supervised screen; every run
+SEEDS300 = (0, 1, 2, 3, 4, 5, 7, 8, 9, 10)  # n = 300: seeds 0-5 and 7-10 (seed 6 was the tuning seed)
 
 
 def load(path):
@@ -77,6 +79,7 @@ n180 = len(group_for(G180)[1])
 torch.manual_seed(0)
 transformer = TupleTransformer(n180)
 offline_params = count(transformer)
+f_theta_params = count(transformer.zc)        # f_theta, the learned log Z correction: Linear(2, 1)
 
 # The supervised screen: the same transformer body without the causal mask, which also reads the relational
 # counts of the tuple (a 504-entry vector, codes.RelTables) through one linear map.
@@ -102,27 +105,43 @@ screen_steps = one([c["steps"] for c in screens] + [choice["step"]], "screen ste
 screen_rows = one((c["rows"] for c in screens), "screen training rows")
 training_rows = one((offline_rows, screen_rows), "offline and screen training rows")
 
-# GFlowQEC-online at n = 300, depth 127: the 12 runs of the two deployments (_d127 and its twin _c127).
+# GFlowQEC-online at n = 300, depth 127: the 20 runs of the two deployments (_d127 and its twin _c127).
 # One update is one saved loss, so the update count is the length of the loss list.
-online300 = ([f"mitten_lersearch_lsgfn_C10xS3_b0.8_t0.05-0.67_w_k1i127det_s{s}_d127" for s in SEEDS6]
-             + [f"mitten_lersearch_lsgfn_C10xS3_b0.8_t0.05-0.67_w_k1i127detC_s{s}_c127" for s in SEEDS6])
+online300 = ([f"mitten_lersearch_lsgfn_C10xS3_b0.8_t0.05-0.67_w_k1i127det_s{s}_d127" for s in SEEDS300]
+             + [f"mitten_lersearch_lsgfn_C10xS3_b0.8_t0.05-0.67_w_k1i127detC_s{s}_c127" for s in SEEDS300])
 online300_ckpt = [load(MODELS / f"{stem}.pt") for stem in online300]
 online300_updates = [len(c["losses"]) for c in online300_ckpt]
 
-# GFlowQEC-online at n = 180 (depth 7), one bias per run: three seeds per bias.
+# GFlowQEC-online at n = 180 (depth 7), one bias per run: the stored models of seeds 0-2 (the runs hold
+# seeds 0-9; their dumps are in data/n180).
 online180_ckpt = [load(MODELS / f"r174_lsgfn_C6xS3_e10{b}_b3000_k1i7det_cert_s{s}.pt") for b in "XZ" for s in SEEDS3]
 
-# Soft Q-learning at n = 300 (six seeds); soft Q and Munchausen DQN at n = 180 (three learners, two biases).
-q300 = [load(MODELS / f"mitten_lersearch_sdqn_C10xS3_b0.8_t0.05-0.67_w_s{s}.pt") for s in SEEDS6]
+# Soft Q-learning at n = 300 (ten seeds); soft Q and Munchausen DQN at n = 180 (three learners, two biases),
+# the stored models of seeds 0-2 (the runs hold seeds 0-9; their dumps are in data/n180).
+q300 = [load(MODELS / f"mitten_lersearch_sdqn_C10xS3_b0.8_t0.05-0.67_w_s{s}.pt") for s in SEEDS300]
 q180 = [load(MODELS / f"{arm}_C6xS3_e10{b}_b3000_{tail}_s{s}.pt")
         for arm, tail in (("r209_sdqn", "cert"), ("r174_mdqn", "cert"), ("r209_mdqnls", "k1i7det_cert"))
         for b in "XZ" for s in SEEDS3]
 
-# PPO at n = 300 (entropy weight 0.01, six seeds) and at n = 180 (two entropy weights, two biases, three seeds).
+# PPO at n = 300 (entropy weight 0.01, ten seeds) and at n = 180 (two entropy weights, two biases), the stored
+# models of seeds 0-2 (the runs hold seeds 0-9; their dumps are in data/n180).
 # A PPO update is one batch of 8 trajectories, trained 4 epochs; one saved loss per batch.
-ppo300 = [load(MODELS / f"mitten_lersearch_ppo_C10xS3_b0.8_t0.05-0.67_w_s{s}.pt") for s in SEEDS6]
+ppo300 = [load(MODELS / f"mitten_lersearch_ppo_C10xS3_b0.8_t0.05-0.67_w_s{s}.pt") for s in SEEDS300]
 ppo180 = [load(MODELS / f"r209_ppo_C6xS3_e10{b}_b3000_ent{e}_cert_s{s}.pt")
           for b in "XZ" for e in ("0.01", "0.1") for s in SEEDS3]
+
+# The seeds of the n = 180 runs behind the online, Q and PPO columns, read from their run dumps: every
+# (learner or entropy weight, bias) holds seeds 0-9, each run complete at beta = 8. Seeds 3-9 of GFlowQEC-online
+# and Munchausen DQN ran later under the r200 prefix, so they are not stored runs.
+RUNS180 = ("{p}_lsgfn_C6xS3_e10{b}_b3000_k1i7det_cert", "r209_sdqn_C6xS3_e10{b}_b3000_cert",
+           "{p}_mdqn_C6xS3_e10{b}_b3000_cert", "r209_mdqnls_C6xS3_e10{b}_b3000_k1i7det_cert",
+           "r209_ppo_C6xS3_e10{b}_b3000_ent0.01_cert", "r209_ppo_C6xS3_e10{b}_b3000_ent0.1_cert")
+for stem in RUNS180:
+    for bias in "XZ":
+        for seed in SEEDS10:
+            name = stem.format(p="r174" if seed < 3 else "r200", b=bias) + f"_s{seed}.json"
+            run = json.load(open(DATA / "n180" / name))
+            assert run["complete"] and run["seed"] == seed and run["sign"] == bias and run["beta"] == 8.0, name
 
 # ----------------------------------------------------------------------------- beta
 # The reward exponent rule (policy.derive_beta): the smallest beta on the grid 1 ... 64 that puts at
@@ -174,7 +193,7 @@ print(f"Table B.1 input encoding: online, Q and PPO 180: {s180['enc']}; 300: {s3
       f"screen relational counts {T.dim}")
 print(f"Table B.1 parameters, online: 180: {s180['online']:,}; 300: {s300['online']:,}; "
       f"+{one((s180['logZ'], s300['logZ']), 'log Z size')} for log Z")
-print(f"Table B.1 parameters, GFlowQEC-offline: {offline_params:,}")
+print(f"Table B.1 parameters, GFlowQEC-offline: {offline_params:,}, incl. {f_theta_params} of f_theta")
 print(f"Table B.1 parameters, supervised screen: {screen_params:,}")
 print(f"Table B.1 parameters, soft Q and Munchausen DQN: 180: {s180['q']:,}; 300: {s300['q']:,}; "
       f"target copy {s180['target']:,} / {s300['target']:,}, not trained")
@@ -185,7 +204,7 @@ print(f"Table B.1 updates, offline: {offline_steps:,}; about {passes} passes")
 print(f"Table B.1 updates, supervised screen: {screen_steps:,}, chosen on held-out stored forms")
 print(f"Table B.1 updates, Q 300: {span([len(c['losses']) for c in q300])}")
 print(f"Table B.1 updates, PPO 300: {span([len(c['losses']) for c in ppo300])} batches (entropy 0.01); "
-      f"180: {span([len(c['losses']) for c in ppo180])}")
+      f"180: {span([len(c['losses']) for c in ppo180])} (seeds 0-2, the stored models)")
 print(f"Table B.1 training data, offline and screen: {training_rows:,} stored forms")
 print(f"Table B.1 beta, online: 180: {b(beta180)}; 300: {b(beta_online300)}, "
       f"none qualifies in {none_qualifies} of {len(online300)} runs")
@@ -194,3 +213,6 @@ print(f"Table B.1 beta, Q: 300: {b(beta_q300)}; 180: {b(beta_q180)}; PPO: 300: {
 print(f"Table B.1 log Z_0, offline: {logz0}")
 print(f"Table B.1 seeds and models, GFlowQEC-offline: {SEEDS10[0]}-{SEEDS10[-1]}, {len(offline)} models; "
       f"supervised screen: {SEEDS10[0]}-{SEEDS10[-1]}, {len(screens)} models")
+print(f"Table B.1 seeds, online, Q and PPO: 180: {SEEDS10[0]}-{SEEDS10[-1]} per bias "
+      f"({len(RUNS180) * 2 * len(SEEDS10)} run dumps); 300: 0-5, 7-10 ({len(online300)} online, {len(q300)} Q "
+      f"and {len(ppo300)} PPO models)")

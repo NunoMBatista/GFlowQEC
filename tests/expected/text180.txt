@@ -1,30 +1,31 @@
-Sec. 7 text: n = 180, first 1,000 paid calls, seeds 0-2 (0-9 for the four rows repeated at ten seeds), each ratio pooled over the seeds its two rows share
-GFlowQEC-offline ahead of every other method in every paired seed, soft Q-learning trained offline and the supervised screen at 100 times excepted | yes | yes
-Soft Q-learning trained offline over GFlowQEC-offline | 0.95 [0.88, 1.03] | 1.07 [0.997, 1.16]
-Seeds in which soft Q-learning trained offline was ahead | 1 of 3 | 2 of 3
-Over tuned PT | 3.0 [2.6, 3.3] | 3.2 [2.9, 3.7]
-Over tuned PT started from the stored forms | 2.6 [2.3, 2.9] | 2.7 [2.4, 3.0]
-Over MAP-Elites, 5 bins | 3.6 | 3.6
-Over uniform sampling | 28 | 33
-GFlowQEC-online, depth 7, certified top-scoring codes per run | 17 | 15
-Per cent of novel top-scoring codes equivalent to no stored code nor its mirror | 70 | 73
-Equivalence-free, over tuned PT with equivalent codes and mirrors counted once | 2.2 [1.97, 2.5] | 2.6 [2.2, 2.9]
-Equivalence-free, above two in every seed | yes | yes
-Equivalence-free, over tuned PT started from the stored forms | 2.7 | 2.8
-Equivalence-free, over the supervised screen | 3.6 | 3.6
-Equivalence-free, soft Q-learning trained offline not separated | yes | yes
+Sec. 7 text: n = 180, first 1,000 paid calls, seeds 0-9 (processor seconds on seeds 0-2), each ratio pooled over the seeds its two rows share
+GFlowQEC-offline ahead of every other method of Table 3 in every paired seed, soft Q-learning trained offline excepted | yes | yes
+Soft Q-learning trained offline over GFlowQEC-offline | 1.01 [0.97, 1.06] | 1.15 [1.105, 1.19]
+Not in the paper: seeds in which soft Q-learning trained offline was ahead | 7 of 10 | 8 of 10
+Table D.1 ratio, rounded: over tuned PT | 3.2 [3.0, 3.4] | 3.8 [3.5, 4.1]
+Table D.1 ratio, rounded: over tuned PT started from the stored forms | 2.6 [2.5, 2.8] | 2.6 [2.4, 2.7]
+Table D.1 ratio, rounded: over MAP-Elites, 5 bins | 3.0 | 3.4
+Table D.1 ratio, rounded: over uniform sampling | 27 | 38
+Not in the paper: GFlowQEC-online, depth 7, certified top-scoring codes per run | 16 | 15
+Not in the paper: per cent of novel top-scoring codes equivalent to no stored code nor its mirror | 71 | 70
+Not in the paper: equivalence-free, over tuned PT with equivalent codes and mirrors counted once | 2.4 [2.23, 2.6] | 2.8 [2.6, 3.0]
+Not in the paper: equivalence-free, above two in every seed | no | yes
+Equivalence-free, over tuned PT started from the stored forms | 2.8 | 2.7
+Not in the paper: equivalence-free, over the supervised screen | 3.6 | 3.7
+Not in the paper: equivalence-free, soft Q-learning trained offline not separated | yes | no
 Over the supervised screen | 3.6 [3.4, 3.9] | 3.8 [3.5, 4.1]
 Over the supervised screen: seeds in which GFlowQEC-offline led | 10 of 10 | 10 of 10
 Hundredfold oversample, seeds 0-9: novel top-scoring codes per seed, GFlowQEC-offline ranked at mu = 100 against the supervised screen at 100 times | 273, 338, 400, 185, 235, 258, 301, 276, 261, 236 against 582, 642, 636, 615, 660, 626, 645, 643, 501, 563 | 336, 463, 488, 229, 290, 360, 367, 421, 434, 349 against 500, 644, 590, 611, 659, 621, 625, 626, 558, 555
 Hundredfold oversample: GFlowQEC-offline ranked at mu = 100 over the supervised screen at 100 times | 0.45 [0.44, 0.47] | 0.62 [0.61, 0.64]
 Hundredfold oversample: seeds in which the supervised screen at 100 times was ahead | 10 of 10 | 10 of 10
-Hundredfold oversample: the supervised screen at 100 times ahead of GFlowQEC-offline in every paired seed | yes | yes
-Policy ranking the screen's uniform candidates, over its own draws | 0.200 | 0.221
-Neighbourhoods, over tuned PT | 7.8 | 9.0
-Neighbourhoods, over the supervised screen | 2.6 | 2.6
-Per cent of the policy's neighbourhoods that also hold a stored certified top-scoring code, range over its six runs of seeds 0-2 | 86.9 to 89.6
+Not in the paper: hundredfold oversample, the supervised screen at 100 times ahead of GFlowQEC-offline in every paired seed | yes | yes
+Policy ranking the screen's uniform candidates, over its own draws | 0.208 | 0.215
+Table D.1 neighbourhood ratio, rounded: over tuned PT | 8.4 | 10.8
+Table D.1 neighbourhood ratio, rounded: over the supervised screen | 2.6 | 2.6
+Not in the paper: per cent of the policy's neighbourhoods that also hold a stored certified top-scoring code, range over its six runs of seeds 0-2 | 86.9 to 89.6
 Per cent of the policy's neighbourhoods that also hold a stored certified top-scoring code, range over its twenty runs of seeds 0-9 | 86.9 to 92.7
-Equivalence-free per 1,000 oracle processor seconds, tuned PT against GFlowQEC-offline | 6.0 against 4.5 | 3.6 against 2.9
-Processor time per paid call, GFlowQEC-offline over tuned PT | 3 | 3
-Paid calls that ran the exact ladders, GFlowQEC-offline over tuned PT | 3.3 | 3.7
-Exact-ladder runs per novel certified top-scoring code counted by canonical form, GFlowQEC-offline against the supervised screen | 1.42 against 1.36 | 1.45 against 1.37
+Equivalence-free per 1,000 oracle processor seconds, seeds 0-2, tuned PT against GFlowQEC-offline | 6.0 against 4.5 | 3.6 against 2.9
+Equivalence-free per 1,000 exact-ladder processor seconds, seeds 0-2, tuned PT against GFlowQEC-offline | 7.0 against 5.0 | 4.0 against 3.1
+Not in the paper: processor time per paid call, seeds 0-2, GFlowQEC-offline over tuned PT | 3 | 3
+Paid calls that ran the exact ladders, GFlowQEC-offline over tuned PT | 3.5 | 4.2
+Exact-ladder runs per novel certified top-scoring code counted by canonical form, GFlowQEC-offline against the supervised screen | 1.41 against 1.40 | 1.43 against 1.40

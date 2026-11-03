@@ -146,11 +146,14 @@ for arm, label in (("H", "screen ranking the policy's draws"), ("U", "screen ran
                    ("P", "policy ranked by its log-probability, with its top-up")):
     z = ", ".join(str(x) for x in tops[arm, "Z"])
     x = ", ".join(str(x) for x in tops[arm, "X"])
-    print(f"{arm} ({label}) | gamma = +1: {z} | gamma = -1: {x}")
+    # U and P are rows of Table D.1; the paper prints no per-seed count of H
+    lead = "Not in the paper: " if arm == "H" else ""
+    print(f"{lead}{arm} ({label}) | gamma = +1: {z} | gamma = -1: {x}")
 for den in ("U", "P"):
     out = []
     for sign in ("Z", "X"):
         text, ahead = ratio("H", den, sign)
         out.append(f"gamma = {GAMMA[sign]}: {text}, H ahead in {ahead} of {len(SEEDS)} seeds")
-    print(f"H / {den} | " + " | ".join(out))
+    lead = "Not in the paper: " if den == "P" else ""      # the paper prints H / U only
+    print(f"{lead}H / {den} | " + " | ".join(out))
 print(f"timed: {time.time() - T0:.0f} s")

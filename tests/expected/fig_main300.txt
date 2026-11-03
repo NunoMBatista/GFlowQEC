@@ -1,24 +1,25 @@
-Fig. E.2, n = 300, means over seeds 0-5: (a) good proposals per run | (b) near-duplicates counted once
+n = 300 comparison figure (repository only, not in the full version), means over seeds 0-5 and 7-10: (a) good proposals per run | (b) near-duplicates counted once
 one stream per code
-GFlowQEC-online, L = 127 | 23,230 | 3,483
-Local search alone, L = 127 | 21,456 | 3,293
-Supervised screen | 21,177 | 21,050
-Tuned PT | 21,171 | 6,164
-GFlowQEC-online, L = 31 | 19,489 | 5,900
-MAP-Elites | 16,733 | 7,932
-PPO, entropy weight 0.1 | 11,119 | 11,060
-Uniform sampling | 9,425 | 9,404
+GFlowQEC-online, L = 127 | 23,255 | 3,478
+Local search alone, L = 127 | 21,362 | 3,270
+Tuned PT | 21,146 | 6,076
+Supervised screen | 21,139 | 21,014
+GFlowQEC-online, L = 31 | 19,476 | 5,878
+MAP-Elites | 16,258 | 7,644
+PPO, entropy weight 0.1 | 11,403 | 11,341
+Uniform sampling | 9,360 | 9,339
 common random numbers
-GFlowQEC-online, L = 127 | 24,465 | 3,974
-Tuned PT | 22,054 | 7,220
-Bayesian optimisation | 18,499 | 13,258
+GFlowQEC-online, L = 127 | 24,633 | 4,016
+Tuned PT | 21,831 | 7,162
+Bayesian optimisation | 18,492 | 13,274
 (c) first minus second at L = 127, per cent of the second's mean, 95 per cent paired t interval
 one stream per code
-GFlowQEC-online - tuned PT | 9.7 [4.8, 14.7]
-GFlowQEC-online - supervised screen | 9.7 [2.2, 17.2]
-GFlowQEC-online - local search alone | 8.3 [3.2, 13.3]
-Local search alone - tuned PT | 1.3 [-4.7, 7.4]
+GFlowQEC-online - tuned PT | 10.0 [6.7, 13.3]
+GFlowQEC-online - supervised screen | 10.0 [5.7, 14.3]
+GFlowQEC-online - local search alone | 8.9 [5.5, 12.2]
+Local search alone - tuned PT | 1.0 [-2.7, 4.7]
 common random numbers
-GFlowQEC-online - tuned PT | 10.9 [6.2, 15.7]
-App. E.4: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in 6 of 6 seeds
+GFlowQEC-online - tuned PT | 12.8 [9.7, 16.0]
+basis: per-seed W, seeds 0-5, L = 31 [19435.95, 18812.079999999998, 19913.256250000002, 19148.010000000002, 20157.9, 19469.73] against tuned PT [20995.8, 21745.649999999998, 20845.829999999998, 21345.73, 20845.829999999998, 21245.75]
+App. E.2: GFlowQEC-online, L = 31, trailed tuned PT on good proposals in 6 of 6 seeds (seeds 0-5)
 wrote results/fig-main300.pdf

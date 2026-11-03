@@ -1,10 +1,11 @@
-"""The table of further n = 300 runs: the mean good-proposal count W for the runs the summary table leaves out,
-and the seed counts quoted in the table's caption.
+"""The table of further n = 300 runs, kept in the repository (not in the full version; App. E.2 quotes its soft
+Q-learning and PPO rows): the mean good-proposal count W for the runs the summary table leaves out, and the seed
+counts of its caption.
 
 W of one run at one seed: the run's number of visits V times the share of 800 visits,
 sampled from the run and re-estimated on 4,000 fresh shots, whose per-qubit logical error rate is at
 or below y*. y* is fixed per seed as the median rate of five reference runs pooled (counts.y_star),
-so every run at that seed is measured against the same bar. A table row is the mean of W over seeds 0-5.
+so every run at that seed is measured against the same bar. A table row is the mean of W over seeds 0-5 and 7-10.
 
 Every run here paid 40,000 calls except PPO at entropy weight 0.01, which stopped early in every seed;
 its row prints the range and mean of the paid calls it reached.
@@ -55,14 +56,15 @@ for s in SEEDS:
 
 
 def mean_w(c):
-    """The row value: W averaged over seeds 0-5."""
+    """The row value: W averaged over seeds 0-5 and 7-10."""
     return np.mean([W[c][s] for s in SEEDS])
 
 
 # PPO at entropy weight 0.01: the paid calls each seed's run reached before it stopped
 ppo_calls = [source_stamp(runs["ppo"][s])[0] for s in SEEDS]
 
-print("Table E.2 (n = 300): mean W over seeds 0-5, 40,000 paid calls per run")
+print("Further runs at n = 300 (repository only, not in the full version; App. E.2 quotes its soft Q-learning and "
+      "PPO rows): mean W over seeds 0-5 and 7-10, 40,000 paid calls per run")
 print("One stream per code")
 for label, depth, c in ONE_STREAM:
     if c == "ppo":
@@ -76,12 +78,12 @@ for label, depth, c in COMMON_RANDOM:
 lead = {}
 for a, b in NON_SWAP + SWAP:
     lead[(a, b)] = sum(W[a][s] > W[b][s] for s in SEEDS)
-# "in all six seeds against every other run": the weakest of the non-swap comparisons is what counts
-print(f"caption: GFlowQEC-online had the larger W in {min(lead[p] for p in NON_SWAP)} of 6 seeds "
+# "in all ten seeds against every other run": the weakest of the non-swap comparisons is what counts
+print(f"caption: GFlowQEC-online had the larger W in {min(lead[p] for p in NON_SWAP)} of 10 seeds "
       f"against every other run except the objective swap")
-print(f"caption: against the objective swap it led in {lead[('d31', 'p31')]} of 6 seeds at L = 31 "
-      f"and {lead[('c127', 'p127')]} of 6 at L = 127")
+print(f"caption: against the objective swap it led in {lead[('d31', 'p31')]} of 10 seeds at L = 31 "
+      f"and {lead[('c127', 'p127')]} of 10 at L = 127")
 
 for a, b in NON_SWAP + SWAP:
-    print(f"basis: {a} over {b} {lead[(a, b)]}/6")
+    print(f"basis: {a} over {b} {lead[(a, b)]}/10")
 print("basis: PPO paid calls per seed " + ", ".join(f"{n:,}" for n in ppo_calls))

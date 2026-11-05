@@ -26,7 +26,7 @@ keywords:
   - lifted-product codes
   - exact distance certification
 preferred-citation:
-  type: report
+  type: article
   title: "GFlowQEC: Generative Flow Networks that Learn to Sample Quantum LDPC Codes"
   authors:
     - family-names: "Batista"
@@ -39,5 +39,6 @@ preferred-citation:
       given-names: "Penousal"
       affiliation: "University of Coimbra, CISUC/LASI – Centre for Informatics and Systems of the University of Coimbra, Department of Informatics Engineering"
   year: 2026
-  doi: "10.5281/zenodo.23922222"
-  url: "https://github.com/NunoMBatista/GFlowQEC/blob/v1.1/paper/GFlowQEC-full.pdf"
+  journal: "arXiv preprint arXiv:2611.06819"
+  doi: "10.48550/arXiv.2611.06819"
+  url: "https://arxiv.org/abs/2611.06819"

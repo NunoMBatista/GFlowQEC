@@ -2,7 +2,7 @@
 
 Code and data for *GFlowQEC: Generative Flow Networks that Learn to Sample Quantum LDPC Codes* by Nuno Batista, Gabriel Falcão and Penousal Machado (2026). GFlowQEC trains generative flow networks to propose quantum LDPC codes (two-block and lifted-product codes over finite groups) and certifies the minimum distances of the top-scoring codes at n = 180 exactly (an exhaustive sweep and a SAT ladder). The offline variant learns from stored codes without calling the oracle and is then deployed frozen; the online variant pays the oracle as it trains, with local search and a replay buffer.
 
-Paper: the full version is in [`paper/GFlowQEC-full.pdf`](paper/GFlowQEC-full.pdf).
+Paper: [arXiv:2611.06819](https://arxiv.org/abs/2611.06819) (16 pages). The full version, with all settings and further results, is in [`paper/GFlowQEC-full.pdf`](paper/GFlowQEC-full.pdf).
 
 Archive: release v1.1 is on Zenodo, DOI [10.5281/zenodo.23922222](https://doi.org/10.5281/zenodo.23922222).
 
@@ -85,7 +85,7 @@ python -m pytest tests -q      # checks every readout against its expected outpu
 
 Each readout prints one table, figure or section of the paper from the stored runs in `data/`. Readouts train nothing and call no oracle. Each docstring names the paper item it prints.
 
-Table, figure and section numbers follow the full version (`paper/GFlowQEC-full.pdf`), and so do the seeds: 0-9 at n = 180 (1-9 for the pilot screen at 100 times) and 0-5 and 7-10 at n = 300 (seed 6 was the tuning seed). The processor-second comparisons at n = 180 and the relational variant read seeds 0-2, as in the paper. At n = 300 the depth-31 sentence and the tuned PT range choice read seeds 0-5, the seeds those choices were made on.
+Table, figure and section numbers follow the full version (`paper/GFlowQEC-full.pdf`), not the shorter arXiv paper, and so do the seeds: 0-9 at n = 180 (1-9 for the pilot screen at 100 times) and 0-5 and 7-10 at n = 300 (seed 6 was the tuning seed). The processor-second comparisons at n = 180 and the relational variant read seeds 0-2, as in the paper. At n = 300 the depth-31 sentence and the tuned PT range choice read seeds 0-5, the seeds those choices were made on.
 
 Lines that begin `Not in the paper:`, and the items marked repository only below, print results the full version does not. Lines that begin `basis:` (the counts behind a number) or `timed:` (wall time) are diagnostics, and the tests skip them.
 
@@ -146,4 +146,4 @@ paper/      the full version of the paper (PDF)
 
 Code is MIT (`LICENSE`), data is CC BY 4.0 (`LICENSE-DATA`), and third-party licenses are listed in `THIRD-PARTY.md`. The paper PDF in `paper/` is the authors' version; all rights reserved by the authors.
 
-If you use this work, please cite the paper (`CITATION.cff`). Release v1.1 is archived on Zenodo, DOI [10.5281/zenodo.23922222](https://doi.org/10.5281/zenodo.23922222).
+If you use this work, please cite the paper, [arXiv:2611.06819](https://arxiv.org/abs/2611.06819) (`CITATION.cff`). Release v1.1 is archived on Zenodo, DOI [10.5281/zenodo.23922222](https://doi.org/10.5281/zenodo.23922222).
